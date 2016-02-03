@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <POU Name="FB_IG" Id="{e9e6353e-af96-4bd4-b51b-e175948629d1}">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_IG
+VAR_IN_OUT
+
+	IG : ST_VG;
+
+END_VAR
+VAR_INPUT
+
+	PG : ST_VG;
+
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+
+	MinPressure: REAL := 5E-11;
+
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* This function block is used to provide protection and automatic turn on of ion gauges,
+ it also manages the turn on of the AT_VAC boolean, and checks to make sure the pressure is good *)
+
+(* Protection Functions *)
+(* If the PG pressure is greater than the IG.PRO_SP then the gauge is disabled *)
+(* If the PG pressure is less than the IG.PRO_SP then the gauge is enabled *)
+(* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
+
+IF PG.rPRESS < IG.rPRO_SP AND PG.xPRESS_OK THEN
+
+	IG.xHV_DIS := NOT IG.xHV_SW;
+
+ELSIF NOT IG.xHV_DIS THEN
+	IF IG.rPRESS > IG.rPRO_SP + IG.rHYS_PR OR PG.rPRESS > IG.rPRO_SP + IG.rHYS_PR THEN
+		IG.xHV_DIS := TRUE;
+	END_IF
+ELSE
+	IG.xHV_DIS := TRUE;
+END_IF
+
+(* Pressure OK check *)
+IG.xPRESS_OK := (IG.rPRESS > MinPressure) AND NOT IG.xHV_DIS;
+
+(* Setpoint evaluation *)
+IG.xAT_VAC := IG.xPRESS_OK AND (IG.rPRESS<IG.rVAC_SP);
+
+(* Real-value calculation *)
+(* Generic expression for pressure in the MKS systems
+
+P = 10^(V/0.6 -12)
+
+*)
+
+IG.rPRESS := EXPT(10,((10*INT_TO_REAL(IG.iPRESS_R)/32767)/0.6-12));]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

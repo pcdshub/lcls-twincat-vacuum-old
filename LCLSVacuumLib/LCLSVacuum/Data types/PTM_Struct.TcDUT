@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="PTM_Struct" Id="{4e3456dc-848e-4cc7-8778-1f18b372d8b7}">
+    <Declaration><![CDATA[TYPE PTM_Struct :
+STRUCT
+(* Legacy General PTM Structure *)
+(* Each PTM might have a serial control structure, but all will have a general supervisory control structure *)
+
+(* Readbacks *)
+	xRUN_OK	:	BOOL; (* also a control *)
+	xAT_SPD	:	BOOL;
+
+	diSPD		:	DINT;
+
+	xTIMEOUT	:	BOOL;
+
+
+(* Pfeiffer only? *)
+	xACCEL	:	BOOL;
+
+	diPWR		:	DINT;
+	diE_TEMP	:	DINT;
+	diBTM_TEMP:	DINT;
+	diBRNG_TEMP:	DINT;
+	diMOT_TEMP:	DINT; (* considered to be the pump temp for oerlikons *)
+(* Oerlikon only? *)
+
+
+(* Controls *)
+	xRUN_SW : BOOL;
+	xRUN_DO : BOOL;
+
+
+(* Alarm Outputs *)
+	xFLT		:	BOOL;
+	xWRN		:	BOOL; (* warning *)
+	xTEMP_FLT:	BOOL;
+
+(* IWS instructions *)
+	xACTIVE	:	BOOL;
+	iPGRP 	:	INT;
+
+END_STRUCT
+END_TYPE]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

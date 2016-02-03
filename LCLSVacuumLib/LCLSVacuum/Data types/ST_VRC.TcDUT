@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
+  <DUT Name="ST_VRC" Id="{cb0eb88e-32ce-4b88-92df-8442dedadfcd}">
+    <Declaration><![CDATA[TYPE ST_VRC :
+STRUCT
+(* Readbacks *)
+	i_xOpnLS	:	BOOL;
+	i_xClsLS	:	BOOL;
+
+(* Inputs *)
+	xOPN_SW	: BOOL;
+	xOvrdOpn	:	BOOL;
+	xOPN_OK	: BOOL;
+	xCLS_OK : BOOL := TRUE;
+(* Outputs *)
+	xOPN_DO	: BOOL;
+
+END_STRUCT
+END_TYPE]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

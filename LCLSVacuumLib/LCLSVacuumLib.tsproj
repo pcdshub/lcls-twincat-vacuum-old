@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0">
+	<Project ProjectGUID="{02B9B8E7-2F9A-4E5A-B5EF-9C7A5533B04B}" ModifiedGUID="{17D82D39-E699-4652-8FEC-CD03B319BE67}">
+		<Plc>
+			<Project GUID="{B805B15D-E5A7-4D84-A8B9-CE65EEC82B67}" Name="LCLSVacuum" PrjFilePath="LCLSVacuum\LCLSVacuum.plcproj" TmcFilePath="LCLSVacuum\LCLSVacuum.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e">
+				<Instance Id="#x01010010" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2">
+					<Name>LCLSVacuum Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+				</Instance>
+			</Project>
+		</Plc>
+	</Project>
+</TcSmProject>

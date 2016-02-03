@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
+  <POU Name="Example_GaugeSup" Id="{b94d6c8e-a8c4-470c-8a20-069ae196005c}">
+    <Declaration><![CDATA[PROGRAM Example_GaugeSup
+VAR
+
+	LMP_VG00	:	ST_VG; (* simulation pirani *)
+
+	fb_LMP_VG :	FB_GGO;
+	i : INT;
+
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Dummy pirani setup *)
+LMP_VG00.rPRESS_OK := TRUE;
+
+(* The following condition ensures that the pressure switches to the GPI:20 when VRC 06 is closed and VRC 05 is open *)
+
+(* Changed interlock here to GPI 20 for running without the GPI 30 gauge *)
+(*
+IF LMP_VRC05.OPN-DO AND NOT LMP_VRC06.OPN_DO THEN
+fb_LMP_GPI_D1(PG := LMP_GPI_D1, PGA := LMP_GPI20, PGB := LMP_GPI01, VICA := LMP_VRC05, VICB := LMP_VRC02);
+ELSE
+fb_LMP_GPI_D1(PG := LMP_GPI_D1, PGA := LMP_GPI30, PGB := LMP+GPI01, VICA := LMP_VRC06, VICB := LMP_VRC02);
+END_IF
+*)
+(* Dumb Gauge *)
+(* fb_LMP_GPI_D1 (PG := LMP_GPI_D1, PGA := LMP_GPI20, PGB := LMP_GPI01, VICA := LMP_VRC05, VICB := LMP_VRC02); *)
+
+LMP_VG[20].VAC_SP := 7.5;
+LMP_VG[1].VAC_SP := 1E-1;
+LMP_VG[2].VAC_SP := 1E-1;
+LMP_VG[12].VAC_SP := 5E-7;
+
+(* Upstream vacuum OK signal *)
+(* This signal tells the AMO_PLC that the KBP_VGC_02 is OK to open *)
+DiscIO_IC_EB1Ch08 := LMP_VG[12].AT_VAC AND LMP_VGC10.OPN_LS;
+
+(* pnCCD Chamber *)
+LMP_VG[40].FULL_SCALE := 1000;
+LMP_VG[41].FULL_SCALE := 1;
+
+LMP_VG[1].GAUGE := PG925;
+LMP_VG[2].GAUGE := PG925;
+LMP_VG[10].GAUGE := PG907;
+LMP_VG[11].GAUGE := PG907;
+LMP_VG[12].GAUGE := IG903;
+LMP_VG[13].GAUGE := IG909;
+LMP_VG[20].GAUGE := PG907;
+LMP_VG[21].GAUGE := IG903;
+LMP_VG[22].GAUGE := IG909;
+LMP_VG[30].GAUGE := PG907;
+LMP_VG[31].GAUGE := IG903;
+LMP_VG[40].GAUGE := PG722B;
+LMP_VG[41].GAUGE := IG903;
+LMP_VG[42].GAUGE := PG722B;
+LMP_VG[43].GAUGE := IG909;
+
+FOR i := 1 TO 50 DO
+fb_LMP_VG (index := i, astGauges := LMP_VG);
+END_FOR
+
+(*
+(* Control function blocks *)
+
+(* Roughing lines *)
+fb_LMP_VG01(PG := LMP_VG[1]); (* roughing line *)
+fb_LMP_VG02(PG := LMP_VG[2]); (* roots line *)
+
+(* Differential Pumping Chambers *)
+(* fb_LMP_GCC10 (IG := LMP_GCC10, PG := LMP_GPI00); *)
+(* fb_LMP_GCC11 (IG := LMP_GCC11, PG := LMP_GPI00); *)
+fb_LMP_VG10 (PG := LMP_VG[10]);
+fb_LMP_VG11 (PG := LMP_VG[11]);
+
+(* Interaction Chamber *)
+fb_LMP_VG21 (IG := LMP_VG[21], PG := LMP_VG[20]);
+fb_LMP_VG22 (IG := LMP_VG[22], PG := LMP_VG[20]);
+fb_LMP_VG20 (PG := LMP_VG[20]);
+
+(* Upstream vacuum OK signal *)
+(* This signal tells the AMO_PLC that the KBO_VGC_02 is OK to open *)
+DiscIO_IC_EB1Ch08 := LMP_VG[12].AT_VAC AND LMP_VGC10.OPN_LS;
+
+(* Detector Chamber *)
+fb_LMP_VG31 (IG := LMP_VG[31], PG := LMP_VG[30]);
+fb_LMP_VG30 (PG := LMP_VG[30]);
+
+(* pnCCD Chamber *)
+fb_LMP_VG41 (IG := LMP_VG[41], PG := LMP_VG[40]);
+fb_LMP_VG43 (IG := LMP_VG[43], PG := LMP_VG[42]);
+LMP_VG[40].FULL_SCALE := 1000;
+LMP_VG[41].FULL_SCALE := 1;
+fb_LMP_VG40 (PG := LMP_VG[40]);
+fb_LMP_VG42 (PG := LMP_VG[42]);
+*)]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

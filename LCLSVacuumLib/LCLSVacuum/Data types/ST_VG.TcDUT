@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="ST_VG" Id="{8ebcc563-a05a-4cb9-b161-a02f8eac0f57}">
+    <Declaration><![CDATA[TYPE ST_VG :
+STRUCT
+	/// A general gauge structure is used to make the rest of the interlocking simpler. There are some parameters for cold cathodes that are not used by pirani.
+	///These features aren't disabled, they just aren't used, think child/parent classes. 
+	/// Readbacks 
+	rPRESS: REAL;
+	iPRESS_R: INT;
+	xAT_VAC: BOOL;
+	xPRESS_OK: BOOL;
+	wState	:	WORD; //current gauge state, to be used as replacement for press OK bit in the future.
+	(* 00 controller not on
+		01 normal, aka pressure OK
+		02 LO, pressure too low
+		03 HI, pressure too high
+		04 Gauge disconnected, HV off, no sensor detected, controller powering up
+		05 cold cathode warming up
+		*)
+	
+	/// Controls 
+	xHV_DIS: BOOL;
+	xHV_SW: BOOL;
+	wHV_RO: WORD;
+	
+	/// Bakeout bit 
+	xBAKEOUT: BOOL;
+	
+	//eTYPE: Gauge_Type := PG907;
+	iTYPE : INT := 0;
+	wPG: WORD;
+	
+	/// Turn on Timers for cold cathode warmup 
+	xTurnOnTime: BOOL;
+	/// At vacuum setpoint for all gauges
+	iVacSp	:	INT;
+	rVAC_SP: REAL := 0.5;
+	/// Protection setpoint for ion gauges at which the gauge turns off, not used for pirani 
+	rPRO_SP: REAL := 0.01;
+	/// Protection setpoint hysteresis 
+	rHYS_PR: REAL;
+	/// Full scale pressure in Torr for baratron pressure conversion 
+	rFULL_SCALE: REAL := 1000;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

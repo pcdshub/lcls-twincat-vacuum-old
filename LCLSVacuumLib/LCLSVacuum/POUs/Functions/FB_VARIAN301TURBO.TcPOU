@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <POU Name="FB_VARIAN301TURBO" Id="{5052d8d3-669d-40d6-953a-e43b88af6e42}">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_VARIAN301TURBO
+
+VAR_INPUT
+
+	i_xglbAlmRst : BOOL;
+
+END_VAR
+
+VAR
+
+	StartAlmTmr 	: TON;
+	LSpdAlmTmr  	: TON;
+	SSAlmTmr		: TON;
+	tAlmDly			: TIME;
+
+	xStartAlmFlag 	: BOOL;
+	xLSpdAlmFlag  	: BOOL;
+	xSSAlmFlag		: BOOL;
+
+	xEND: BOOL;
+END_VAR
+
+VAR_IN_OUT
+
+	iq_stTP: PTM_Struct;
+
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Resolve Interlocks *)
+(* If Start Ilk is satisfied, other Ilk's are satisfied as well. *)
+
+	iq_stTP.ilkEnb 	:= iq_stTP.ilkStart;
+	iq_stTP.ilkLSpd	:= iq_stTP.ilkStart;
+	iq_stTP.ilkSS	:= iq_stTP.ilkStart;
+
+(* Hardware Enable Logic & Switch Feedback  *)
+	IF NOT iq_stTP.ilkStart THEN
+		iq_stTP.swStart := FALSE;
+		iq_stTP.swLSpd := FALSE;
+		iq_stTP.swSS := FALSE;
+		iq_stTP.doEnb := FALSE;
+	ELSE
+		iq_stTP.doEnb := TRUE;
+	END_IF;
+
+(* Pump Control *)
+	IF iq_stTP.doEnb THEN
+		iq_stTP.doStart := iq_stTP.swStart;
+		iq_stTP.doLSpd := iq_stTP.swLSpd;
+		iq_stTP.doSS := iq_stTP.swSS;
+	ELSE
+		iq_stTP.doStart := FALSE;
+		iq_stTP.doLSpd := FALSE;
+		iq_stTP.doSS := FALSE;
+	END_IF
+
+(* ALARM SECTION *)
+(* Standard Delay 30 minutes *)
+tAlmDly := T#4m;
+
+(* Fail To Start Alarm *)
+xStartAlmFlag := iq_stTP.doStart AND NOT iq_stTP.diR1;
+IF iq_stTP.doStart AND NOT iq_stTP.almStart THEN
+	StartAlmTmr(IN:=xStartAlmFlag, PT:=tAlmDly, Q=>iq_stTP.almStart);
+END_IF;
+iq_stTP.AlmStart := iq_stTP.almStart AND NOT (i_xglbAlmRst OR iq_stTP.AlmRst);
+
+(* Low Speed Failure Alarm *)
+xLSpdAlmFlag := iq_stTP.doLSpd AND NOT iq_stTP.diLSpd;
+IF iq_stTP.doLSpd AND NOT iq_stTP.almLSpd THEN
+	LSpdAlmTmr(IN:=xLSpdAlmFlag, PT:=tAlmDly, Q=>iq_stTP.almLSpd);
+END_IF;
+iq_stTP.AlmLSpd := iq_stTP.AlmLSpd AND NOT (i_xglbAlmRst OR iq_stTP.AlmRst);
+
+(* Soft Start Failure Alarm *)
+xSSAlmFlag := iq_stTP.doSS AND NOT iq_stTP.diR1;
+IF iq_stTP.doSS AND NOT iq_stTP.almSS THEN
+	SSAlmTmr(IN:=xSSAlmFlag, PT:=tAlmDly, Q=>iq_stTP.almSS);
+END_IF;
+iq_stTP.AlmSS := iq_stTP.AlmSS AND NOT (i_xglbAlmRst OR iq_stTP.AlmRst);
+
+(* Alarm Summary - Set the Alarm Summary flag if any alarm is active. *)
+iq_stTP.AlmSum := iq_stTP.almFlt OR iq_stTP.almLSpd OR iq_stTP.AlmRst OR iq_stTP.almSS OR iq_stTP.almStart;
+]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

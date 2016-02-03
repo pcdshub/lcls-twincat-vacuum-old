@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <POU Name="FB_907" Id="{d3610ce0-a283-49d0-a9de-88b9371d46db}">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_907
+VAR_IN_OUT
+
+	PG : ST_VG;
+
+END_VAR
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+
+	MinPressure: REAL := 1E-3;
+
+
+	V : REAL;
+	A : REAL := 3.29;
+	B : REAL := 24.98;
+	C : REAL  := 0.98;
+	V_0 : REAL := 0.3752;
+	D: REAL := 4.929;
+	F: REAL := 1.6E-6;
+	G: REAL := -225;
+	H: REAL := 2.0253;
+	K: REAL := 0.52703;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* This function block is used to provide protection and automatic turn on of ion gauges,
+ it also manages the turn on of the AT_VAC boolean, and checks to make sure the pressure is good *)
+
+
+(* Real-value calculation *)
+
+V := 10*INT_TO_REAL(PG.iPRESS_R)/32767;
+
+IF V > 0.38 AND V < 4.85 THEN
+
+PG.rPRESS := EXPT((A/(B/(EXPT(V,2)-EXPT(V_0,2)-1))), 1/C);
+
+ELSIF V > 4.85 AND V < 5.18 THEN
+
+PG.rPRESS := SQRT( ( (V-D)+SQRT(EXPT((V-D),2)-4*F*G ))/(2*F) );
+
+ELSIF V> 5.18 THEN
+
+PG.rPRESS := EXP((V-H)/K);
+
+END_IF
+
+(* Protection Functions *)
+(* If the PG pressure is greater than the IG.PRO_SP then the gauge is disabled *)
+(* If the PG pressure is less than the IG.PRO_SP then the gauge is enabled *)
+(* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
+
+(* Pressure OK check *)
+PG.xPRESS_OK := (PG.rPRESS > MinPressure);
+
+(* Setpoint evaluation *)
+PG.xAT_VAC := PG.xPRESS_OK AND (PG.rPRESS<PG.rVAC_SP);]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

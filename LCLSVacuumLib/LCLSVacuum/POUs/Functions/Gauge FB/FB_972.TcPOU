@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
+  <POU Name="FB_972" Id="{02ad8586-ab8b-4c5e-9c1c-5db3b2c00a9f}">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_972
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR_IN_OUT
+	VG	: ST_VG;
+END_VAR
+VAR
+	rV : REAL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Standard MKS 9XX series conversion *)
+(* works for 972 and 925 *)
+
+rV := 10*INT_TO_REAL(VG.iPRESS_R)/32767;
+
+IF rV > 1 THEN
+	VG.rPRESS := EXPT(10, 2*rV-11);
+	VG.xPRESS_OK := TRUE;
+	VG.wState := 1;
+ELSE
+	VG.xPRESS_OK := FALSE;
+	VG.wState := 2;
+END_IF]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

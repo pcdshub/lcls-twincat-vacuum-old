@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
+  <POU Name="FB_Dumb_Gauge" Id="{85ccf42e-4950-440a-9efb-bdc22cb99baa}">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Dumb_Gauge
+VAR_IN_OUT
+	iq_stPG : ST_VG;
+END_VAR
+VAR_INPUT
+	i_stPGA : ST_VG;
+	i_stPGB : ST_VG;
+	i_stVRCA : ST_VRC;
+	i_stVRCB : ST_VRC;
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*
+Alex Wallace 2013-10-28
+
+The dummy gauge functions like so:
+If my A side valve is open, I mimic the A side gauge.
+If my B 	"	 			"			B	"		.
+Else, I am at atmosphere, and my pressure is OK. 
+
+The point of this gauge is to provide pressure readbacks for sections of the line that do not have gauges, and may move into an unknown pressure state.
+*)
+
+IF i_stVRCA.xOPN_DO THEN
+iq_stPG := i_stPGA;
+ELSIF i_stVRCB.xOPN_DO THEN
+iq_stPG := i_stPGB;
+ELSE
+iq_stPG.xAT_VAC := FALSE;
+iq_stPG.rPRESS := 750;
+iq_stPG.xPRESS_OK := TRUE;
+END_IF]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

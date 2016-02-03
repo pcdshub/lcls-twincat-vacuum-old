@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="UpStrInVac_Struct" Id="{60f027da-1939-4d9b-8f89-a8b5af030780}">
+    <Declaration><![CDATA[TYPE UpStrInVac_Struct :
+STRUCT
+
+	xdiUpSVac : BOOL;
+
+END_STRUCT
+END_TYPE
+]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

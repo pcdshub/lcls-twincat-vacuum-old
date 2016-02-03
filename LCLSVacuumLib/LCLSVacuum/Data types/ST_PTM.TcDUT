@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
+  <DUT Name="ST_PTM" Id="{800c0744-7104-483e-92b7-6bb5c958de58}">
+    <Declaration><![CDATA[TYPE ST_PTM :
+STRUCT
+(* General PTM Structure *)
+(* Each PTM might have a serial control structure, but all will have a general supervisory control structure *)
+
+(* Controls *)
+	i_xRunSW : BOOL;
+	q_RunDO : BOOL;
+
+(* Readbacks *)
+	xExtRunOk	:	BOOL; (* also a control *)
+	xAtSpd	:	BOOL;
+
+	diSpd		:	DINT;
+	diMtrTemp:	DINT; (* considered to be the pump temp for oerlikons *)
+	xCommTimeout	:	BOOL := TRUE;  (* Initialized true since we haven't talked to pump yet *)
+	xAccel	:	BOOL;
+(* Alarm Outputs *)
+	xFault		:	BOOL;
+	xWarn		:	BOOL; (* warning *)
+	xTempFault	:	BOOL;
+
+(* IWS instructions *)
+	xActive	:	BOOL; // this bit is set to add the pump to the system
+	iPumpGrp 	:	INT; // all members of a pump group start at the same time
+
+(* Pfeiffer only? *)
+	diPwr		:	DINT;
+	diElecTemp	:	DINT;
+	diBtmTemp:	DINT;
+	diBrngTemp:	DINT;
+	
+(* Oerlikon only? *)
+	xDecel	:	BOOL;
+	q_xRemote : BOOL;
+
+
+END_STRUCT
+END_TYPE]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

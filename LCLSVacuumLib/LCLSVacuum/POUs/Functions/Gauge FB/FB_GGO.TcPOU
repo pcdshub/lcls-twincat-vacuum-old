@@ -1,0 +1,220 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
+  <POU Name="FB_GGO" Id="{4119c685-2acb-44b1-99f2-419d0e83fdbe}">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_GGO
+VAR_IN_OUT
+	iq_astGauges: ARRAY[0..50] OF ST_VG;
+	iq_axHV_RO: ARRAY[0..50] OF BOOL;
+END_VAR
+VAR_INPUT
+	i_iIndex: INT;
+END_VAR
+VAR
+	rMinPressure_925: REAL := 9E-06;
+	rMinPressure_903: REAL := 5E-11;
+	rMinPressure_909: REAL := 3E-10;
+	rMinPressure_907: REAL := 1E-05;
+	rMinPressure_722B: REAL := 0.5;
+	r722B_1000_MINVAL: REAL := 0.5;
+	r722B_1_MINVAL: REAL := 0.0005;
+	rV: REAL;
+	rA: REAL := 3.29;
+	rB: REAL := 24.98;
+	rC: REAL := 0.98;
+	rV_0: REAL := 0.3752;
+	rD: REAL := 4.929;
+	rF: REAL := 1.6E-06;
+	rG: REAL := -225;
+	rH: REAL := 2.0253;
+	rK: REAL := 0.52703;
+	rFun: REAL;
+	xB_FULL_SCALE: BOOL;
+	xB_1000_MINVAL: BOOL;
+	xB_1_MINVAL: BOOL;
+	tonGaugeTurnOnTmr: TON;
+	stPG: ST_VG;
+	stIG: ST_VG;
+	VG: INT;
+	H2E_GPI00: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* This function block is used to calculate the pressure from the analog input voltage and to provide protection and automatic turn on of ion gauges.
+ It also manages the turn on fo the AT_VAC boolean, and checks to make sure the pressure is good *)
+
+(* Full-scale pressure conversion factor *)
+
+(* Real-value voltage calculation *)
+(* Generic expression for pressure in the MKS systems
+
+P = 10^(V/0.6-12)
+
+722B = 0
+903 = 1
+907 = 2
+909 = 3
+925 = 4
+
+*)
+
+
+
+(* Check that it is an ion gauge *)
+IF iq_astGauges[i_iIndex].iTYPE = 1 OR iq_astGauges[i_iIndex].iTYPE = 3 THEN
+
+	stIG := iq_astGauges[i_iIndex];
+	rV := 10*INT_TO_REAL(stIG.iPRESS_R)/32767;
+	stIG.rPRESS := EXPT(10, rV-11);
+	
+
+	IF WORD_TO_INT(stIG.wPG) <= g_iSizeOfGGOArray THEN
+	(* Check pressure gauge type before assignment *)
+	(* Add high pressure gauge types here *)
+	IF iq_astGauges[stIG.wPG].iTYPE = 0 OR //722B
+	iq_astGauges[stIG.wPG].iTYPE = 2 OR //907
+	iq_astGauges[stIG.wPG].iTYPE = 4 THEN //925
+	stPG := iq_astGauges[stIG.wPG];
+	END_IF
+	
+	ELSE 
+		stPG.rPRESS := 1E-3;
+		stPG.xPRESS_OK := TRUE;
+	END_IF
+
+	(* Protection Functions *)
+	(* If the PG pressure is greater than the IG.PRO_SP then the gauge is disabled *)
+	(* If the PG pressure is less than the IG.PRO_SP then the gauge is enabled *)
+	(* This FB also implements some hysteresis sof the gauge doesn't have rapid power cycling while near the turn on boundary *)
+
+
+	IF stPG.rPRESS < stIG.rPRO_SP AND stPG.xPRESS_OK THEN
+		stIG.xHV_DIS := stIG.xHV_SW;
+	ELSIF stIG.xHV_DIS THEN
+		IF stIG.rPRESS > stIG.rPRO_SP + stIG.rHYS_PR OR stPG.rPRESS > stIG.rPRO_SP + stIG.rHYS_PR THEN
+			stIG.xHV_DIS := FALSE;
+			stIG.xHV_SW := FALSE;
+		END_IF
+	ELSE
+		stIG.xHV_DIS := FALSE;
+		stIG.xHV_SW := FALSE;
+	END_IF
+
+(* Pressure OK check *)
+	IF  stIG.iTYPE = 1 THEN
+		stIG.xPRESS_OK := ((stIG.rPRESS > rMinPressure_903) AND stIG.xHV_DIS AND stIG.xTurnOnTime) OR stIG.xBAKEOUT;
+		tonGaugeTurnOnTmr(IN := stIG.xHV_DIS, PT := T#10s, Q => stIG.xTurnOnTime);
+
+		(* Setpoint evaluation *)
+		stIG.xAT_VAC := (stIG.xPRESS_OK AND (stIG.rPRESS < stIG.rVAC_SP)) OR stIG.xBAKEOUT;
+
+(* Pressure OK check *)
+	ELSIF stIG.iTYPE = 3 THEN
+		stIG.xPRESS_OK := (stIG.rPRESS > rMinPressure_909) AND stIG.xHV_DIS OR stIG.xBAKEOUT;
+
+		(* Setpoint evaluation *)
+		stIG.xAT_VAC := stIG.xPRESS_OK AND (stIG.rPRESS < stIG.rVAC_SP) OR stIG.xBAKEOUT;
+	END_IF
+
+	(* Copying the calc back over *)
+	iq_astGauges[i_iIndex] :=  stIG;
+
+ELSE
+
+ 	stPG := iq_astGauges[i_iIndex];
+	IF stPG.iTYPE = 0 THEN
+
+		(* Real-value voltage calculation *)
+		IF stPG.rFULL_SCALE = 1000 THEN
+			rMinPressure_722B := r722B_1000_MINVAL;
+		ELSIF stPG.rFULL_SCALE = 1 THEN
+			rMinPressure_722B := r722B_1_MINVAL;
+		END_IF
+
+		rV :=MAX((10*INT_TO_REAL(stPG.iPRESS_R)/32767),0);
+		stPG.rPRESS := (stPG.rFULL_SCALE/10)*rV;
+		IF stPG.rPRESS > rMinPressure_722B THEN
+			stPG.xPRESS_OK := TRUE;
+		ELSE
+			stPG.xPRESS_OK := FALSE;
+		END_IF
+
+		(* Protection Functions *)
+		(* If the PG pressure is greater than the IG.PRO_SP then the gauge is disabled *)
+		(* If the PG pressure is less than the IG.PRO_SP then the gauge is enabled *)
+		(* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
+
+		(* Pressure OK check *)
+		stPG.xPRESS_OK := (stPG.rPRESS > rMinPressure_722B);
+
+		(* Setpoint evaluation *)
+		stPG.xAT_VAC := stPG.xPRESS_OK AND (stPG.rPRESS < stPG.rVAC_SP);
+
+	ELSIF stPG.iTYPE = 2 THEN
+
+		rV := 10*INT_TO_REAL(stPG.iPRESS_R)/32768;
+
+		IF rV > 0.38 AND rV < 4.85 THEN
+			stPG.rPRESS := EXPT((rA/((rB/(EXPT(rV,2)-EXPT(rV_0,2))-1))), 1/rC);
+		ELSIF rV > 4.85 AND rV< 5.18 THEN
+			stPG.rPRESS := SQRT(((rV-rD)+SQRT(EXPT((rV-rD),2)-4*rF*rG))/(2*rF));
+		ELSIF rV > 5.18 THEN
+			stPG.rPRESS := EXP((rV-rH)/rK);
+		ELSE
+			stPG.rPRESS := 1E-3;
+		END_IF
+
+		IF stPG.rPRESS <1E-3 THEN stPG.rPRESS := 1E-3;
+		END_IF
+
+		(* Protection Functions *)
+		(* If the voltage is less than 1mV the gauge is probably not plugged in, or has an issue *)
+
+		(* Pressure OK check *)
+		stPG.xPRESS_OK := (rV > 0.01) OR stPG.xBAKEOUT;
+
+		(* Setpoint evaluation *)
+		stPG.xAT_VAC := (stPG.xPRESS_OK AND (stPG.rPRESS < stPG.rVAC_SP)) OR stPG.xBAKEOUT;
+
+	ELSIF stPG.iTYPE = 4 THEN
+
+		rV := 10*INT_TO_REAL(stPG.iPRESS_R)/32767;
+
+		IF rV > 1 THEN
+			stPG.rPRESS := EXPT(10, rV-6);
+		ELSE
+			stPG.xPRESS_OK := FALSE;
+		END_IF
+
+		(* Protection Functions *)
+		(* If the PG pressure is greater than the IG.PRO_SP then the gauge is disabled *)
+		(* If the PG pressure is less than the IG.PRO_SP then the gauge is enabled *)
+		(* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
+
+		(* Pressure OK check *)
+		stPG.xPRESS_OK := (stPG.rPRESS > rMinPressure_925);
+
+		(* Setpoint evaluation *)
+		stPG.xAT_VAC := stPG.xPRESS_OK AND (stPG.rPRESS < stPG.rVAC_SP);
+
+ELSE
+
+(* Now, since we don't know what gauge type we're dealing with, we want to make sure to reset all the gauge parameters, otherwise we may be left with stale information *)
+	stPG.rPRESS := 760;
+	stPG.xAT_VAC := FALSE;
+	stPG.xPRESS_OK := FALSE;
+	stPG.xHV_SW := FALSE;
+
+
+END_IF
+
+	(* Copying the calc back over *)
+	iq_astGauges[i_iIndex] :=  stPG;
+
+END_IF
+
+//copy the high voltage status over.
+iq_axHV_RO[iq_astGauges[i_iIndex].wHV_RO]:=iq_astGauges[i_iIndex].xHV_DIS;]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

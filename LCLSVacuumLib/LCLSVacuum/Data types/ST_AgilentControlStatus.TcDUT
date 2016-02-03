@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="ST_AgilentControlStatus" Id="{6ead7192-f530-4c74-ba29-53c6e2e3c642}">
+    <Declaration><![CDATA[TYPE ST_AgilentControlStatus :
+STRUCT
+
+(* Inputs *)
+	xdiR1   		:  BOOL;
+	xdiLSpd 		:  BOOL;
+	xdiStart		:  BOOL;
+	xdiR2   		:  BOOL;
+	xdiFlt   	:  BOOL;
+	xswStart		:  BOOL;
+	xswLSpd 		:  BOOL;
+	xswSS   		:  BOOL;
+	xilkStart	:  BOOL;
+	xilkLSpd   	:  BOOL;
+	xilkEnb   	:  BOOL;
+	xilkSS   	:  BOOL;
+	xAlmRst   	:  BOOL;
+
+(* Outputs *)
+	xdoStart	:  BOOL;
+	xdoLSpd	:  BOOL;
+	xdoEnb	:  BOOL;
+	xdoSS	:  BOOL;
+
+(* Alarm Outputs *)
+	xalmFlt		:  BOOL;
+	xalmStart	:  BOOL;
+	xalmLSpd		:  BOOL;
+	xalmSS		:  BOOL;
+	xAlmSum		: BOOL;
+
+
+END_STRUCT
+END_TYPE]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

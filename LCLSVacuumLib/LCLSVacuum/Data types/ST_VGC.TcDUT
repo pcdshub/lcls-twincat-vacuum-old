@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="ST_VGC" Id="{2c4a7ba8-0fa6-4a25-9ffd-90841b7d250a}">
+    <Declaration><![CDATA[TYPE ST_VGC :
+STRUCT
+
+(* Readbacks *)
+	xOPN_LS	: BOOL;
+	xCLS_LS	: BOOL;
+
+(* EPICS Controls *)
+	xOPN_SW	: BOOL;
+	xAlmRst	: BOOL;
+	xOvrdOpn	:	BOOL;
+
+(* Interlocks *)
+	xDP_OK	:	BOOL;	(* Managed by the VGC function (FB_VGC) *)
+	xEXT_OK	:	BOOL := FALSE;	(* External interlock for custom interlocking in addition to regular DP ilk, this must be set true, or the interlock condition before calling the FB_VGC *)
+	xOPN_OK	:	BOOL;	(* Final SUM of DP_OK and EXT_OK, needed because it allows the DP ilk to be switched off, see FB_VGC.Dis_DPIlk *)
+
+(* Controls *)
+	xOPN_DO	: BOOL;
+
+(* Alarm Outpus *)
+	xERR_DifPres		: 	BOOL;
+	xERR_LstVac		: 	BOOL;
+	xAlmSum			: 	BOOL;
+
+END_STRUCT
+END_TYPE]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

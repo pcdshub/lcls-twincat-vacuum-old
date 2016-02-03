@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="E_VGC" Id="{e141839c-aa77-413d-8cbc-038cd47aa3b1}">
+    <Declaration><![CDATA[TYPE E_VGC :
+(
+
+	Vented,
+	Vacuum,
+	ERR_DiffPress,
+	ERR_LostVac
+
+);
+END_TYPE]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <DUT Name="ISG_Struct" Id="{ca36551d-4246-4b90-9550-8dc36141cd75}">
+    <Declaration><![CDATA[TYPE ISG_Struct :
+STRUCT
+
+	xdoHV1 : BOOL;
+	xdoHV2 : BOOL;
+	xdoHV3 : BOOL;
+
+	xswHV1 : BOOL;
+	xswHV2 : BOOL;
+	xswHV3 : BOOL;
+
+	xilkHV1 : BOOL;
+	xilkHV2 : BOOL;
+	xilkHV3 : BOOL;
+
+END_STRUCT
+END_TYPE]]></Declaration>
+    <ObjectProperties />
+  </DUT>
+</TcPlcObject>

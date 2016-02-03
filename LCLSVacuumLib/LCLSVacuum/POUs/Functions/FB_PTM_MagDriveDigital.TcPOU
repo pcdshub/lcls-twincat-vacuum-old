@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+  <POU Name="FB_PTM_MagDriveDigital" Id="{50197c8d-2497-4812-a680-acd70b819f81}">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_PTM_MagDriveDigital
+VAR_IN_OUT
+	iq_stPtm	:	ST_PTM;
+END_VAR
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+	xRunOk	:	BOOL;
+	tofRemoteDelay	:	TOF;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Basic MagDrive Digital Turbo Controls *)
+(* A. Wallace, 2015-7-15 *)
+
+tofRemoteDelay(IN:=iq_stPtm.q_RunDO, PT:=T#5S);
+
+iq_stPtm.q_xRemote := tofRemoteDelay.Q;
+
+(* Interlock Sum *)
+xRunOk := iq_stPtm.xExtRunOk AND NOT iq_stPtm.xFault;
+
+(* Basic pump supervisory section *)
+IF xRunOk THEN
+	iq_stPtm.q_RunDO := iq_stPTM.i_xRunSW;
+ELSE
+	iq_stPtm.i_xRunSW:=FALSE;
+	iq_stPtm.q_RunDO:=FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>

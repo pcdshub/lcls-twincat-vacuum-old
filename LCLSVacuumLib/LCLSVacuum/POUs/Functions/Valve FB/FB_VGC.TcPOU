@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
+  <POU Name="FB_VGC" Id="{e37ddbb4-4f83-44d0-bab6-047e5a609a6c}">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_VGC
+VAR_IN_OUT
+
+	iq_stValve : ST_VGC;
+
+END_VAR
+VAR_INPUT
+
+	i_stUSG	:	ST_VG;
+	i_stDSG	:	ST_VG;
+
+	i_xDis_DPIlk : BOOL := FALSE; (*Set to true when calling the function to disable the differential pressure interlock *)
+
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+
+	rDiffPress : REAL;
+
+	rDiffPressAllowed	:	REAL := 22.5;
+
+	VGC_State : E_VGC;
+
+	xFirstPass	:	BOOL;
+	fbFSInit		:	R_TRIG;
+	
+	tonDelOK : TON;
+	rtOK	:	R_TRIG;
+	tonOvrd	:	TON;
+
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fbFSInit( CLK := TRUE,
+			Q => xFirstPass);
+
+(* On first PLC pass, put valve into vented state, which implies a closed valve *)
+IF xFirstPass THEN
+VGC_State := Vented;
+iq_stValve.xOPN_SW := FALSE;
+END_IF
+
+
+(* Calc the differential pressure across the valve *)
+rDiffPress := ABS(i_stUSG.rPRESS - i_stDSG.rPRESS);
+
+
+(* Here's where the Dis_DPIlk can enable or disable the DP interlock code above,
+By default the Dis_DPIlk is FALSE, so the valve is interlocked by the external interlocks
+and the differential pressure across the valve. *)
+
+IF i_xDis_DPIlk THEN
+iq_stValve.xOPN_OK := iq_stValve.xEXT_OK;
+ELSE
+
+CASE VGC_State OF
+
+Vented: (* The Vented state is used during pump down *)
+
+(* As long as the differential pressure is less than 30mbar, the valve is allowed to open *)
+IF rDiffPress <= rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
+iq_stValve.xDP_OK := TRUE;
+ELSE
+iq_stValve.xDP_OK	:= FALSE;
+(* If the differential pressure is exceeded, even when the valve is open,
+the state is unexpected and triggers a fault, because it suggests that something
+is wrong with the valve, or gauges or mapping or there is a major leak on one side.*)
+VGC_State := ERR_DiffPress;
+END_IF
+
+(* Assuming the pump down went well, we are now at vacuum on both sides,
+so we move to the vacuum state, otherwise remain in the vented state *)
+IF i_stUSG.xAT_VAC AND i_stDSG.xAT_VAC AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
+VGC_State := Vacuum;
+ELSE
+VGC_State := Vented;
+END_IF
+
+Vacuum:
+
+IF i_stUSG.xAT_VAC AND i_stDSG.xAT_VAC AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
+(* If both pressure setpoints are made,
+then enable the differential pressure interlock, regardless of the valve state
+assuming we're using some kind of ion gauge where a pressure setpoint cannot be higher than 1E-4 T *)
+iq_stValve.xDP_OK := TRUE;
+VGC_State := Vacuum;
+ELSE
+
+	(* If the valve is open (or in an unknown state) and either gauge is not at it's vacuum setpoint,
+	we have a loss of vacuum error *)
+	IF (iq_stValve.xOPN_LS OR (NOT iq_stValve.xOPN_LS AND NOT iq_stValve.xCLS_LS)) AND (NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
+	VGC_State := ERR_LostVac;
+	iq_stValve.xDP_OK := FALSE;
+
+	(* Alternatively, if the valve is already closed and we lose pressure on one side,
+	it was probably intentional venting, so we calmly move back to venting mode, and
+	disable the differential pressure interlock *)
+	ELSIF iq_stValve.xCLS_LS AND(NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
+	iq_stValve.xDP_OK := FALSE;
+	VGC_State := Vented;
+	END_IF
+
+END_IF
+
+ERR_DiffPress:
+iq_stValve.xDP_OK := FALSE;
+VGC_State := Vented;
+iq_stValve.xERR_DifPres := TRUE;
+
+ERR_LostVac:
+iq_stValve.xDP_OK := FALSE;
+VGC_State := Vented;
+iq_stValve.xERR_LstVac := TRUE;
+
+END_CASE
+
+(* In the default state the Valve.OPN_OK depends on both the external and differential pressure interlocks *)
+iq_stValve.xOPN_OK := iq_stValve.xEXT_OK AND iq_stValve.xDP_OK;
+END_IF
+
+(* Valve operation *)
+
+(* Reset the EPICS command to open the valve if the interlock is lost *)
+IF NOT iq_stValve.xOPN_OK THEN
+iq_stValve.xOPN_SW := FALSE;
+END_IF
+
+(* Override logic *)
+(* Goal: give ability to override, but do so in a way that people won't forget it.
+Solution: Override only after ten seconds of override, protect against blips,
+when the valve permission goes true for more than ten seconds consistently, remove override
+*)
+
+tonDelOK(IN:=iq_stValve.xOPN_OK, PT:=T#10S);
+rtOK(CLK:=tonDelOK.Q);
+IF rtOK.Q THEN iq_stValve.xOvrdOpn :=FALSE; END_IF
+
+//Override timer
+tonOvrd(IN:=iq_stValve.xOvrdOpn, PT:=T#10S);
+
+(* Here's where the valve opens *)
+iq_stValve.xOPN_DO := (iq_stValve.xOPN_SW AND iq_stValve.xOPN_OK) OR (tonOvrd.Q AND g_stSystem.xOverrideMode);
+]]></ST>
+    </Implementation>
+    <ObjectProperties />
+  </POU>
+</TcPlcObject>
