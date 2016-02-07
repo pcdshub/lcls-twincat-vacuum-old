@@ -35,7 +35,7 @@ STRUCT
 	
 (* Oerlikon only? *)
 	xDecel	:	BOOL;
-	q_xRemote : BOOL;
+	q_xRemote : BOOL; (* Remote control enabled *)
 
 
 END_STRUCT
