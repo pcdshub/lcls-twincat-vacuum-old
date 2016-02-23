@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_500_VG" Id="{6241046a-c3ba-40b6-8b76-514cf5cc9cb4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_500_VG
+VAR_IN_OUT
+	IG : ST_VG;
+END_VAR
+VAR_INPUT
+	PG	:	ST_VG;
+END_VAR
+VAR_OUTPUT
+	xHV_SW: BOOL;
+	rPRESS: INT;
+	rVAC_SP: INT;
+END_VAR
+VAR
+	rV : REAL;
+	pBase : REAL;
+	vBase : REAL;
+	vSlope : REAL;
+	GaugeTurnOnTmr : TON;
+	MinPressure: REAL := 1E-9;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* 500 Logarithmic Output Conversion, factory default configuration *)
+
+rV := 10*INT_TO_REAL(IG.iPRESS_R)/32767;
+vBase := 0;
+pBase := 1.0E-10;
+vSlope := 1.0;
+IG.rPRESS := EXPT(10,((rV-vBase)/vSlope+LOG(pBase)));
+
+(* Ion Gauge Protection Functions *)
+(* If the PG pressure is greater than the VG.PRO_SP then the gauge is disabled *)
+(* If the PG pressure is less than the VG.PRO_SP then the gauge is enabled *)
+(* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
+
+
+
+IF PG.rPRESS < IG.rPRO_SP AND PG.xPRESS_OK THEN
+
+	IG.xHV_DIS := IG.xHV_SW;
+
+ELSIF IG.xHV_DIS THEN
+	IF IG.rPRESS > (IG.rPRO_SP + IG.rHYS_PR)  OR PG.rPRESS > (IG.rPRO_SP + IG.rHYS_PR) THEN
+		IG.xHV_DIS := FALSE;
+		IG.xHV_SW := FALSE;
+	END_IF
+ELSE
+	IG.xHV_DIS := FALSE;
+	IG.xHV_SW := FALSE;
+END_IF
+
+(* Pressure gauge OK checks *)
+
+GaugeTurnOnTmr(IN:=IG.xHV_DIS, PT:=T#10S, Q=>IG.xTurnOnTime);
+
+IG.xPRESS_OK := ((IG.rPRESS > MinPressure) AND IG.xHV_DIS AND IG.xTurnOnTime) OR IG.xBAKEOUT;
+
+(* Setpoint evaluation *)
+IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS < IG.rVAC_SP)) OR IG.xBAKEOUT;;
+
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

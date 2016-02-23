@@ -72,6 +72,10 @@
     <Compile Include="POUs\Functions\FB_VARIAN301TURBO.TcPOU">
       <ExcludeFromBuild>True</ExcludeFromBuild>
     </Compile>
+    <Compile Include="POUs\Functions\Gauge FB\FB_500_VG.TcPOU">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
     <Compile Include="POUs\Functions\Gauge FB\FB_903.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -192,13 +196,15 @@
           <v n="Name">"{C70B7845-2722-4a9b-A0EA-88C877A4B36F}"</v>
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String">
+            <v>EnableMaxAuthenticationTrials</v>
+            <v>true</v>
             <v>MaxAuthenticationTrials</v>
             <v>3</v>
             <v>UserList</v>
             <o t="UserList">
               <a n="Users" cet="User">
                 <o>
-                  <v n="Id">{93749332-bc4f-4a4d-a86f-5d8f9ddb1dac}</v>
+                  <v n="Id">{81629df4-9abf-4c11-8202-74899cda6021}</v>
                   <v n="Name">"Owner"</v>
                   <v n="FullName">""</v>
                   <v n="Description">""</v>
@@ -214,24 +220,24 @@
             <o t="GroupList">
               <a n="Groups" cet="Group">
                 <o>
-                  <v n="Id">{b10a86dd-fe9b-4dfc-a91d-88332a88fafb}</v>
+                  <v n="Id">{6a8e4232-88fa-461e-9a6f-d442084f8dbd}</v>
                   <v n="Name">"Everyone"</v>
                   <v n="Description">""</v>
                   <v n="IsEveryoneGroup">true</v>
                   <v n="IsOwnerGroup">false</v>
                   <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>93749332-bc4f-4a4d-a86f-5d8f9ddb1dac</v>
+                    <v>81629df4-9abf-4c11-8202-74899cda6021</v>
                   </l>
                   <l n="GroupMembers" t="ArrayList" />
                 </o>
                 <o>
-                  <v n="Id">{d666abf8-7de0-4acb-bb49-f34871a2329a}</v>
+                  <v n="Id">{b3d51b24-9b7a-4e5f-a60e-93e6f3b5aec6}</v>
                   <v n="Name">"Owner"</v>
                   <v n="Description">""</v>
                   <v n="IsEveryoneGroup">false</v>
                   <v n="IsOwnerGroup">true</v>
                   <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>93749332-bc4f-4a4d-a86f-5d8f9ddb1dac</v>
+                    <v>81629df4-9abf-4c11-8202-74899cda6021</v>
                   </l>
                   <l n="GroupMembers" t="ArrayList" />
                 </o>
@@ -240,12 +246,10 @@
             <v>UserAuthentication</v>
             <o t="UserAuthentication">
               <d n="UserToPasswordHash" t="Hashtable" ckt="Guid" cvt="String">
-                <v>93749332-bc4f-4a4d-a86f-5d8f9ddb1dac</v>
+                <v>81629df4-9abf-4c11-8202-74899cda6021</v>
                 <v>d41d8cd98f00b204e9800998ecf8427e</v>
               </d>
             </o>
-            <v>EnableMaxAuthenticationTrials</v>
-            <v>true</v>
           </d>
         </o>
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
