@@ -15,22 +15,34 @@ VAR_OUTPUT
 END_VAR
 VAR
 	rV : REAL;
-	pBase : REAL;
-	vBase : REAL;
-	vSlope : REAL;
 	GaugeTurnOnTmr : TON;
 	MinPressure: REAL := 1E-9;
 	
+END_VAR
+VAR CONSTANT
+	cDefaultPressure : REAL := 750.0;
+	vBase	:	REAL := 1; //corresponding vbase 1V actually?
+	pBase	:	REAL := 1.0E-9; //i think the pbase might be 1E-9 for the default curve...
+	vSlope	:	REAL := 1.0; //looks correct for default curve
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* 500 Logarithmic Output Conversion, factory default configuration *)
 
 rV := 10*INT_TO_REAL(IG.iPRESS_R)/32767;
-vBase := 0;
-pBase := 1.0E-10;
-vSlope := 1.0;
-IG.rPRESS := EXPT(10,((rV-vBase)/vSlope+LOG(pBase)));
+
+IF rV >= 0.5 AND rV < 1.0  THEN
+	IG.wState := 5;
+	IG.rPRESS := cDefaultPressure;
+ELSIF rV < 0.4 THEN
+	IG.wState := 4;//HV Off/ gauge disconnected
+	IG.rPRESS := cDefaultPressure;
+ELSE
+	IG.wState := 1;
+	IG.rPRESS := EXPT(10,((rV-vBase)/vSlope+LOG(pBase)));
+END_IF
+
+
 
 (* Ion Gauge Protection Functions *)
 (* If the PG pressure is greater than the VG.PRO_SP then the gauge is disabled *)
@@ -55,9 +67,8 @@ END_IF
 
 (* Pressure gauge OK checks *)
 
-GaugeTurnOnTmr(IN:=IG.xHV_DIS, PT:=T#10S, Q=>IG.xTurnOnTime);
-
-IG.xPRESS_OK := ((IG.rPRESS > MinPressure) AND IG.xHV_DIS AND IG.xTurnOnTime) OR IG.xBAKEOUT;
+//Backwards compatibility
+IG.xPRESS_OK := (IG.wState = 1) OR IG.xBAKEOUT;
 
 (* Setpoint evaluation *)
 IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS < IG.rVAC_SP)) OR IG.xBAKEOUT;;
