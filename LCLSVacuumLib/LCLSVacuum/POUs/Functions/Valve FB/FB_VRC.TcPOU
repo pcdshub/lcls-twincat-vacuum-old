@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
-  <POU Name="FB_VRC" Id="{2db6a988-e12f-4920-baa1-9b034d8c1cf9}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_VRC" Id="{2db6a988-e12f-4920-baa1-9b034d8c1cf9}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VRC
 VAR_IN_OUT
 
@@ -41,6 +41,5 @@ tonOvrd(IN:=iq_stValve.xOvrdOpn, PT:=T#10S);
 (* Here's where the valve opens *)
 iq_stValve.xOPN_DO := (iq_stValve.xOPN_SW AND iq_stValve.xOPN_OK) OR (tonOvrd.Q AND g_stSystem.xOverrideMode);]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
-  <POU Name="FB_VGC" Id="{e37ddbb4-4f83-44d0-bab6-047e5a609a6c}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_VGC" Id="{e37ddbb4-4f83-44d0-bab6-047e5a609a6c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VGC
 VAR_IN_OUT
 
@@ -91,14 +91,14 @@ ELSE
 
 	(* If the valve is open (or in an unknown state) and either gauge is not at it's vacuum setpoint,
 	we have a loss of vacuum error *)
-	IF (iq_stValve.xOPN_LS OR (NOT iq_stValve.xOPN_LS AND NOT iq_stValve.xCLS_LS)) AND (NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
+	IF (iq_stValve.i_xOpnLS OR (NOT iq_stValve.i_xOpnLS AND NOT iq_stValve.i_xClsLS)) AND (NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
 	VGC_State := ERR_LostVac;
 	iq_stValve.xDP_OK := FALSE;
 
 	(* Alternatively, if the valve is already closed and we lose pressure on one side,
 	it was probably intentional venting, so we calmly move back to venting mode, and
 	disable the differential pressure interlock *)
-	ELSIF iq_stValve.xCLS_LS AND(NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
+	ELSIF iq_stValve.i_xClsLS AND(NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
 	iq_stValve.xDP_OK := FALSE;
 	VGC_State := Vented;
 	END_IF
@@ -145,6 +145,5 @@ tonOvrd(IN:=iq_stValve.xOvrdOpn, PT:=T#10S);
 iq_stValve.xOPN_DO := (iq_stValve.xOPN_SW AND iq_stValve.xOPN_OK) OR (tonOvrd.Q AND g_stSystem.xOverrideMode);
 ]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>
