@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_275" Id="{c7ed38c5-1632-4c13-8a74-9f223c4eeee5}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_275
+VAR_IN_OUT
+	PG : ST_VG;
+END_VAR
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+
+	MinPressure: REAL := 1E-4;
+
+	V : REAL;
+	A_1 : REAL := -0.2585;
+	B_1 : REAL := 0.03767;
+	C_1 : REAL := 0.04563;
+	D_1 : REAL := 0.1151;
+	E_1 : REAL := -0.04158;
+	F_1 : REAL := 0.008737;
+	
+	A_2 : REAL := 0.1031;
+	B_2 : REAL := -0.3986;
+	C_2 : REAL := -0.02322;
+	D_2 : REAL := 0.07438;
+	E_2 : REAL := 0.07229;
+	F_2 : REAL := -0.006866;
+	
+	A_3 : REAL := 100.624;
+	B_3 : REAL := -0.37679;
+	C_3: REAL  := -20.5623;
+	D_3: REAL := 0.0348656;
+
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* This function block is used to provide protection and automatic turn on of ion gauges,
+ it also manages the turn on of the AT_VAC boolean, and checks to make sure the pressure is good *)
+(* For MKS 275 mini-convectron *)
+
+
+(* Real-value calculation *)
+
+V := 10*INT_TO_REAL(PG.iPRESS_R)/32767;	
+
+IF V > 0.38 AND V < 2.84 THEN
+
+PG.rPRESS := A_1 + B_1*V + C_1*EXPT(V,2)+ D_1*EXPT(V,3) + E_1*EXPT(V,4)+ F_1*EXPT(V,5);
+
+ELSIF V >= 2.84 AND V < 4.95 THEN
+
+PG.rPRESS := (A_2+C_2*V+E_2*EXPT(V,2))/(1+B_2*V+D_2*EXPT(V,2)+F_2*EXPT(V,3));
+
+ELSIF V >= 4.95 THEN
+
+PG.rPRESS := (A_2+C_2*V)/(1+B_2*V+D_2*EXPT(V,2));
+
+END_IF
+
+(* Protection Functions *)
+(* If the PG pressure is greater than the IG.PRO_SP then the gauge is disabled *)
+(* If the PG pressure is less than the IG.PRO_SP then the gauge is enabled *)
+(* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
+
+(* Pressure OK check *)
+PG.xPRESS_OK := (PG.rPRESS > MinPressure);
+
+(* Setpoint evaluation *)
+PG.xAT_VAC := PG.xPRESS_OK AND (PG.rPRESS<PG.rVAC_SP);]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

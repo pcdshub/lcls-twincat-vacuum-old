@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
-  <POU Name="FB_500_VG" Id="{6241046a-c3ba-40b6-8b76-514cf5cc9cb4}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_500_VG
+  <POU Name="FB_500" Id="{6241046a-c3ba-40b6-8b76-514cf5cc9cb4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_500
 VAR_IN_OUT
 	IG : ST_VG;
 END_VAR
