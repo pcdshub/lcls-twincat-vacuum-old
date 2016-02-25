@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <DUT Name="ST_VGC_NO" Id="{637d6f45-b7b8-44fa-9c81-960a50d66588}">
+    <Declaration><![CDATA[TYPE ST_VGC_NO EXTENDS ST_VGC :
+STRUCT
+	(* A normally open gate valve needs permission to close! *)
+	(* EPICS Controls *)
+	xCLS_SW	:	BOOL;
+	xOvrdCls	:	BOOL;
+	
+	(* Interlocks *)
+	xCLS_OK	:	BOOL;
+	
+	(* IO Controls *)
+	xCLS_DO	:	BOOL;
+	
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

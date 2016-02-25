@@ -22,8 +22,9 @@
 1.2.0 ecat diagnostic
 1.2.1 added the ecat lib in here
 1.2.2 adding the ratio check function for valve interlocking
-1.3.6 added 275 &amp; 500 gauges, minor changes</Description>
-    <ProjectVersion>1.3.6</ProjectVersion>
+1.3.6 added 275 &amp; 500 gauges, minor changes
+1.4.0 added a normally open gate valve structure and FB</Description>
+    <ProjectVersion>1.4.0</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Data types" />
@@ -52,6 +53,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data types\ST_VGC.TcDUT" />
+    <Compile Include="Data types\ST_VGC_NO.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
     <Compile Include="Data types\ST_VRC.TcDUT" />
     <Compile Include="Data types\System_Struct.TcDUT" />
     <Compile Include="Data types\UpStrInVac_Struct.TcDUT" />
@@ -114,6 +119,10 @@
     </Compile>
     <Compile Include="POUs\Functions\Valve FB\FB_VGC.TcPOU">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\Valve FB\FB_VGC_NO.TcPOU">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="POUs\Functions\Valve FB\FB_VRC.TcPOU">
       <SubType>Code</SubType>
@@ -202,13 +211,15 @@
           <v n="Name">"{C70B7845-2722-4a9b-A0EA-88C877A4B36F}"</v>
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String">
+            <v>EnableMaxAuthenticationTrials</v>
+            <v>true</v>
             <v>MaxAuthenticationTrials</v>
             <v>3</v>
             <v>UserList</v>
             <o t="UserList">
               <a n="Users" cet="User">
                 <o>
-                  <v n="Id">{38ce5bab-39c8-428b-9552-1181e0a7d4a4}</v>
+                  <v n="Id">{da1d44ce-a33c-430c-9cde-98a4dd3c6668}</v>
                   <v n="Name">"Owner"</v>
                   <v n="FullName">""</v>
                   <v n="Description">""</v>
@@ -224,24 +235,24 @@
             <o t="GroupList">
               <a n="Groups" cet="Group">
                 <o>
-                  <v n="Id">{1b01346d-b856-40ea-b265-b1b5a24a0cc4}</v>
-                  <v n="Name">"Owner"</v>
-                  <v n="Description">""</v>
-                  <v n="IsEveryoneGroup">false</v>
-                  <v n="IsOwnerGroup">true</v>
-                  <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>38ce5bab-39c8-428b-9552-1181e0a7d4a4</v>
-                  </l>
-                  <l n="GroupMembers" t="ArrayList" />
-                </o>
-                <o>
-                  <v n="Id">{2776bb4c-70a8-4741-9831-525cc0293769}</v>
+                  <v n="Id">{847db857-0a85-4dc9-8abb-f84dfaf931fd}</v>
                   <v n="Name">"Everyone"</v>
                   <v n="Description">""</v>
                   <v n="IsEveryoneGroup">true</v>
                   <v n="IsOwnerGroup">false</v>
                   <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>38ce5bab-39c8-428b-9552-1181e0a7d4a4</v>
+                    <v>da1d44ce-a33c-430c-9cde-98a4dd3c6668</v>
+                  </l>
+                  <l n="GroupMembers" t="ArrayList" />
+                </o>
+                <o>
+                  <v n="Id">{f46b74dc-fe08-42c7-aa83-26c2decfcbd5}</v>
+                  <v n="Name">"Owner"</v>
+                  <v n="Description">""</v>
+                  <v n="IsEveryoneGroup">false</v>
+                  <v n="IsOwnerGroup">true</v>
+                  <l n="UserMembers" t="ArrayList" cet="Guid">
+                    <v>da1d44ce-a33c-430c-9cde-98a4dd3c6668</v>
                   </l>
                   <l n="GroupMembers" t="ArrayList" />
                 </o>
@@ -250,12 +261,10 @@
             <v>UserAuthentication</v>
             <o t="UserAuthentication">
               <d n="UserToPasswordHash" t="Hashtable" ckt="Guid" cvt="String">
-                <v>38ce5bab-39c8-428b-9552-1181e0a7d4a4</v>
+                <v>da1d44ce-a33c-430c-9cde-98a4dd3c6668</v>
                 <v>d41d8cd98f00b204e9800998ecf8427e</v>
               </d>
             </o>
-            <v>EnableMaxAuthenticationTrials</v>
-            <v>true</v>
           </d>
         </o>
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
