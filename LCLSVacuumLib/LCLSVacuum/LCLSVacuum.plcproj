@@ -21,8 +21,9 @@
     <Description>No serial drivers exist in this library. Need the other one for that.
 1.2.0 ecat diagnostic
 1.2.1 added the ecat lib in here
-1.2.2 adding the ratio check function for valve interlocking</Description>
-    <ProjectVersion>1.3.5</ProjectVersion>
+1.2.2 adding the ratio check function for valve interlocking
+1.3.6 added 275 &amp; 500 gauges, minor changes</Description>
+    <ProjectVersion>1.3.6</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Data types" />

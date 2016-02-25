@@ -39,7 +39,7 @@ ELSIF rV < 0.4 THEN
 	IG.rPRESS := cDefaultPressure;
 ELSE
 	IG.wState := 1;
-	IG.rPRESS := EXPT(10,((rV-vBase)/vSlope+LOG(pBase)));
+	IG.rPRESS := LREAL_TO_REAL(EXPT(10,((rV-vBase)/vSlope+LOG(pBase))));
 END_IF
 
 
@@ -71,7 +71,7 @@ END_IF
 IG.xPRESS_OK := (IG.wState = 1) OR IG.xBAKEOUT;
 
 (* Setpoint evaluation *)
-IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS < IG.rVAC_SP)) OR IG.xBAKEOUT;;
+IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS < IG.rVAC_SP)) OR IG.xBAKEOUT;
 
 ]]></ST>
     </Implementation>
