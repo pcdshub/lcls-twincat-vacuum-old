@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
-  <POU Name="FB_GGO" Id="{4119c685-2acb-44b1-99f2-419d0e83fdbe}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_GGO" Id="{4119c685-2acb-44b1-99f2-419d0e83fdbe}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_GGO
 VAR_IN_OUT
 	iq_astGauges: ARRAY[0..50] OF ST_VG;
@@ -64,7 +64,7 @@ IF iq_astGauges[i_iIndex].iTYPE = 1 OR iq_astGauges[i_iIndex].iTYPE = 3 THEN
 
 	stIG := iq_astGauges[i_iIndex];
 	rV := 10*INT_TO_REAL(stIG.iPRESS_R)/32767;
-	stIG.rPRESS := EXPT(10, rV-11);
+	stIG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-11));
 	
 
 	IF WORD_TO_INT(stIG.wPG) <= g_iSizeOfGGOArray THEN
@@ -154,9 +154,9 @@ ELSE
 		rV := 10*INT_TO_REAL(stPG.iPRESS_R)/32768;
 
 		IF rV > 0.38 AND rV < 4.85 THEN
-			stPG.rPRESS := EXPT((rA/((rB/(EXPT(rV,2)-EXPT(rV_0,2))-1))), 1/rC);
+			stPG.rPRESS := LREAL_TO_REAL(EXPT((rA/((rB/(EXPT(rV,2)-EXPT(rV_0,2))-1))), 1/rC));
 		ELSIF rV > 4.85 AND rV< 5.18 THEN
-			stPG.rPRESS := SQRT(((rV-rD)+SQRT(EXPT((rV-rD),2)-4*rF*rG))/(2*rF));
+			stPG.rPRESS := LREAL_TO_REAL(SQRT(((rV-rD)+SQRT(EXPT((rV-rD),2)-4*rF*rG))/(2*rF)));
 		ELSIF rV > 5.18 THEN
 			stPG.rPRESS := EXP((rV-rH)/rK);
 		ELSE
@@ -180,7 +180,7 @@ ELSE
 		rV := 10*INT_TO_REAL(stPG.iPRESS_R)/32767;
 
 		IF rV > 1 THEN
-			stPG.rPRESS := EXPT(10, rV-6);
+			stPG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-6));
 		ELSE
 			stPG.xPRESS_OK := FALSE;
 		END_IF
@@ -215,6 +215,5 @@ END_IF
 //copy the high voltage status over.
 iq_axHV_RO[iq_astGauges[i_iIndex].wHV_RO]:=iq_astGauges[i_iIndex].xHV_DIS;]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>

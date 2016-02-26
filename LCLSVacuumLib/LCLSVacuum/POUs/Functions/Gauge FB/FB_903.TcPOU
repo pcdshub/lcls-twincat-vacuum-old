@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
-  <POU Name="FB_903" Id="{43f992bb-7482-4786-b361-2c82626a8580}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_903" Id="{43f992bb-7482-4786-b361-2c82626a8580}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_903
 VAR_IN_OUT
 
@@ -35,7 +35,7 @@ P = 10^(V/0.6 -12)
 
 V := 10*INT_TO_REAL(IG.iPRESS_R)/32767;
 
-IG.rPRESS := EXPT(10,(V-11));
+IG.rPRESS := LREAL_TO_REAL(EXPT(10,(V-11)));
 
 
 (* Protection Functions *)
@@ -70,6 +70,5 @@ IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS<IG.rVAC_SP)) OR IG.xBAKEOUT;
 
 ]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>
