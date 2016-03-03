@@ -14,7 +14,7 @@ VAR
 	MinPressure: REAL := 1E-4;
 
 	V : REAL;
-	A_1 : REAL := -0.2585;
+	A_1 : REAL := -0.02585;
 	B_1 : REAL := 0.03767;
 	C_1 : REAL := 0.04563;
 	D_1 : REAL := 0.1151;
