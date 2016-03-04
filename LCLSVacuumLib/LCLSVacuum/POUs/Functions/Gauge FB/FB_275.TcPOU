@@ -44,15 +44,19 @@ END_VAR]]></Declaration>
 
 V := 10*INT_TO_REAL(PG.iPRESS_R)/32767;	
 
-IF V > 0.38 AND V < 2.84 THEN
+IF V > 0.36 AND V < 0.38 THEN
+
+PG.rPRESS := MinPressure;
+
+ELSIF V >= 0.38 AND V < 2.842 THEN
 
 PG.rPRESS := LREAL_TO_REAL( A_1 + B_1*V + C_1*EXPT(V,2)+ D_1*EXPT(V,3) + E_1*EXPT(V,4)+ F_1*EXPT(V,5));
 
-ELSIF V >= 2.84 AND V < 4.95 THEN
+ELSIF V >= 2.842 AND V < 4.945 THEN
 
 PG.rPRESS := LREAL_TO_REAL((A_2+C_2*V+E_2*EXPT(V,2))/(1+B_2*V+D_2*EXPT(V,2)+F_2*EXPT(V,3)));
 
-ELSIF V >= 4.95 THEN
+ELSIF V >= 4.94 THEN
 
 PG.rPRESS := LREAL_TO_REAL((A_3+C_3*V)/(1+B_3*V+D_3*EXPT(V,2)));
 
@@ -64,7 +68,7 @@ END_IF
 (* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
 
 (* Pressure OK check *)
-PG.xPRESS_OK := (PG.rPRESS > MinPressure);
+PG.xPRESS_OK := (PG.rPRESS >= MinPressure);
 
 (* Setpoint evaluation *)
 PG.xAT_VAC := PG.xPRESS_OK AND (PG.rPRESS<PG.rVAC_SP);]]></ST>
