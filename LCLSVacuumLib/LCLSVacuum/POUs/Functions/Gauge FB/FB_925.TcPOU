@@ -19,8 +19,12 @@ END_VAR
 
 rV := 10*INT_TO_REAL(VG.iPRESS_R)/32767;
 
-IF rV > 1 THEN
+IF rV >= 1 THEN
 	VG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-6));
+	VG.xPRESS_OK := TRUE;
+	VG.wState := 1;
+ELSIF rV >= 0.99 AND rV < 1 THEN
+	VG.rPRESS := 1E-5;
 	VG.xPRESS_OK := TRUE;
 	VG.wState := 1;
 ELSE
