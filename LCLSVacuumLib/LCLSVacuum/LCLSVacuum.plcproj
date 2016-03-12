@@ -23,8 +23,9 @@
 1.2.1 added the ecat lib in here
 1.2.2 adding the ratio check function for valve interlocking
 1.3.6 added 275 &amp; 500 gauges, minor changes
-1.4.0 added a normally open gate valve structure and FB</Description>
-    <ProjectVersion>1.4.1</ProjectVersion>
+1.4.0 added a normally open gate valve structure and FB
+1.5.0 added error and warning codes to ptm structure for pfeiffers</Description>
+    <ProjectVersion>1.5.0</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Data types" />
@@ -217,7 +218,7 @@
             <o t="UserList">
               <a n="Users" cet="User">
                 <o>
-                  <v n="Id">{57f2af1d-65cd-410b-b303-7105b0756ecd}</v>
+                  <v n="Id">{dba0f9dc-c1fd-4ee7-b505-37ccc52e6d64}</v>
                   <v n="Name">"Owner"</v>
                   <v n="FullName">""</v>
                   <v n="Description">""</v>
@@ -233,24 +234,24 @@
             <o t="GroupList">
               <a n="Groups" cet="Group">
                 <o>
-                  <v n="Id">{ebce66e4-48c2-4e01-9000-7393acb1f538}</v>
-                  <v n="Name">"Everyone"</v>
-                  <v n="Description">""</v>
-                  <v n="IsEveryoneGroup">true</v>
-                  <v n="IsOwnerGroup">false</v>
-                  <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>57f2af1d-65cd-410b-b303-7105b0756ecd</v>
-                  </l>
-                  <l n="GroupMembers" t="ArrayList" />
-                </o>
-                <o>
-                  <v n="Id">{a3c49878-86d9-4933-8178-a60e98664409}</v>
+                  <v n="Id">{95a8934e-ebbe-4fd7-b8fa-aff4e63a93d9}</v>
                   <v n="Name">"Owner"</v>
                   <v n="Description">""</v>
                   <v n="IsEveryoneGroup">false</v>
                   <v n="IsOwnerGroup">true</v>
                   <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>57f2af1d-65cd-410b-b303-7105b0756ecd</v>
+                    <v>dba0f9dc-c1fd-4ee7-b505-37ccc52e6d64</v>
+                  </l>
+                  <l n="GroupMembers" t="ArrayList" />
+                </o>
+                <o>
+                  <v n="Id">{545ecc5a-2c7b-4fa6-9cc9-314949460734}</v>
+                  <v n="Name">"Everyone"</v>
+                  <v n="Description">""</v>
+                  <v n="IsEveryoneGroup">true</v>
+                  <v n="IsOwnerGroup">false</v>
+                  <l n="UserMembers" t="ArrayList" cet="Guid">
+                    <v>dba0f9dc-c1fd-4ee7-b505-37ccc52e6d64</v>
                   </l>
                   <l n="GroupMembers" t="ArrayList" />
                 </o>
@@ -259,7 +260,7 @@
             <v>UserAuthentication</v>
             <o t="UserAuthentication">
               <d n="UserToPasswordHash" t="Hashtable" ckt="Guid" cvt="String">
-                <v>57f2af1d-65cd-410b-b303-7105b0756ecd</v>
+                <v>dba0f9dc-c1fd-4ee7-b505-37ccc52e6d64</v>
                 <v>d41d8cd98f00b204e9800998ecf8427e</v>
               </d>
             </o>

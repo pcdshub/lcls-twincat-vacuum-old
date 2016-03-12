@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
   <DUT Name="ST_PTM" Id="{800c0744-7104-483e-92b7-6bb5c958de58}">
     <Declaration><![CDATA[TYPE ST_PTM :
 STRUCT
@@ -32,6 +32,8 @@ STRUCT
 	diElecTemp	:	DINT;
 	diBtmTemp:	DINT;
 	diBrngTemp:	DINT;
+	iErrorCode	:	INT; //might change these to enumeration someday
+	iWarningCode	:	INT;
 	
 (* Oerlikon only? *)
 	xDecel	:	BOOL;
@@ -40,6 +42,5 @@ STRUCT
 
 END_STRUCT
 END_TYPE]]></Declaration>
-    <ObjectProperties />
   </DUT>
 </TcPlcObject>
