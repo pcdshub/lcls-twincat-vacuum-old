@@ -24,8 +24,9 @@
 1.2.2 adding the ratio check function for valve interlocking
 1.3.6 added 275 &amp; 500 gauges, minor changes
 1.4.0 added a normally open gate valve structure and FB
-1.5.0 added error and warning codes to ptm structure for pfeiffers</Description>
-    <ProjectVersion>1.5.0</ProjectVersion>
+1.5.0 added error and warning codes to ptm structure for pfeiffers
+1.5.1 seamless override open/close on vgc during transition from override to normal mode.</Description>
+    <ProjectVersion>1.5.1</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Data types" />
@@ -212,13 +213,15 @@
           <v n="Name">"{C70B7845-2722-4a9b-A0EA-88C877A4B36F}"</v>
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String">
+            <v>EnableMaxAuthenticationTrials</v>
+            <v>true</v>
             <v>MaxAuthenticationTrials</v>
             <v>3</v>
             <v>UserList</v>
             <o t="UserList">
               <a n="Users" cet="User">
                 <o>
-                  <v n="Id">{dba0f9dc-c1fd-4ee7-b505-37ccc52e6d64}</v>
+                  <v n="Id">{ca08ad1f-b2a1-46c4-ae30-11d7f1c19ba0}</v>
                   <v n="Name">"Owner"</v>
                   <v n="FullName">""</v>
                   <v n="Description">""</v>
@@ -234,24 +237,24 @@
             <o t="GroupList">
               <a n="Groups" cet="Group">
                 <o>
-                  <v n="Id">{95a8934e-ebbe-4fd7-b8fa-aff4e63a93d9}</v>
-                  <v n="Name">"Owner"</v>
-                  <v n="Description">""</v>
-                  <v n="IsEveryoneGroup">false</v>
-                  <v n="IsOwnerGroup">true</v>
-                  <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>dba0f9dc-c1fd-4ee7-b505-37ccc52e6d64</v>
-                  </l>
-                  <l n="GroupMembers" t="ArrayList" />
-                </o>
-                <o>
-                  <v n="Id">{545ecc5a-2c7b-4fa6-9cc9-314949460734}</v>
+                  <v n="Id">{5c8d72c1-4e12-41c7-8fdb-6ced0c51dc34}</v>
                   <v n="Name">"Everyone"</v>
                   <v n="Description">""</v>
                   <v n="IsEveryoneGroup">true</v>
                   <v n="IsOwnerGroup">false</v>
                   <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>dba0f9dc-c1fd-4ee7-b505-37ccc52e6d64</v>
+                    <v>ca08ad1f-b2a1-46c4-ae30-11d7f1c19ba0</v>
+                  </l>
+                  <l n="GroupMembers" t="ArrayList" />
+                </o>
+                <o>
+                  <v n="Id">{5c2721b4-8893-4631-adda-69e185a1d282}</v>
+                  <v n="Name">"Owner"</v>
+                  <v n="Description">""</v>
+                  <v n="IsEveryoneGroup">false</v>
+                  <v n="IsOwnerGroup">true</v>
+                  <l n="UserMembers" t="ArrayList" cet="Guid">
+                    <v>ca08ad1f-b2a1-46c4-ae30-11d7f1c19ba0</v>
                   </l>
                   <l n="GroupMembers" t="ArrayList" />
                 </o>
@@ -260,12 +263,10 @@
             <v>UserAuthentication</v>
             <o t="UserAuthentication">
               <d n="UserToPasswordHash" t="Hashtable" ckt="Guid" cvt="String">
-                <v>dba0f9dc-c1fd-4ee7-b505-37ccc52e6d64</v>
+                <v>ca08ad1f-b2a1-46c4-ae30-11d7f1c19ba0</v>
                 <v>d41d8cd98f00b204e9800998ecf8427e</v>
               </d>
             </o>
-            <v>EnableMaxAuthenticationTrials</v>
-            <v>true</v>
           </d>
         </o>
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
