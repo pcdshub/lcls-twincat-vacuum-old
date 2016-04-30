@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
-  <POU Name="FB_PFEIFFER_PTM" Id="{f61aaad0-85b4-4244-b8a7-58d7d76a340e}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_PFEIFFER_PTM" Id="{f61aaad0-85b4-4244-b8a7-58d7d76a340e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_PFEIFFER_PTM
 VAR_IN_OUT
 	iq_stPTM : ST_PTM;
@@ -20,6 +20,5 @@ ELSE
 	iq_stPTM.q_RunDO:=FALSE;
 END_IF]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>

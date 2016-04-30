@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
-  <POU Name="FB_VARIAN301TURBO" Id="{5052d8d3-669d-40d6-953a-e43b88af6e42}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_VARIAN301TURBO" Id="{5052d8d3-669d-40d6-953a-e43b88af6e42}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VARIAN301TURBO
 
 VAR_INPUT
@@ -86,6 +86,5 @@ iq_stTP.AlmSS := iq_stTP.AlmSS AND NOT (i_xglbAlmRst OR iq_stTP.AlmRst);
 iq_stTP.AlmSum := iq_stTP.almFlt OR iq_stTP.almLSpd OR iq_stTP.AlmRst OR iq_stTP.almSS OR iq_stTP.almStart;
 ]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>

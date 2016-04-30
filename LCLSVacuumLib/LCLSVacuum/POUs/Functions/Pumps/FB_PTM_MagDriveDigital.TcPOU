@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
-  <POU Name="FB_PTM_Agilent" Id="{7065fe21-c670-4546-aabc-a4f45055c1ab}">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_PTM_Agilent
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_PTM_MagDriveDigital" Id="{50197c8d-2497-4812-a680-acd70b819f81}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_PTM_MagDriveDigital
 VAR_IN_OUT
 	iq_stPtm	:	ST_PTM;
 END_VAR
@@ -11,22 +11,20 @@ VAR_OUTPUT
 END_VAR
 VAR
 	xRunOk	:	BOOL;
+	tofRemoteDelay	:	TOF;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* Basic Agilent Turbo Controls *)
+      <ST><![CDATA[(* Basic MagDrive Digital Turbo Controls *)
 (* A. Wallace, 2015-7-15 *)
 
+tofRemoteDelay(IN:=iq_stPtm.q_RunDO, PT:=T#5S);
+
+iq_stPtm.q_xRemote := tofRemoteDelay.Q;
 
 (* Interlock Sum *)
 xRunOk := iq_stPtm.xExtRunOk AND NOT iq_stPtm.xFault;
-
-(* Mask the at speed bit if fault is true 
-done for versions of the interface cable where
-at speed gets its power from from the beckhoff term*)
-IF iq_stPtm.xFault THEN
-	iq_stPtm.xAtSpd := FALSE;
-END_IF
 
 (* Basic pump supervisory section *)
 IF xRunOk THEN
@@ -36,6 +34,5 @@ ELSE
 	iq_stPtm.q_RunDO:=FALSE;
 END_IF]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>
