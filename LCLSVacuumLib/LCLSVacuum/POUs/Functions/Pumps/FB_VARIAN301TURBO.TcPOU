@@ -25,7 +25,7 @@ END_VAR
 
 VAR_IN_OUT
 
-	iq_stTP: PTM_Struct;
+	iq_stTP: ST_PTM;
 
 END_VAR]]></Declaration>
     <Implementation>

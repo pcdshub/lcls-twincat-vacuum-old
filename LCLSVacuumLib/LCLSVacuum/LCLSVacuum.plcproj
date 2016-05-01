@@ -43,7 +43,6 @@
     <Compile Include="Data types\E_VGC.TcDUT" />
     <Compile Include="Data types\Gauge_Type.TcDUT" />
     <Compile Include="Data types\ISG_Struct.TcDUT" />
-    <Compile Include="Data types\PTM_Struct.TcDUT" />
     <Compile Include="Data types\ST_EbaraDryPump.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
@@ -123,6 +122,10 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="POUs\Functions\Pumps\FB_PFEIFFER_PTM.TcPOU">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="POUs\Functions\Pumps\FB_PTM_Ebara.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
@@ -233,13 +236,15 @@
           <v n="Name">"{C70B7845-2722-4a9b-A0EA-88C877A4B36F}"</v>
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String">
+            <v>EnableMaxAuthenticationTrials</v>
+            <v>true</v>
             <v>MaxAuthenticationTrials</v>
             <v>3</v>
             <v>UserList</v>
             <o t="UserList">
               <a n="Users" cet="User">
                 <o>
-                  <v n="Id">{662e1bc4-412e-462d-8708-0cd090f26f8d}</v>
+                  <v n="Id">{853af6e1-d2b7-4259-b41b-0ec5ae97179f}</v>
                   <v n="Name">"Owner"</v>
                   <v n="FullName">""</v>
                   <v n="Description">""</v>
@@ -255,24 +260,24 @@
             <o t="GroupList">
               <a n="Groups" cet="Group">
                 <o>
-                  <v n="Id">{e8ad70d2-f1b9-450a-8958-0a809c49d93e}</v>
-                  <v n="Name">"Everyone"</v>
-                  <v n="Description">""</v>
-                  <v n="IsEveryoneGroup">true</v>
-                  <v n="IsOwnerGroup">false</v>
-                  <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>662e1bc4-412e-462d-8708-0cd090f26f8d</v>
-                  </l>
-                  <l n="GroupMembers" t="ArrayList" />
-                </o>
-                <o>
-                  <v n="Id">{9e54fa6c-894c-493d-8b07-2156f5e9d664}</v>
+                  <v n="Id">{12b83a85-9ae6-4f43-9b4b-6ea71dd106b0}</v>
                   <v n="Name">"Owner"</v>
                   <v n="Description">""</v>
                   <v n="IsEveryoneGroup">false</v>
                   <v n="IsOwnerGroup">true</v>
                   <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>662e1bc4-412e-462d-8708-0cd090f26f8d</v>
+                    <v>853af6e1-d2b7-4259-b41b-0ec5ae97179f</v>
+                  </l>
+                  <l n="GroupMembers" t="ArrayList" />
+                </o>
+                <o>
+                  <v n="Id">{a7f3deae-8666-4638-a36e-656b6d9b726b}</v>
+                  <v n="Name">"Everyone"</v>
+                  <v n="Description">""</v>
+                  <v n="IsEveryoneGroup">true</v>
+                  <v n="IsOwnerGroup">false</v>
+                  <l n="UserMembers" t="ArrayList" cet="Guid">
+                    <v>853af6e1-d2b7-4259-b41b-0ec5ae97179f</v>
                   </l>
                   <l n="GroupMembers" t="ArrayList" />
                 </o>
@@ -281,12 +286,10 @@
             <v>UserAuthentication</v>
             <o t="UserAuthentication">
               <d n="UserToPasswordHash" t="Hashtable" ckt="Guid" cvt="String">
-                <v>662e1bc4-412e-462d-8708-0cd090f26f8d</v>
+                <v>853af6e1-d2b7-4259-b41b-0ec5ae97179f</v>
                 <v>d41d8cd98f00b204e9800998ecf8427e</v>
               </d>
             </o>
-            <v>EnableMaxAuthenticationTrials</v>
-            <v>true</v>
           </d>
         </o>
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
