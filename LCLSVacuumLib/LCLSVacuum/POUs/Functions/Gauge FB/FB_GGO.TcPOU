@@ -15,8 +15,7 @@ VAR
 	rMinPressure_909: REAL := 3E-10;
 	rMinPressure_907: REAL := 1E-05;
 	rMinPressure_722B: REAL := 0.5;
-	r722B_1000_MINVAL: REAL := 0.5;
-	r722B_1_MINVAL: REAL := 0.0005;
+	
 	rV: REAL;
 	rA: REAL := 3.29;
 	rB: REAL := 24.98;
@@ -124,11 +123,9 @@ ELSE
 	IF stPG.iTYPE = 0 THEN
 
 		(* Real-value voltage calculation *)
-		IF stPG.rFULL_SCALE = 1000 THEN
-			rMinPressure_722B := r722B_1000_MINVAL;
-		ELSIF stPG.rFULL_SCALE = 1 THEN
-			rMinPressure_722B := r722B_1_MINVAL;
-		END_IF
+		
+		rMinPressure_722B := stPG.rFULL_SCALE * 5E-4;
+		
 
 		rV :=MAX((10*INT_TO_REAL(stPG.iPRESS_R)/32767),0);
 		stPG.rPRESS := (stPG.rFULL_SCALE/10)*rV;
