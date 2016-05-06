@@ -17,7 +17,7 @@ q_xBPStart	:	BOOL; // Booster pump start (this can be started by the pump automa
 
 xBPIlk	:	BOOL;	//Booster pump interlock
 rBPIlkSP	:	REAL := 30; //Booster pump pressure setpoint
-tonBP	:	TON; //Timer for pressure and valve stability
+tonBP	:	TON := (PT:=T#5S); //Timer for pressure and valve stability
 
 
 //Readbacks
