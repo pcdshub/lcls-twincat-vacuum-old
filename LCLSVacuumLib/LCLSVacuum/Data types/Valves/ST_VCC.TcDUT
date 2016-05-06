@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
   <DUT Name="ST_VCC" Id="{f8163ff7-c34c-4425-9a0d-608ae9423340}">
     <Declaration><![CDATA[TYPE ST_VCC :
 STRUCT
@@ -14,6 +14,5 @@ STRUCT
 
 END_STRUCT
 END_TYPE]]></Declaration>
-    <ObjectProperties />
   </DUT>
 </TcPlcObject>

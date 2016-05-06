@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
   <DUT Name="ST_AgilentControlStatus" Id="{6ead7192-f530-4c74-ba29-53c6e2e3c642}">
     <Declaration><![CDATA[TYPE ST_AgilentControlStatus :
 STRUCT
@@ -35,6 +35,5 @@ STRUCT
 
 END_STRUCT
 END_TYPE]]></Declaration>
-    <ObjectProperties />
   </DUT>
 </TcPlcObject>
