@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <DUT Name="ST_EbaraPTM" Id="{00dd7679-7d3a-464d-8613-c714e423a1cf}">
+    <Declaration><![CDATA[TYPE ST_EbaraPTM EXTENDS ST_PTM :
+STRUCT
+(* Extension of the PTM archetype for Ebara turbo controllers 
+Applicable to: 
+ETC series
+*)
+//Controls
+q_xStart : BOOL; //Momentary start switch
+q_xStop  : BOOL; //Momentary stop switch
+q_xReset : BOOL; //Momentary reset switch - resets protection functions
+q_xProtection : BOOL; //NC. If opened, pump will decelerate/not start
+
+q_xSpeedOK    : BOOL; //Momentary switch to program commanded speed
+q_iSpeedSet   : INT; //Requested speed (min. 100 RPM)
+q_iSpeedVolt  : INT; //Analog output, will translate to 0-5V
+
+tofSwitch : TOF := (PT:=T#1S); //Will open momentary switches
+
+//Readbacks - also has Accel/At speed/Decel/Fault inputs
+i_xRotate : BOOL; //If open, pump is rotating
+i_iCurSpeed : INT; //Analog in speed monitor, 0-5V (stays 0V up to 100 RPM)
+
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
