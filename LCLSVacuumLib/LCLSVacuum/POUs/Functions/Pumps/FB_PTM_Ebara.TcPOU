@@ -16,10 +16,13 @@ END_VAR]]></Declaration>
 (* Basic pump supervisory section *)
 IF iq_stPTM.xExtRunOk AND NOT (iq_stPTM.xFault OR iq_stPTM.xTempFault) THEN
 	iq_stPTM.q_RunDO:=iq_stPTM.i_xRunSW;
+	
 ELSE
 	iq_stPTM.i_xRunSW:=0;
 	iq_stPTM.q_RunDO:=FALSE;
-END_IF]]></ST>
+END_IF
+
+//Speed]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

@@ -15,13 +15,12 @@ q_xProtection : BOOL; //NC. If opened, pump will decelerate/not start
 
 q_xSpeedOK    : BOOL; //Momentary switch to program commanded speed
 q_iSpeedSet   : INT; //Requested speed (min. 100 RPM)
-q_iSpeedVolt  : INT; //Analog output, will translate to 0-5V
 
 tofSwitch : TOF := (PT:=T#1S); //Will open momentary switches
 
-//Readbacks - also has Accel/At speed/Decel/Fault inputs
+//Readbacks - also has Accel/At speed/Decel/Fault
 i_xRotate : BOOL; //If open, pump is rotating
-i_iCurSpeed : INT; //Analog in speed monitor, 0-5V (stays 0V up to 100 RPM)
+i_iCurSpeed : INT; //Speed monitor (min. 100 RPM)
 
 END_STRUCT
 END_TYPE
