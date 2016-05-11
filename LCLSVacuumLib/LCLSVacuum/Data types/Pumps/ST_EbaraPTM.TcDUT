@@ -18,9 +18,8 @@ q_iSpeedSet   : INT; //Requested speed (min. 100 RPM)
 
 tofSwitch : TOF := (PT:=T#1S); //Will open momentary switches
 
-//Readbacks - also has Accel/At speed/Decel/Fault
+//Readbacks - also has Accel/At speed/Decel/Fault/Cur Speed (min 100RPM)
 i_xRotate : BOOL; //If open, pump is rotating
-i_iCurSpeed : INT; //Speed monitor (min. 100 RPM)
 
 END_STRUCT
 END_TYPE
