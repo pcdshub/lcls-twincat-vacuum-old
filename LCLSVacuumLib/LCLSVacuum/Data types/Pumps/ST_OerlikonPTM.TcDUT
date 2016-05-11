@@ -10,8 +10,10 @@ Mag Drive S
 More?
 *)
 //Readbacks
-	xDecel	:	BOOL;
-	diPumpTemp:	DINT;
+	i_xDecel	:	BOOL;
+	i_diPumpTemp:	DINT;
+	i_diPwr   :   DINT;
+	i_diElecTemp: DINT;
 
 //Controls
 	q_xRemote : BOOL; (* Remote control enabled *)
