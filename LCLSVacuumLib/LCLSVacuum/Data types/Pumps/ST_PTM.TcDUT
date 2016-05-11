@@ -3,8 +3,12 @@
   <DUT Name="ST_PTM" Id="{800c0744-7104-483e-92b7-6bb5c958de58}">
     <Declaration><![CDATA[TYPE ST_PTM :
 STRUCT
-(* General PTM Structure *)
-(* Each PTM might have a serial control structure, but all will have a general supervisory control structure *)
+(* General PTM Structure
+Each PTM might have a serial control structure, but all will have a general supervisory control structure
+
+NOTE: This is an archetype, use an extension of this structure for a specific pump (or make one).
+
+*)
 
 (* Controls *)
 	i_xRunSW : BOOL;
