@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <DUT Name="ST_PfeifferPTM" Id="{5258f2ac-d965-4bdd-8c4b-be7691cce5d3}">
+    <Declaration><![CDATA[TYPE ST_PfeifferPTM EXTENDS ST_PTM :
+STRUCT
+(* Extension of the PTM archetype for Pfeiffer turbos 
+Applicable to: 
+HiPace series w/ onboard controllers
+More?
+*)
+//Readbacks
+	diPwr		:	DINT;
+	diElecTemp	:	DINT;
+	diBtmTemp:	DINT;
+	diBrngTemp:	DINT;
+	diMtrTemp:	DINT;
+	iErrorCode	:	INT; //might change these to enumeration someday
+	iWarningCode	:	INT;
+	
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -47,10 +47,6 @@
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
-    <Compile Include="Data types\Gauges\ST_Gauge.TcDUT">
-      <SubType>Code</SubType>
-      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
-    </Compile>
     <Compile Include="Data types\Gauges\ST_VG.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
@@ -65,6 +61,14 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="Data types\Pumps\ST_EbaraPTM.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="Data types\Pumps\ST_OerlikonPTM.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="Data types\Pumps\ST_PfeifferPTM.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
@@ -266,15 +270,13 @@
           <v n="Name">"{C70B7845-2722-4a9b-A0EA-88C877A4B36F}"</v>
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String">
-            <v>EnableMaxAuthenticationTrials</v>
-            <v>true</v>
             <v>MaxAuthenticationTrials</v>
             <v>3</v>
             <v>UserList</v>
             <o t="UserList">
               <a n="Users" cet="User">
                 <o>
-                  <v n="Id">{0fc5158c-9a4a-473a-84ed-a3cf9cf0aab3}</v>
+                  <v n="Id">{078a46fd-f4a5-475f-9d82-55ba7e02fb42}</v>
                   <v n="Name">"Owner"</v>
                   <v n="FullName">""</v>
                   <v n="Description">""</v>
@@ -290,24 +292,24 @@
             <o t="GroupList">
               <a n="Groups" cet="Group">
                 <o>
-                  <v n="Id">{4c15ad50-b420-4f28-8359-b11dc1ba5015}</v>
+                  <v n="Id">{2e13d09d-fac2-4e2c-bce4-675d3f6e0a78}</v>
                   <v n="Name">"Everyone"</v>
                   <v n="Description">""</v>
                   <v n="IsEveryoneGroup">true</v>
                   <v n="IsOwnerGroup">false</v>
                   <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>0fc5158c-9a4a-473a-84ed-a3cf9cf0aab3</v>
+                    <v>078a46fd-f4a5-475f-9d82-55ba7e02fb42</v>
                   </l>
                   <l n="GroupMembers" t="ArrayList" />
                 </o>
                 <o>
-                  <v n="Id">{7cc65de6-3257-4472-9b77-58057180b9d5}</v>
+                  <v n="Id">{b6aae062-1952-4f03-881a-8ca1d8c27488}</v>
                   <v n="Name">"Owner"</v>
                   <v n="Description">""</v>
                   <v n="IsEveryoneGroup">false</v>
                   <v n="IsOwnerGroup">true</v>
                   <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>0fc5158c-9a4a-473a-84ed-a3cf9cf0aab3</v>
+                    <v>078a46fd-f4a5-475f-9d82-55ba7e02fb42</v>
                   </l>
                   <l n="GroupMembers" t="ArrayList" />
                 </o>
@@ -316,10 +318,12 @@
             <v>UserAuthentication</v>
             <o t="UserAuthentication">
               <d n="UserToPasswordHash" t="Hashtable" ckt="Guid" cvt="String">
-                <v>0fc5158c-9a4a-473a-84ed-a3cf9cf0aab3</v>
+                <v>078a46fd-f4a5-475f-9d82-55ba7e02fb42</v>
                 <v>d41d8cd98f00b204e9800998ecf8427e</v>
               </d>
             </o>
+            <v>EnableMaxAuthenticationTrials</v>
+            <v>true</v>
           </d>
         </o>
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>

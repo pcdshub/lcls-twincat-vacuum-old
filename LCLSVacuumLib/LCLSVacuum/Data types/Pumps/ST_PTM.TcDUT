@@ -14,8 +14,8 @@ STRUCT
 	xExtRunOk	:	BOOL; (* also a control *)
 	xAtSpd	:	BOOL;
 
-	diSpd		:	DINT;
-	diMtrTemp:	DINT; (* considered to be the pump temp for oerlikons *)
+	i_iCurSpd		:	DINT;
+	
 	xCommTimeout	:	BOOL := TRUE;  (* Initialized true since we haven't talked to pump yet *)
 	xAccel	:	BOOL;
 (* Alarm Outputs *)
@@ -27,17 +27,6 @@ STRUCT
 	xActive	:	BOOL; // this bit is set to add the pump to the system
 	iPumpGrp 	:	INT; // all members of a pump group start at the same time
 
-(* Pfeiffer only? *)
-	diPwr		:	DINT;
-	diElecTemp	:	DINT;
-	diBtmTemp:	DINT;
-	diBrngTemp:	DINT;
-	iErrorCode	:	INT; //might change these to enumeration someday
-	iWarningCode	:	INT;
-	
-(* Oerlikon only? *)
-	xDecel	:	BOOL;
-	q_xRemote : BOOL; (* Remote control enabled *)
 
 
 END_STRUCT
