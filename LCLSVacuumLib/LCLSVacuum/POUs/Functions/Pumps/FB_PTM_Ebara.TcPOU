@@ -30,22 +30,22 @@ TOF_RESET.IN := iq_stPTM.q_xReset;
 TOF_RESET();
 iq_stPTM.q_xReset:=TOF_RESET.Q;
 
+
 (* Basic pump supervisory section *)
+(* We shouldn't need extra code to reset errors - users can control q_xReset themselves.*)
 	//Handle faults
-IF iq_stPTM.xFault OR NOT iq_stPTM.xExtRunOK THEN
+IF iq_stPTM.xFault THEN
 	iq_stPTM.q_xProtection:=FALSE;
 	iq_stPTM.q_RunDO:=FALSE;
-	//One section for when pump is running and is told to stop...	
-ELSIF iq_stPTM.q_RunDO AND NOT iq_stPTM.i_xRunSW THEN
+	//One section for when pump is running and is told to stop...or ext. interlock goes out	
+ELSIF iq_stPTM.q_RunDO AND (NOT iq_stPTM.i_xRunSW OR NOT iq_stPTM.xExtRunOk) THEN
 		iq_stPTM.q_RunDO:=FALSE;
 		iq_stPTM.q_xStop:=TRUE;
-//And one for when we need to start the pump...
-ELSIF iq_stPTM.i_xRunSW THEN
+	//And one for when we need to start the pump...
+ELSIF NOT iq_stPTM.q_RunDO AND iq_stPTM.i_xRunSW AND iq_stPTM.xExtRunOk THEN
 	iq_stPTM.q_RunDO:=TRUE;
 	iq_stPTM.q_xStart:=TRUE;
-	
-//Code to reset failures
-END_IF
+END_IF 
 
 ]]></ST>
     </Implementation>

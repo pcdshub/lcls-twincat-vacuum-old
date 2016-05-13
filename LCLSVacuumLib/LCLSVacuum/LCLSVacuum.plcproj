@@ -27,7 +27,7 @@
 1.5.0 added error and warning codes to ptm structure for pfeiffers
 1.5.1 seamless override open/close on vgc during transition from override to normal mode.
 1.7.0 ST_PTM now uses inheritence model.  Started implementing Ebara support.</Description>
-    <ProjectVersion>1.7.1</ProjectVersion>
+    <ProjectVersion>1.7.2</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Data types" />
@@ -232,6 +232,19 @@
     <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
+        <v>{FE9F63D4-9E34-43ce-9322-D46747A00F33}</v>
+        <o>
+          <v n="Name">"{FE9F63D4-9E34-43ce-9322-D46747A00F33}"</v>
+          <d n="SubKeys" t="Hashtable" />
+          <d n="Values" t="Hashtable" ckt="String">
+            <v>SourceDownloadContent</v>
+            <v>1</v>
+            <v>SourceDownloadContent2</v>
+            <a cet="Guid">
+              <v>b0b53f83-af78-49aa-8133-0063f476bd7c</v>
+            </a>
+          </d>
+        </o>
         <v>{8F99A816-E488-41E4-9FA3-846536012284}</v>
         <o>
           <v n="Name">"{8F99A816-E488-41E4-9FA3-846536012284}"</v>
@@ -349,6 +362,7 @@
     <Type n="Group">{daecd4be-1e2b-4335-a125-4a1ac83ea49f}</Type>
     <Type n="GroupList">{bf4dffda-f055-446d-9d7a-5f126720896b}</Type>
     <Type n="Guid">System.Guid</Type>
+    <Type n="Guid[]">System.Guid[]</Type>
     <Type n="Hashtable">System.Collections.Hashtable</Type>
     <Type n="Int32">System.Int32</Type>
     <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
