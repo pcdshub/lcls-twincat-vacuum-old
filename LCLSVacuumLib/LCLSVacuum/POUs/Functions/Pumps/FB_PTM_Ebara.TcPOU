@@ -20,7 +20,7 @@ END_VAR]]></Declaration>
 TOF_START.IN := iq_stPTM.q_xStart;
 TOF_START();
 iq_stPTM.q_xStart:=TOF_START.Q;
-TOF_SPEED.IN := iq_stPTM.q_xSpeedSetDO;
+TOF_SPEED.IN := iq_stPTM.i_xSpeedSetSW;
 TOF_SPEED();
 iq_stPTM.q_xSpeedSetDO:=TOF_SPEED.Q;
 TOF_STOP.IN  := iq_stPTM.q_xStop;
@@ -45,9 +45,7 @@ ELSIF iq_stPTM.q_RunDO AND (NOT iq_stPTM.i_xRunSW OR NOT iq_stPTM.xExtRunOk) THE
 ELSIF NOT iq_stPTM.q_RunDO AND iq_stPTM.i_xRunSW AND iq_stPTM.xExtRunOk THEN
 	iq_stPTM.q_RunDO:=TRUE;
 	iq_stPTM.q_xStart:=TRUE;
-END_IF 
-
-]]></ST>
+END_IF ]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
