@@ -10,23 +10,44 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	TOF_SPEED : TOF := (PT:=T#1S); //Will open momentary switches
+	TOF_START: TOF := (PT:=T#1S);
+	TOF_STOP: TOF := (PT:=T#1S);
+	TOF_RESET: TOF := (PT:=T#1S);
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* Copied from FB_PFEIFFER_PTM - modify as appropriate for Ebara ETC series controllers *)
-(* Basic pump supervisory section *)
-IF iq_stPTM.xExtRunOk AND iq_stPTM.q_xProtection AND NOT iq_stPTM.xFault THEN
-	iq_stPTM.q_RunDO:=iq_stPTM.i_xRunSW;
-//Start code using RunDO and the TOF
-//Stop code using RunDO and the TOF
+      <ST><![CDATA[(* Switch processing *)
+TOF_START.IN := iq_stPTM.q_xStart;
+TOF_START();
+iq_stPTM.q_xStart:=TOF_START.Q;
+TOF_SPEED.IN := iq_stPTM.q_xSpeedSetDO;
+TOF_SPEED();
+iq_stPTM.q_xSpeedSetDO:=TOF_SPEED.Q;
+TOF_STOP.IN  := iq_stPTM.q_xStop;
+TOF_STOP();
+iq_stPTM.q_xStop:=TOF_STOP.Q;
+TOF_RESET.IN := iq_stPTM.q_xReset;
+TOF_RESET();
+iq_stPTM.q_xReset:=TOF_RESET.Q;
 
-	
-ELSE
-	iq_stPTM.i_xRunSW:=0;
+(* Basic pump supervisory section *)
+	//Handle faults
+IF iq_stPTM.xFault OR NOT iq_stPTM.xExtRunOK THEN
+	iq_stPTM.q_xProtection:=FALSE;
 	iq_stPTM.q_RunDO:=FALSE;
+	//One section for when pump is running and is told to stop...	
+ELSIF iq_stPTM.q_RunDO AND NOT iq_stPTM.i_xRunSW THEN
+		iq_stPTM.q_RunDO:=FALSE;
+		iq_stPTM.q_xStop:=TRUE;
+//And one for when we need to start the pump...
+ELSIF iq_stPTM.i_xRunSW THEN
+	iq_stPTM.q_RunDO:=TRUE;
+	iq_stPTM.q_xStart:=TRUE;
+	
 //Code to reset failures
 END_IF
 
-//Speed]]></ST>
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

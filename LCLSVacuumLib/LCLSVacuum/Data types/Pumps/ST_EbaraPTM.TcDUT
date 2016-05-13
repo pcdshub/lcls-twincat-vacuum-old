@@ -13,10 +13,9 @@ q_xStop  : BOOL; //Momentary stop switch
 q_xReset : BOOL; //Momentary reset switch - resets protection functions
 q_xProtection : BOOL; //NC. If opened, pump will decelerate/not start
 
-q_xSpeedOK    : BOOL; //Momentary switch to program commanded speed
+i_xSpeedSetSW    : BOOL; //Request to set speed
+q_xSpeedSetDO    : BOOL; //Momentary switch to program commanded speed
 q_iSpeedSet   : INT; //Requested speed (min. 100 RPM)
-
-tofSwitch : TOF := (PT:=T#1S); //Will open momentary switches
 
 //Readbacks - also has Accel/At speed/Decel/Fault/Cur Speed (min 100RPM)
 i_xRotate : BOOL; //If open, pump is rotating
