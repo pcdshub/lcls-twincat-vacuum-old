@@ -14,12 +14,16 @@ END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* Copied from FB_PFEIFFER_PTM - modify as appropriate for Ebara ETC series controllers *)
 (* Basic pump supervisory section *)
-IF iq_stPTM.xExtRunOk AND iq_stPTM.q_xProtection AND NOT (iq_stPTM.xFault OR iq_stPTM.xTempFault) THEN
+IF iq_stPTM.xExtRunOk AND iq_stPTM.q_xProtection AND NOT iq_stPTM.xFault THEN
 	iq_stPTM.q_RunDO:=iq_stPTM.i_xRunSW;
+//Start code using RunDO and the TOF
+//Stop code using RunDO and the TOF
+
 	
 ELSE
 	iq_stPTM.i_xRunSW:=0;
 	iq_stPTM.q_RunDO:=FALSE;
+//Code to reset failures
 END_IF
 
 //Speed]]></ST>

@@ -20,6 +20,7 @@ tofSwitch : TOF := (PT:=T#1S); //Will open momentary switches
 
 //Readbacks - also has Accel/At speed/Decel/Fault/Cur Speed (min 100RPM)
 i_xRotate : BOOL; //If open, pump is rotating
+i_xDecel  : BOOL; //If closed, brake engaged (pump decelerating)
 
 END_STRUCT
 END_TYPE

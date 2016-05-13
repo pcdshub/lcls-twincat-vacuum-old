@@ -25,7 +25,7 @@ xRunOk := iq_stPtm.xExtRunOk AND NOT iq_stPtm.xFault;
 done for versions of the interface cable where
 at speed gets its power from from the beckhoff term*)
 IF iq_stPtm.xFault THEN
-	iq_stPtm.xAtSpd := FALSE;
+	iq_stPtm.i_xAtSpd := FALSE;
 END_IF
 
 (* Basic pump supervisory section *)

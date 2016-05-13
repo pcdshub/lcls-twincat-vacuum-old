@@ -3,7 +3,7 @@
   <POU Name="FB_PFEIFFER_PTM" Id="{f61aaad0-85b4-4244-b8a7-58d7d76a340e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_PFEIFFER_PTM
 VAR_IN_OUT
-	iq_stPTM : ST_PTM;
+	iq_stPTM : ST_PfeifferPTM;
 END_VAR
 VAR_INPUT
 END_VAR
@@ -13,7 +13,7 @@ VAR
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* Basic pump supervisory section *)
-IF iq_stPTM.xExtRunOk AND NOT (iq_stPTM.xFault OR iq_stPTM.xTempFault) THEN
+IF iq_stPTM.xExtRunOk AND NOT (iq_stPTM.xFault OR iq_stPTM.i_xTempFault) THEN
 	iq_stPTM.q_RunDO:=iq_stPTM.i_xRunSW;
 ELSE
 	iq_stPTM.i_xRunSW:=0;

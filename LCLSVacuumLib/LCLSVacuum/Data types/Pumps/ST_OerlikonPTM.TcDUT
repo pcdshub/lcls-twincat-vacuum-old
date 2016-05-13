@@ -12,8 +12,9 @@ More?
 //Readbacks
 	i_xDecel	:	BOOL;
 	i_diPumpTemp:	DINT;
-	i_diPwr   :   DINT;
-	i_diElecTemp: DINT;
+	i_diPwr   	:   DINT;
+	i_diElecTemp:	DINT;
+	i_xTempFault:	BOOL;
 
 //Controls
 	q_xRemote : BOOL; (* Remote control enabled *)
