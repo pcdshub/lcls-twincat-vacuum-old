@@ -15,7 +15,7 @@ q_xProtection : BOOL; //NC. If opened, pump will decelerate/not start
 
 i_xSpeedSetSW    : BOOL; //Request to set speed
 q_xSpeedSetDO    : BOOL; //Momentary switch to program commanded speed
-q_iSpeedSet   : INT; //Requested speed (min. 100 RPM)
+q_iSpeedSet   : DINT; //Requested speed (min. 100 RPM)
 
 //Readbacks - also has Accel/At speed/Decel/Fault/Cur Speed (min 100RPM)
 i_xRotate : BOOL; //If open, pump is rotating
