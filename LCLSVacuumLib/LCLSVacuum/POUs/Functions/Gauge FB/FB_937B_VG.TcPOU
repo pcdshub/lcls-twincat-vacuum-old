@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
-  <POU Name="FB_937_VG" Id="{0483146b-b0e8-4c2d-b90b-7317630633a1}">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_937_VG
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_937B_VG" Id="{8a56f7a2-f285-4648-be2d-40acd79b269f}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_937B_VG
 VAR_IN_OUT
 	VG : ST_VG;
 END_VAR
@@ -15,13 +15,12 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* 937A Logarithmic Output Conversion *)
-(* 7-15-2015 *)
-(* This function will read the pressure from any gauge. 
-It does not provide ion gauge funtions. use FB_VG for that *)
+      <ST><![CDATA[(* 937B Logarithmic Output Conversion *)
+(* 5-20-2016, Alex Wallace and Scott Stubbs *)
+(* This function will read the pressure from any gauge on a 937B. *)
 
 rV := 10*INT_TO_REAL(VG.iPRESS_R)/32767;
-VG.rPRESS := EXPT(10,((rV/0.6)-12));
+VG.rPRESS := LREAL_TO_REAL(EXPT(10,rV/0.6-7.2));
 
 
 (* Ion Gauge Protection Functions *)
@@ -42,7 +41,7 @@ ELSE
 END_IF
 
 
-(* Pressure gauge OK checks *)
+(* Pressure gauge OK checks *) //TODO: Check these for 937B. From manual it appears HIGH/LO no longer exist
 VG.xPRESS_OK := (rV <=9.6 ) AND (rV>=0.6); //legacy
 
 IF (rV <=9.6 ) AND (rV>=0.6) THEN
@@ -66,6 +65,5 @@ VG.xAT_VAC := (VG.wState =1) AND VG.rPRESS < VG.rVAC_SP;
 
 ]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>
