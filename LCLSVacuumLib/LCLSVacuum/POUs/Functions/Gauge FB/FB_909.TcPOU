@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
-  <POU Name="FB_909" Id="{6704ae1a-1a21-4980-b06c-d89623cfcf41}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_909" Id="{6704ae1a-1a21-4980-b06c-d89623cfcf41}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_909
 VAR_IN_OUT
 
@@ -33,7 +33,7 @@ P = 10^(V/0.6 -12)
 
 V := 10*INT_TO_REAL(IG.iPRESS_R)/32767;
 
-IG.rPRESS := EXPT(10,(V-10));
+IG.rPRESS := LREAL_TO_REAL(EXPT(10,(V-10)));
 
 
 (* Protection Functions *)
@@ -61,6 +61,5 @@ IG.xPRESS_OK := ((IG.rPRESS > MinPressure) AND IG.xHV_DIS) OR IG.xBAKEOUT;
 (* Setpoint evaluation *)
 IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS<IG.rVAC_SP)) OR IG.xBAKEOUT;]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>

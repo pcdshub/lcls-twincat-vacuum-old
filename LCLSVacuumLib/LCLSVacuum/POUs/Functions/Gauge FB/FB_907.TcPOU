@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.24">
-  <POU Name="FB_907" Id="{d3610ce0-a283-49d0-a9de-88b9371d46db}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_907" Id="{d3610ce0-a283-49d0-a9de-88b9371d46db}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_907
 VAR_IN_OUT
 
@@ -38,11 +38,11 @@ V := 10*INT_TO_REAL(PG.iPRESS_R)/32767;
 
 IF V > 0.38 AND V < 4.85 THEN
 
-PG.rPRESS := EXPT((A/(B/(EXPT(V,2)-EXPT(V_0,2)-1))), 1/C);
+PG.rPRESS := LREAL_TO_REAL(EXPT((A/(B/(EXPT(V,2)-EXPT(V_0,2)-1))), 1/C));
 
 ELSIF V > 4.85 AND V < 5.18 THEN
 
-PG.rPRESS := SQRT( ( (V-D)+SQRT(EXPT((V-D),2)-4*F*G ))/(2*F) );
+PG.rPRESS := LREAL_TO_REAL(SQRT( ( (V-D)+SQRT(EXPT((V-D),2)-4*F*G ))/(2*F) ));
 
 ELSIF V> 5.18 THEN
 
@@ -61,6 +61,5 @@ PG.xPRESS_OK := (PG.rPRESS > MinPressure);
 (* Setpoint evaluation *)
 PG.xAT_VAC := PG.xPRESS_OK AND (PG.rPRESS<PG.rVAC_SP);]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>
