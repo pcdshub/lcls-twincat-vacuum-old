@@ -28,7 +28,7 @@
 1.5.1 seamless override open/close on vgc during transition from override to normal mode.
 1.7.0 ST_PTM now uses inheritence model.  Started implementing Ebara support.
 1.8.0 Moved to seperate functions for 937A and 937B controllers.</Description>
-    <ProjectVersion>1.8.0</ProjectVersion>
+    <ProjectVersion>1.8.1</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Data types" />
@@ -236,12 +236,12 @@
           <v n="Name">"{FE9F63D4-9E34-43ce-9322-D46747A00F33}"</v>
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String">
+            <v>SourceDownloadContent</v>
+            <v>1</v>
             <v>SourceDownloadContent2</v>
             <a cet="Guid">
               <v>b0b53f83-af78-49aa-8133-0063f476bd7c</v>
             </a>
-            <v>SourceDownloadContent</v>
-            <v>1</v>
           </d>
         </o>
         <v>{8F99A816-E488-41E4-9FA3-846536012284}</v>
@@ -283,15 +283,13 @@
           <v n="Name">"{C70B7845-2722-4a9b-A0EA-88C877A4B36F}"</v>
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String">
-            <v>EnableMaxAuthenticationTrials</v>
-            <v>true</v>
             <v>MaxAuthenticationTrials</v>
             <v>3</v>
             <v>UserList</v>
             <o t="UserList">
               <a n="Users" cet="User">
                 <o>
-                  <v n="Id">{0c0a2a26-b052-4040-b42f-515a484f4bc3}</v>
+                  <v n="Id">{61bf8291-a368-4231-bb7b-12bb3bc55054}</v>
                   <v n="Name">"Owner"</v>
                   <v n="FullName">""</v>
                   <v n="Description">""</v>
@@ -307,24 +305,24 @@
             <o t="GroupList">
               <a n="Groups" cet="Group">
                 <o>
-                  <v n="Id">{99f574a9-d27a-4043-b13f-91be825ee76c}</v>
-                  <v n="Name">"Owner"</v>
-                  <v n="Description">""</v>
-                  <v n="IsEveryoneGroup">false</v>
-                  <v n="IsOwnerGroup">true</v>
-                  <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>0c0a2a26-b052-4040-b42f-515a484f4bc3</v>
-                  </l>
-                  <l n="GroupMembers" t="ArrayList" />
-                </o>
-                <o>
-                  <v n="Id">{9ad9143d-f881-4b0f-9e63-eaa77330d067}</v>
+                  <v n="Id">{489a8de2-f8bb-46e1-9250-91c33975d0b4}</v>
                   <v n="Name">"Everyone"</v>
                   <v n="Description">""</v>
                   <v n="IsEveryoneGroup">true</v>
                   <v n="IsOwnerGroup">false</v>
                   <l n="UserMembers" t="ArrayList" cet="Guid">
-                    <v>0c0a2a26-b052-4040-b42f-515a484f4bc3</v>
+                    <v>61bf8291-a368-4231-bb7b-12bb3bc55054</v>
+                  </l>
+                  <l n="GroupMembers" t="ArrayList" />
+                </o>
+                <o>
+                  <v n="Id">{fb0efc0e-8e44-48fc-81d6-ff2c2c3bcc10}</v>
+                  <v n="Name">"Owner"</v>
+                  <v n="Description">""</v>
+                  <v n="IsEveryoneGroup">false</v>
+                  <v n="IsOwnerGroup">true</v>
+                  <l n="UserMembers" t="ArrayList" cet="Guid">
+                    <v>61bf8291-a368-4231-bb7b-12bb3bc55054</v>
                   </l>
                   <l n="GroupMembers" t="ArrayList" />
                 </o>
@@ -333,10 +331,12 @@
             <v>UserAuthentication</v>
             <o t="UserAuthentication">
               <d n="UserToPasswordHash" t="Hashtable" ckt="Guid" cvt="String">
-                <v>0c0a2a26-b052-4040-b42f-515a484f4bc3</v>
+                <v>61bf8291-a368-4231-bb7b-12bb3bc55054</v>
                 <v>d41d8cd98f00b204e9800998ecf8427e</v>
               </d>
             </o>
+            <v>EnableMaxAuthenticationTrials</v>
+            <v>true</v>
           </d>
         </o>
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>

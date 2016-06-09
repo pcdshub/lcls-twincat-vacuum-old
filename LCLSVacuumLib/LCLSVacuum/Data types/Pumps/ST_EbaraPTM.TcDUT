@@ -8,9 +8,12 @@ Applicable to:
 ETC series
 *)
 //Controls
-q_xStart : BOOL; //Momentary start switch
-q_xStop  : BOOL; //Momentary stop switch
-q_xReset : BOOL; //Momentary reset switch - resets protection functions
+i_xStartSW : BOOL; //Momentary start switch
+i_xStopSW  : BOOL; //Momentary stop switch
+i_xResetSW : BOOL; //Momentary reset switch - resets protection functions
+q_xStart   : BOOL;
+q_xStop    : BOOL;
+q_xReset   : BOOL;
 q_xProtection : BOOL; //NC. If opened, pump will decelerate/not start
 
 i_xSpeedSetSW    : BOOL; //Request to set speed

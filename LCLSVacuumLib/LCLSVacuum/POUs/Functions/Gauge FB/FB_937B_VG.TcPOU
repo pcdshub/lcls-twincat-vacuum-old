@@ -42,14 +42,10 @@ END_IF
 
 
 (* Pressure gauge OK checks *) //TODO: Check these for 937B. From manual it appears HIGH/LO no longer exist
-VG.xPRESS_OK := (rV <=9.6 ) AND (rV>=0.6); //legacy
+VG.xPRESS_OK := (rV <=9.6 ) AND (rV>=0.6);
 
 IF (rV <=9.6 ) AND (rV>=0.6) THEN
 	VG.wState := 1; // normal
-ELSIF rV >= 0.18 AND rV <= 0.22 THEN
-	VG.wState := 2; //LO
-ELSIF rV >= 9.7 AND rV<= 9.9 THEN
-	VG.wState := 3; //HIGH
 ELSIF rV > 9.9 THEN
 	VG.wState := 4; //other fault
 ELSIF rV < 0.18 THEN
@@ -60,8 +56,6 @@ END_IF
 
 (* Setpoint evaluation *)
 VG.xAT_VAC := (VG.wState =1) AND VG.rPRESS < VG.rVAC_SP;
-
-
 
 ]]></ST>
     </Implementation>
