@@ -38,12 +38,14 @@ sure the pump was exposed to the full system load before starting the booster.
 *)
 
 //Mapping
-stPump.xErr := stPump.i_xAlarm;
-stPump.xWrn := stPump.i_xWarning;
+
+// These are normally closed inputs
+stPump.xErr := NOT stPump.i_xAlarm;
+stPump.xWrn := NOT stPump.i_xWarning;
 
 
 //Interlock and error/warning
-stPump.xIlk :=  stPump.xExtIlk AND NOT (stpump.i_xAlarm OR stpump.i_xWarning);
+stPump.xIlk :=  stPump.xExtIlk AND NOT (stpump.xErr OR stpump.xWrn);
 
 //Start/ Stop the pump
 IF stpump.xIlk THEN
