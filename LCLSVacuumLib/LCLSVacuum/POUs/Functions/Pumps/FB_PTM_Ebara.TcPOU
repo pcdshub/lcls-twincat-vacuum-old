@@ -33,8 +33,15 @@ iq_stPTM.q_xReset:=TOF_RESET.Q;
 
 (* Basic pump supervisory section *)
 (* We shouldn't need extra code to reset errors - users can control q_xReset themselves *)
+	//If override mode, ignore everything else 
+IF iq_stPTM.i_xOverride THEN
+	iq_stPTM.q_xProtection:=TRUE;
+	IF NOT iq_stPTM.q_RunDO AND iq_stPTM.i_xRunSW THEN
+	iq_stPTM.q_RunDO:=TRUE;
+	iq_stPTM.q_xStart:=TRUE;
+	END_IF
 	//Handle faults
-IF iq_stPTM.xFault THEN
+ELSIF iq_stPTM.xFault THEN
 	iq_stPTM.q_xProtection:=FALSE;
 	iq_stPTM.q_RunDO:=FALSE;
 	//One section for when pump is running and is told to stop...or ext. interlock goes out	
@@ -42,7 +49,7 @@ ELSIF iq_stPTM.q_RunDO AND (NOT iq_stPTM.i_xRunSW OR NOT iq_stPTM.xExtRunOk) THE
 	    iq_stPTM.q_xProtection:=TRUE;
 		iq_stPTM.q_RunDO:=FALSE;
 		iq_stPTM.q_xStop:=TRUE;
-	//And one for when we need to start the pump...
+	//And one for when we need to start the pump normally...
 ELSIF NOT iq_stPTM.q_RunDO AND iq_stPTM.i_xRunSW AND iq_stPTM.xExtRunOk THEN
 	iq_stPTM.q_xProtection:=TRUE;
 	iq_stPTM.q_RunDO:=TRUE;

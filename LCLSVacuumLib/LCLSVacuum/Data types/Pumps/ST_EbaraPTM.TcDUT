@@ -17,6 +17,8 @@ i_xSpeedSetSW    : BOOL; //Request to set speed
 q_xSpeedSetDO    : BOOL; //Momentary switch to program commanded speed
 q_iSpeedSet   : DINT; //Requested speed (min. 100 RPM)
 
+i_xOverride   : BOOL; //Override mode - ignores interlocks
+
 //Readbacks - also has Accel/At speed/Decel/Fault/Cur Speed (min 100RPM)
 i_xRotate : BOOL; //If open, pump is rotating
 i_xDecel  : BOOL; //If closed, brake engaged (pump decelerating)
