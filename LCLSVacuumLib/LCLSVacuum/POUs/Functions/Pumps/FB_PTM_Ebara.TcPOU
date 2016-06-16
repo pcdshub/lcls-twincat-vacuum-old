@@ -6,6 +6,8 @@ VAR_IN_OUT
 	iq_stPTM : ST_EbaraPTM;
 END_VAR
 VAR_INPUT
+	i_iADCBits : UINT := 12;
+	i_iRawSpeed: INT;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -54,7 +56,11 @@ ELSIF NOT iq_stPTM.q_RunDO AND iq_stPTM.i_xRunSW AND iq_stPTM.xExtRunOk THEN
 	iq_stPTM.q_xProtection:=TRUE;
 	iq_stPTM.q_RunDO:=TRUE;
 	iq_stPTM.q_xStart:=TRUE;
-END_IF ]]></ST>
+END_IF 
+
+(* Pump speed calculation *)
+iq_stPTM.i_iCurSpd := LREAL_TO_DINT(INT_TO_LREAL(i_iRawSpeed)/(EXPT(2,i_iADCBits)-1)*67000);
+//V (AI/(2^{# ADC bits} -1 ) * 10) * (33600 {Max RPM} - 100) / 5]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
