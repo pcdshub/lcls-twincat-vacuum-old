@@ -2,7 +2,7 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
   <POU Name="FB_GCM" Id="{d03d0435-a8a4-4ab2-9d39-a304a183952d}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_GCM
-VAR_INPUT
+VAR_IN_OUT
 	stVG	:	ST_VG;
 END_VAR
 VAR_OUTPUT
