@@ -59,9 +59,9 @@ ELSIF NOT iq_stPTM.q_RunDO AND iq_stPTM.i_xRunSW AND iq_stPTM.xExtRunOk THEN
 END_IF 
 
 (* Pump speed calculation *)
-IF iq_stPTM.i_iRawSpeed * 10 / (EXPT(2,i_iADCBits)-1) >= 0.2 THEN //Speed reading appears to zero at ~0.16V
-iq_stPTM.i_iCurSpd := LREAL_TO_DINT(INT_TO_LREAL(iq_stPTM.i_iRawSpeed)/(EXPT(2,i_iADCBits)-1)*67000);
-//V (AI/(2^{# ADC bits} -1 ) * 10) * (33600 {Max RPM} - 100) / 5
+IF iq_stPTM.i_iRawSpeed / (EXPT(2,i_iADCBits)-1) * 10 >= 0.2 THEN //Speed reading appears to zero at ~0.16V
+iq_stPTM.i_iCurSpd := LREAL_TO_DINT(iq_stPTM.i_iRawSpeed/(EXPT(2,i_iADCBits)-1)*67000);
+//V (AI/(2^{# ADC bits} -1 ) * 10[ADC 10V scaling]) * (33600 [Max RPM] - 100) / 5
 ELSE
 	iq_stPTM.i_iCurSpd := 0;
 END_IF]]></ST>
