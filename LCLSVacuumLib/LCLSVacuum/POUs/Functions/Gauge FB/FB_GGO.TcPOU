@@ -63,19 +63,19 @@ IF iq_astGauges[i_iIndex].iTYPE = 1 OR iq_astGauges[i_iIndex].iTYPE = 3 THEN
 
 	stIG := iq_astGauges[i_iIndex];
 	rV := 10*INT_TO_REAL(stIG.iPRESS_R)/32767;
-	stIG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-11));
 	
-
+	(* Protection Gauge *)
 	IF WORD_TO_INT(stIG.wPG) <= g_iSizeOfGGOArray THEN
 	(* Check pressure gauge type before assignment *)
 	(* Add high pressure gauge types here *)
-	IF iq_astGauges[stIG.wPG].iTYPE = 0 OR //722B
-	iq_astGauges[stIG.wPG].iTYPE = 2 OR //907
-	iq_astGauges[stIG.wPG].iTYPE = 4 THEN //925
-	stPG := iq_astGauges[stIG.wPG];
-	END_IF
+		IF iq_astGauges[stIG.wPG].iTYPE = 0 OR //722B
+		iq_astGauges[stIG.wPG].iTYPE = 2 OR //907
+		iq_astGauges[stIG.wPG].iTYPE = 4 THEN //925
+			stPG := iq_astGauges[stIG.wPG];
+		END_IF
 	
-	ELSE 
+	ELSE
+		//Default to allow the IG to turn on
 		stPG.rPRESS := 1E-3;
 		stPG.xPRESS_OK := TRUE;
 	END_IF
@@ -100,6 +100,7 @@ IF iq_astGauges[i_iIndex].iTYPE = 1 OR iq_astGauges[i_iIndex].iTYPE = 3 THEN
 
 (* Pressure OK check *)
 	IF  stIG.iTYPE = 1 THEN
+		stIG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-11));
 		stIG.xPRESS_OK := ((stIG.rPRESS > rMinPressure_903) AND stIG.xHV_DIS AND stIG.xTurnOnTime) OR stIG.xBAKEOUT;
 		tonGaugeTurnOnTmr(IN := stIG.xHV_DIS, PT := T#10s, Q => stIG.xTurnOnTime);
 
@@ -108,6 +109,7 @@ IF iq_astGauges[i_iIndex].iTYPE = 1 OR iq_astGauges[i_iIndex].iTYPE = 3 THEN
 
 (* Pressure OK check *)
 	ELSIF stIG.iTYPE = 3 THEN
+		stIG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-10));
 		stIG.xPRESS_OK := (stIG.rPRESS > rMinPressure_909) AND stIG.xHV_DIS OR stIG.xBAKEOUT;
 
 		(* Setpoint evaluation *)
@@ -148,7 +150,7 @@ ELSE
 
 	ELSIF stPG.iTYPE = 2 THEN
 
-		rV := 10*INT_TO_REAL(stPG.iPRESS_R)/32768;
+		rV := 10*INT_TO_REAL(stPG.iPRESS_R)/32767;
 
 		IF rV > 0.38 AND rV < 4.85 THEN
 			stPG.rPRESS := LREAL_TO_REAL(EXPT((rA/((rB/(EXPT(rV,2)-EXPT(rV_0,2))-1))), 1/rC));
