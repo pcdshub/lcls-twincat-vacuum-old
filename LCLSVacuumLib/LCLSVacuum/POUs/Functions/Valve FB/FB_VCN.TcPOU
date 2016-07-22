@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_VCN" Id="{b91718c1-ee94-477e-afdc-a1b96008e0fd}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_VCN
+VAR_INPUT
+	i_xExtIlk	:	BOOL; //External Interlock
+	i_ReqPos	:	BOOL; //Requested position
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR_IN_OUT
+	iq_stVCN	:	ST_VCN; //Needle valve structure
+END_VAR
+VAR
+	// Internal Raw Position
+	iRawPosition: INT := 0;
+	// Requested voltage
+	rReqVoltage: REAL := 0;
+END_VAR
+VAR CONSTANT
+	iOpenRawPos	:	INT := 29500;
+	iCloseRawPos	:	INT	:= 0;
+	rOpenVoltage	:	REAL := 9.1; // From the EVR 116 manual
+	rCloseVoltage	:	REAL := 0.4;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Needle valve control FB
+A. Wallace 2016-7-21
+
+This FB should be used as a low level control block.
+
+It provides:
+
+Valve position ceiling
+Interlock
+Scaling
+
+It is not intended for:
+Closed-loop control
+
+It could be used for:
+Valve position/flow linearization
+
+Note: Raw position calc is based on 0.5 to 9V span, 32767 bits
+*)
+
+//Raw position calc
+iq_stVCN.rReqPosition := LIMIT(0, iq_stVCN.rReqPosition, 100);
+rRegVoltage := iq_stVCN.rReqPosition * (10-rOpenVoltage)/100 + rCloseVoltage;
+rReqVoltage := LIMIT(rCloseVoltage, rReqVoltage, rOpenVoltage); //The requested voltage should remain within this range
+iRawPosition := REAL_TO_INT( 32767/10 * rReqVoltage);
+
+// Interlocking
+iq_stVCN.xIlk := i_xExtIlk;
+
+IF iq_stVCN.xIlk THEN
+	IF iq_stVCN.xOpenSw THEN
+		iq_stVCN.q_iRawPosition := iOpenRawPos;
+	END_IF
+	iq_stvcn.q_iRawPosition := iRawPosition;
+ELSE
+	iq_stvcn.q_iRawPosition := 0;
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
