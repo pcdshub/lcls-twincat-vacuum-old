@@ -47,7 +47,7 @@ Note: Raw position calc is based on 0.5 to 9V span, 32767 bits
 
 //Raw position calc
 iq_stVCN.rReqPosition := LIMIT(0, iq_stVCN.rReqPosition, 100);
-rRegVoltage := iq_stVCN.rReqPosition * (10-rOpenVoltage)/100 + rCloseVoltage;
+rReqVoltage := iq_stVCN.rReqPosition * (10-rOpenVoltage)/100 + rCloseVoltage;
 rReqVoltage := LIMIT(rCloseVoltage, rReqVoltage, rOpenVoltage); //The requested voltage should remain within this range
 iRawPosition := REAL_TO_INT( 32767/10 * rReqVoltage);
 
