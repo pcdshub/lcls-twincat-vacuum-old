@@ -14,10 +14,11 @@ STRUCT
 	
 	//Softvariables
 	xIlk	:	BOOL := FALSE; // Interlock Bit
-	iUpperLimit	:	INT;	//Upper limit on valve open
+	rUpperLimit	:	REAL;	//Upper limit on valve open
 	rReqPosition	:	REAL; //Requested position (0.0-100.0%)
-	xOpenSw	:	BOOL; //Open the valve
-	xCloseSw	:	BOOL; //Close the valve
+	eValveControl	:	E_VCN := CloseValve; // Valve control state
+
+	ftIlk	:	F_TRIG;	
 
 END_STRUCT
 END_TYPE
