@@ -8,13 +8,15 @@ Applicable to:
 ETC series
 *)
 //Controls
-q_xStart   : BOOL; //Momentary start switch
-q_xStop    : BOOL; //Momentary stop switch
-q_xReset   : BOOL; //Momentary reset switch - resets protection functions
+i_xStart   : BOOL; //Momentary start switch
+i_xStop    : BOOL; //Momentary stop switch
+i_xReset   : BOOL; //Momentary reset switch - resets protection functions
+q_xStart   : BOOL; //Outputs - FB decides if these are actually set
+q_xStop    : BOOL;
+q_xReset   : BOOL;
 q_xProtection : BOOL; //NC. If opened, pump will decelerate/not start
 
-i_xSpeedSetSW    : BOOL; //Request to set speed
-q_xSpeedSetDO    : BOOL; //Momentary switch to program commanded speed
+iq_xSpeedSet    : BOOL; //Request to set speed
 q_iSpeedSet   : DINT; //Requested speed (min. 100 RPM)
 
 i_xOverride   : BOOL; //Override mode - ignores interlocks
