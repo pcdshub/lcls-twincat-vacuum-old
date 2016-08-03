@@ -14,6 +14,7 @@ END_VAR
 VAR
 	TOF_START: TOF := (PT:=T#0.5S); //Manual states momentary switches need to be closed for >= 0.3s
 	TOF_STOP: TOF := (PT:=T#0.5S);
+	TOF_RESET: TOF :=(PT:=T#0.5S);
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* Ebara ETC control FB
@@ -25,6 +26,9 @@ TOF_START.IN := iq_stPTM.i_xStart;
 TOF_START();
 TOF_STOP.IN  := iq_stPTM.i_xStop;
 TOF_STOP();
+TOF_RESET.IN := iq_stPTM.i_xReset;
+TOF_RESET();
+
 
 
 (* Basic pump supervisory section *)
@@ -36,12 +40,11 @@ IF iq_stPTM.i_xOverride THEN
 	iq_stPTM.q_RunDO:=TRUE;
 	iq_stPTM.q_xStart:=TRUE;
 	END_IF
-	//Handle faults
-ELSIF iq_stPTM.xFault THEN
-	iq_stPTM.q_xProtection:=FALSE;
+	//Handle faults - the way the Ebara cable is done, this is *opposite* logic
+ELSIF NOT iq_stPTM.xFault THEN
 	iq_stPTM.q_RunDO:=FALSE;
-	//One section for when pump is running and is told to stop...or ext. interlock goes out	
-ELSIF iq_stPTM.q_RunDO AND (TOF_STOP.Q OR NOT iq_stPTM.xExtRunOk) THEN
+	//One section for when pump is told to stop...or ext. interlock goes out	
+ELSIF TOF_STOP.Q OR NOT iq_stPTM.xExtRunOk THEN
 	    iq_stPTM.q_xProtection:=TRUE;
 		iq_stPTM.q_RunDO:=FALSE;
 		iq_stPTM.q_xStop:=TRUE;
