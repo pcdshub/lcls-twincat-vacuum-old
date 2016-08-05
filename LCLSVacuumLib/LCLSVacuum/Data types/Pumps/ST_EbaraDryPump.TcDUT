@@ -12,8 +12,8 @@ EV-S200
 *)
 
 //Controls
-q_xMPStart	:	BOOL; //MP (main pump?) start
-q_xBPStart	:	BOOL; // Booster pump start (this can be started by the pump automatically)
+q_xMPStart	:	BOOL; //Main Pump start
+q_xBPStart	:	BOOL; // Booster Pump start (this can be started by the pump automatically)
 
 xBPIlk	:	BOOL;	//Booster pump interlock
 rBPIlkSP	:	REAL := 30; //Booster pump pressure setpoint

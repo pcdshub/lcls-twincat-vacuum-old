@@ -29,31 +29,38 @@ TOF_STOP();
 TOF_RESET.IN := iq_stPTM.i_xReset;
 TOF_RESET();
 
-
+(* Simple protection reset *)
+IF iq_stPTM.xExtRunOk = TRUE THEN
+	iq_stPTM.q_xProtection:=TRUE;
+END_IF
 
 (* Basic pump supervisory section *)
-(* We shouldn't need extra code to reset errors - users can control q_xReset themselves *)
-	//If override mode, ignore everything else 
+	(* If override mode, ignore everything else *)
 IF iq_stPTM.i_xOverride THEN
-	iq_stPTM.q_xProtection:=TRUE;
-	IF NOT iq_stPTM.q_RunDO AND TOF_START.Q THEN
+	IF TOF_START.Q THEN
 	iq_stPTM.q_RunDO:=TRUE;
-	iq_stPTM.q_xStart:=TRUE;
-	END_IF
-	//Handle faults - the way the Ebara cable is done, this is *opposite* logic
-ELSIF NOT iq_stPTM.xFault THEN
-	iq_stPTM.q_RunDO:=FALSE;
-	//One section for when pump is told to stop...or ext. interlock goes out	
-ELSIF TOF_STOP.Q OR NOT iq_stPTM.xExtRunOk THEN
-	    iq_stPTM.q_xProtection:=TRUE;
+	ELSIF TOF_STOP.Q THEN
 		iq_stPTM.q_RunDO:=FALSE;
-		iq_stPTM.q_xStop:=TRUE;
-	//And one for when we need to start the pump normally...
-ELSIF NOT iq_stPTM.q_RunDO AND TOF_START.Q AND iq_stPTM.xExtRunOk THEN
-	iq_stPTM.q_xProtection:=TRUE;
+	END_IF
+	//Handle faults - the way the Ebara cable is done, xFault is normally closed
+ELSIF NOT iq_stPTM.xFault OR (iq_stPTM.q_RunDO AND NOT iq_stPTM.xExtRunOk) THEN
+	iq_stPTM.q_RunDO:=FALSE;
+	iq_stPTM.q_xProtection:=FALSE;
+	//And one for when we need to start the pump normally. Only allows pump to be started if ILK ok.
+ELSIF TOF_START.Q AND iq_stPTM.xExtRunOk THEN
 	iq_stPTM.q_RunDO:=TRUE;
-	iq_stPTM.q_xStart:=TRUE;
+	iq_stPTM.q_xStart:=TOF_START.Q;
+//One section for when pump is told to stop
+ELSIF TOF_STOP.Q THEN
+		iq_stPTM.q_RunDO:=FALSE;
 END_IF 
+
+iq_stPTM.q_xReset:=TOF_RESET.Q; //No need for a conditional on these, code below takes care of it
+iq_stPTM.q_xStop:=TOF_STOP.Q;
+//Reset the start switch after processing
+IF iq_stPTM.q_RunDO = TRUE THEN
+	iq_stPTM.q_xStart := TOF_START.Q;
+END_IF
 
 (* Pump speed calculation *)
 IF iq_stPTM.i_iRawSpeed / (EXPT(2,i_iADCBits)-1) * 10 >= 0.2 THEN //Speed reading appears to zero at ~0.16V
