@@ -30,7 +30,7 @@ TOF_RESET.IN := iq_stPTM.i_xReset;
 TOF_RESET();
 
 (* Simple protection reset *)
-IF iq_stPTM.xExtRunOk = TRUE THEN
+IF iq_stPTM.xExtRunOk THEN
 	iq_stPTM.q_xProtection:=TRUE;
 END_IF
 
@@ -58,7 +58,7 @@ END_IF
 iq_stPTM.q_xReset:=TOF_RESET.Q; //No need for a conditional on these, code below takes care of it
 iq_stPTM.q_xStop:=TOF_STOP.Q;
 //Reset the start switch after processing
-IF iq_stPTM.q_RunDO = TRUE THEN
+IF iq_stPTM.q_RunDO THEN
 	iq_stPTM.q_xStart := TOF_START.Q;
 END_IF
 
