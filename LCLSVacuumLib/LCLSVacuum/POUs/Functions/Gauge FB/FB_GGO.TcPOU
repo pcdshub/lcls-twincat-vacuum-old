@@ -13,7 +13,7 @@ VAR
 	rMinPressure_925: REAL := 9E-06;
 	rMinPressure_903: REAL := 5E-11;
 	rMinPressure_909: REAL := 3E-10;
-	rMinPressure_907: REAL := 1E-05;
+	rMinPressure_907: REAL := 1E-03;
 	rMinPressure_722B: REAL := 0.5;
 	
 	rV: REAL;
@@ -131,17 +131,7 @@ ELSE
 
 		rV :=MAX((10*INT_TO_REAL(stPG.iPRESS_R)/32767),0);
 		stPG.rPRESS := (stPG.rFULL_SCALE/10)*rV;
-		IF stPG.rPRESS > rMinPressure_722B THEN
-			stPG.xPRESS_OK := TRUE;
-		ELSE
-			stPG.xPRESS_OK := FALSE;
-		END_IF
-
-		(* Protection Functions *)
-		(* If the PG pressure is greater than the IG.PRO_SP then the gauge is disabled *)
-		(* If the PG pressure is less than the IG.PRO_SP then the gauge is enabled *)
-		(* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
-
+		
 		(* Pressure OK check *)
 		stPG.xPRESS_OK := (stPG.rPRESS > rMinPressure_722B);
 
@@ -158,11 +148,8 @@ ELSE
 			stPG.rPRESS := LREAL_TO_REAL(SQRT(((rV-rD)+SQRT(EXPT((rV-rD),2)-4*rF*rG))/(2*rF)));
 		ELSIF rV > 5.18 THEN
 			stPG.rPRESS := EXP((rV-rH)/rK);
-		ELSE
-			stPG.rPRESS := 1E-3;
-		END_IF
-
-		IF stPG.rPRESS <1E-3 THEN stPG.rPRESS := 1E-3;
+		ELSIF rV <= 0.38 THEN
+			stPG.rPRESS := rMinPressure_907;
 		END_IF
 
 		(* Protection Functions *)

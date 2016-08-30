@@ -34,7 +34,6 @@ STRUCT
 	/// Turn on Timers for cold cathode warmup 
 	xTurnOnTime: BOOL;
 	/// At vacuum setpoint for all gauges
-	iVacSp	:	INT;
 	rVAC_SP: REAL := 0.5;
 	/// Protection setpoint for ion gauges at which the gauge turns off, not used for pirani 
 	rPRO_SP: REAL := 0.01;

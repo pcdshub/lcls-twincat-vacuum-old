@@ -56,7 +56,7 @@ END_IF
 (* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
 
 (* Pressure OK check *)
-PG.xPRESS_OK := (PG.rPRESS > MinPressure);
+PG.xPRESS_OK := (PG.rPRESS >= MinPressure);
 
 (* Setpoint evaluation *)
 PG.xAT_VAC := PG.xPRESS_OK AND (PG.rPRESS<PG.rVAC_SP);]]></ST>

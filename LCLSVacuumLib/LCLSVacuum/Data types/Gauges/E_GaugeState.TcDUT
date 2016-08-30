@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <DUT Name="E_GaugeState" Id="{c25a9601-e125-4f1e-8734-ed2a641d27b1}">
+    <Declaration><![CDATA[TYPE E_GaugeState :
+(
+	Valid := 0,
+	HiOoR	:= 1,
+	LoOoR	:= 2,
+	
+	Off		:= 3,
+	Hv
+): WORD;
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
