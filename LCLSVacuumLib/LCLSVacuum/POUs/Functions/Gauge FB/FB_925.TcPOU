@@ -11,7 +11,7 @@ VAR_IN_OUT
 END_VAR
 VAR
 	rV : REAL;
-	fbGaugeState : FB_GaugeState;
+	fbGaugeState : FB_PressureState;
 	rMaxPressure	:	REAL := 760; //Torr
 	rMinPressure	:	REAL := 1E-5; //Torr
 END_VAR

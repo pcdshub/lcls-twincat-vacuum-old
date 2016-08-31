@@ -21,7 +21,7 @@ VAR
 	V: REAL;
 
 	GaugeTurnOnTmr : TON;
-	fbGaugeState : FB_GaugeState;
+	fbGaugeState : FB_PressureState;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* This function block is used to provide protection and automatic turn on of ion gauges,

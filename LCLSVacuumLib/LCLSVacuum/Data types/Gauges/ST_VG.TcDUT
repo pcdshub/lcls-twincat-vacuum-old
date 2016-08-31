@@ -18,7 +18,7 @@ STRUCT
 		04 Gauge disconnected, HV off, no sensor detected, controller powering up
 		05 cold cathode warming up
 		*)
-	eState	:	E_GaugeState;
+	eState	:	E_PressureState;
 	
 	/// Controls 
 	xHV_DIS: BOOL;

@@ -45,7 +45,7 @@
     <Folder Include="Visualizations" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data types\Gauges\E_GaugeState.TcDUT">
+    <Compile Include="Data types\Gauges\E_PressureState.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
@@ -164,7 +164,7 @@
     <Compile Include="POUs\Functions\Gauge FB\FB_Dumb_Gauge.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\Functions\Gauge FB\FB_GaugeState.TcPOU">
+    <Compile Include="POUs\Functions\Gauge FB\FB_PressureState.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
@@ -268,12 +268,12 @@
           <v n="Name">"{FE9F63D4-9E34-43ce-9322-D46747A00F33}"</v>
           <d n="SubKeys" t="Hashtable" />
           <d n="Values" t="Hashtable" ckt="String">
-            <v>SourceDownloadContent</v>
-            <v>1</v>
             <v>SourceDownloadContent2</v>
             <a cet="Guid">
               <v>b0b53f83-af78-49aa-8133-0063f476bd7c</v>
             </a>
+            <v>SourceDownloadContent</v>
+            <v>1</v>
           </d>
         </o>
         <v>{8F99A816-E488-41E4-9FA3-846536012284}</v>

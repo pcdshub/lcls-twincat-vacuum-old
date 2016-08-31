@@ -23,7 +23,7 @@ VAR
 	H: REAL := 2.0253;
 	K: REAL := 0.52703;
 	
-	fbGaugeState : FB_GaugeState;
+	fbGaugeState : FB_PressureState;
 	// Torr
 	rMaxPressure: REAL := 1000;
 	// Torr

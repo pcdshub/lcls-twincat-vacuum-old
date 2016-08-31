@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
-  <POU Name="FB_GaugeState" Id="{4670721e-b41f-4e8d-804c-723289c03b35}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_GaugeState
+  <POU Name="FB_PressureState" Id="{4670721e-b41f-4e8d-804c-723289c03b35}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_PressureState
 VAR_INPUT
 	i_rV	:	REAL;
 	i_rVMin	:	REAL := 0.01; // Anything less than this voltage is considered disconnected
@@ -12,7 +12,7 @@ VAR_INPUT
 	i_MaxPressure	:	REAL;
 END_VAR
 VAR_OUTPUT
-	q_eState 	:	E_GaugeState;
+	q_eState 	:	E_PressureState;
 END_VAR
 VAR_IN_OUT
 	iq_stVG	:	ST_VG;
@@ -22,10 +22,10 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* Gauge State Evaluation
+      <ST><![CDATA[(* Pressure State Evaluation
 A. Wallace, 2016-8-31
 
-This FB serves to evaluate the state of the gauge based on the raw voltage, pressure, and gauge state.
+This FB serves to evaluate the state of the pressure based on the raw voltage, pressure, and gauge state.
 
 *)
 // Is the gauge plugged in, and within a reasonable range?
