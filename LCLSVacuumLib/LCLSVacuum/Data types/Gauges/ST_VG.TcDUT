@@ -18,6 +18,7 @@ STRUCT
 		04 Gauge disconnected, HV off, no sensor detected, controller powering up
 		05 cold cathode warming up
 		*)
+	eState	:	E_GaugeState;
 	
 	/// Controls 
 	xHV_DIS: BOOL;
@@ -27,7 +28,7 @@ STRUCT
 	/// Bakeout bit 
 	xBAKEOUT: BOOL;
 	
-	//eTYPE: Gauge_Type := PG907;
+	eTYPE: Gauge_Type := PG907;
 	iTYPE : INT := 0;
 	wPG: WORD;
 	

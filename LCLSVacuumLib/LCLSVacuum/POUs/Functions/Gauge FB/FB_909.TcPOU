@@ -15,10 +15,11 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-
-	MinPressure: REAL := 3E-10;
+	rMaxPressure: REAL := 5E-2;
+	rMinPressure: REAL := 3E-10;
 
 	V: REAL;
+	fbGaugeState : FB_GaugeState;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* This function block is used to provide protection and automatic turn on of ion gauges,
@@ -56,7 +57,10 @@ ELSE
 END_IF
 
 (* Pressure OK check *)
-IG.xPRESS_OK := ((IG.rPRESS > MinPressure) AND IG.xHV_DIS) OR IG.xBAKEOUT;
+fbGaugeState.i_rV := V;
+fbGaugeState.i_MaxPressure := rMaxPressure;
+fbGaugeState.i_MinPressure := rMinPressure;
+fbGaugeState(iq_stVG:=IG);
 
 (* Setpoint evaluation *)
 IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS<IG.rVAC_SP)) OR IG.xBAKEOUT;]]></ST>

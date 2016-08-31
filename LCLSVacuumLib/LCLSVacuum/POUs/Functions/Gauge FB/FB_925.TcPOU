@@ -11,6 +11,9 @@ VAR_IN_OUT
 END_VAR
 VAR
 	rV : REAL;
+	fbGaugeState : FB_GaugeState;
+	rMaxPressure	:	REAL := 760; //Torr
+	rMinPressure	:	REAL := 1E-5; //Torr
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -30,7 +33,16 @@ ELSIF rV >= 0.99 AND rV < 1 THEN
 ELSE
 	VG.xPRESS_OK := FALSE;
 	VG.wState := 2;
-END_IF]]></ST>
+END_IF
+
+(* Pressure OK check *)
+fbGaugeState.i_rV := rV;
+fbGaugeState.i_MaxPressure := rMaxPressure;
+fbGaugeState.i_MinPressure := rMinPressure;
+fbGaugeState(iq_stVG:=VG);
+
+(* Setpoint evaluation *)
+VG.xAT_VAC := VG.xPRESS_OK AND (VG.rPRESS < VG.rVAC_SP);]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

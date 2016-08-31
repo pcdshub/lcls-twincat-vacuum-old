@@ -3,13 +3,18 @@
   <DUT Name="E_GaugeState" Id="{c25a9601-e125-4f1e-8734-ed2a641d27b1}">
     <Declaration><![CDATA[TYPE E_GaugeState :
 (
-	Valid := 0,
-	HiOoR	:= 1,
-	LoOoR	:= 2,
+	Valid := gc_GaugeValidState,
+	ValidHi	:= 1, //gc_GaugeValidState + 1,
+	ValidLo	:= 2, //gc_GaugeValidState + 2,
 	
-	Off		:= 3,
-	Hv
-): WORD;
+	// Invalid states
+	Invalid	:= -1, //gc_GaugeValidState - 1,
+	Disconnected	:=	-2, //gc_GaugeValidState -2,
+	OoR	:= -6, //gc_GaugeValidState -6,
+	// Ion gauges
+	Off		:= -3, //gc_GaugeValidState - 3,
+	Starting	:= -4 //gc_GaugeValidState - 4
+) INT;
 END_TYPE
 ]]></Declaration>
   </DUT>

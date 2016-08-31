@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_GGOBetter" Id="{10b35b2a-0339-4871-a987-1f7d7e8bc93e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_GGOBetter
+VAR_IN_OUT
+	iq_astGauges: ARRAY[0..gc_iSizeOfGGOArray] OF ST_VG;
+	iq_axHV_RO: ARRAY[0..gc_iSizeOfGGOArray] OF BOOL;
+END_VAR
+VAR_INPUT
+	i_iIndex: INT;
+END_VAR
+VAR
+	rMinPressure_925: REAL := 9E-06;
+	rMinPressure_903: REAL := 5E-11;
+	rMinPressure_909: REAL := 3E-10;
+	rMinPressure_907: REAL := 1E-03;
+	rMinPressure_722B: REAL := 0.5;
+	
+	rV: REAL;
+	rA: REAL := 3.29;
+	rB: REAL := 24.98;
+	rC: REAL := 0.98;
+	rV_0: REAL := 0.3752;
+	rD: REAL := 4.929;
+	rF: REAL := 1.6E-06;
+	rG: REAL := -225;
+	rH: REAL := 2.0253;
+	rK: REAL := 0.52703;
+	rFun: REAL;
+	xB_FULL_SCALE: BOOL;
+	xB_1000_MINVAL: BOOL;
+	xB_1_MINVAL: BOOL;
+	tonGaugeTurnOnTmr: TON;
+	stPG: ST_VG;
+	stIG: ST_VG;
+	stVG	:	ST_VG;
+	VG: INT;
+	H2E_GPI00: INT;
+	
+	// FBs
+	fb903	:	FB_903;
+	fb907	:	FB_907;
+	fb909	:	FB_909;
+	fb925	:	FB_925;
+	fbGCM	:	FB_GCM;
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* This function block is used to calculate the pressure from the analog input voltage and to provide protection and automatic turn on of ion gauges.
+ It also manages the turn on fo the AT_VAC boolean, and checks to make sure the pressure is good *)
+
+(* Full-scale pressure conversion factor *)
+
+(* Real-value voltage calculation *)
+(* Generic expression for pressure in the MKS systems
+
+P = 10^(V/0.6-12)
+
+722B = 0
+903 = 1
+907 = 2
+909 = 3
+925 = 4
+
+*)
+
+stVG := iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)];
+
+IF WORD_TO_INT(stIG.wPG) <= gc_iSizeOfGGOArray THEN
+	(* Check pressure gauge type before assignment *)
+	(* Add high pressure gauge types here *)
+		IF iq_astGauges[stVG.wPG].eTYPE = PG722B OR //722B
+		iq_astGauges[stVG.wPG].eTYPE = PG907 OR //907
+		iq_astGauges[stVG.wPG].eTYPE = PG925 THEN //925
+			stPG := iq_astGauges[stVG.wPG];
+		END_IF
+	
+	ELSE
+		//Default to allow the IG to turn on, this allows someone to set the PG to another IG and turn the gauge on whenever they want
+		stPG.rPRESS := 1E-3;
+		stPG.xPRESS_OK := TRUE;
+END_IF
+
+CASE iq_astGauges[i_iIndex].eTYPE OF
+	PG722B:
+		fbGCM(stVG:=stVG);
+	IG903:
+		fb903(IG:=stVG, PG:=stPG);
+	PG907:
+		fb907(PG:=stVG);
+	IG909:
+		fb909(IG:=stVG, PG:=stPG);
+	PG925:
+		fb925(VG:=stVG);
+	ELSE:
+		(* Now, since we don't know what gauge type we're dealing with, we want to make sure to reset all the gauge parameters, otherwise we may be left with stale information *)
+	stPG.rPRESS := 760;
+	stPG.xAT_VAC := FALSE;
+	stPG.xPRESS_OK := FALSE;
+	stPG.xHV_SW := FALSE;
+		
+END_CASE
+
+iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)] := stVG;
+iq_axHV_RO[LIMIT(0,stVG.wHV_RO,gc_iSizeOfGGOArray)]:=stVG.xHV_DIS;]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

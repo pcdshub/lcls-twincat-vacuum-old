@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
-  <POU Name="FB_GGO" Id="{4119c685-2acb-44b1-99f2-419d0e83fdbe}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK FB_GGO
+  <POU Name="FB_GGO_dep" Id="{4119c685-2acb-44b1-99f2-419d0e83fdbe}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_GGO_dep
 VAR_IN_OUT
 	iq_astGauges: ARRAY[0..50] OF ST_VG;
 	iq_axHV_RO: ARRAY[0..50] OF BOOL;

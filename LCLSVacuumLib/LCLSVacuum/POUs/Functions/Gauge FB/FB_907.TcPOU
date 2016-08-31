@@ -12,10 +12,6 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-
-	MinPressure: REAL := 1E-3;
-
-
 	V : REAL;
 	A : REAL := 3.29;
 	B : REAL := 24.98;
@@ -26,6 +22,12 @@ VAR
 	G: REAL := -225;
 	H: REAL := 2.0253;
 	K: REAL := 0.52703;
+	
+	fbGaugeState : FB_GaugeState;
+	// Torr
+	rMaxPressure: REAL := 1000;
+	// Torr
+	rMinPressure: REAL := 1E-3;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* This function block is used to provide protection and automatic turn on of ion gauges,
@@ -50,16 +52,15 @@ PG.rPRESS := EXP((V-H)/K);
 
 END_IF
 
-(* Protection Functions *)
-(* If the PG pressure is greater than the IG.PRO_SP then the gauge is disabled *)
-(* If the PG pressure is less than the IG.PRO_SP then the gauge is enabled *)
-(* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
-
 (* Pressure OK check *)
-PG.xPRESS_OK := (PG.rPRESS >= MinPressure);
+fbGaugeState.i_rV := V;
+fbGaugeState.i_MaxPressure := rMaxPressure;
+fbGaugeState.i_MinPressure := rMinPressure;
+fbGaugeState(iq_stVG:=PG);
+
 
 (* Setpoint evaluation *)
-PG.xAT_VAC := PG.xPRESS_OK AND (PG.rPRESS<PG.rVAC_SP);]]></ST>
+PG.xAT_VAC := PG.xPRESS_OK AND (PG.rPRESS<PG.rVAC_SP) OR PG.xBAKEOUT;]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
