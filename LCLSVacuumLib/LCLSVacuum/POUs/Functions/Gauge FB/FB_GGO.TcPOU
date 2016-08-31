@@ -10,32 +10,10 @@ VAR_INPUT
 	i_iIndex: INT;
 END_VAR
 VAR
-	rMinPressure_925: REAL := 9E-06;
-	rMinPressure_903: REAL := 5E-11;
-	rMinPressure_909: REAL := 3E-10;
-	rMinPressure_907: REAL := 1E-03;
-	rMinPressure_722B: REAL := 0.5;
-	
-	rV: REAL;
-	rA: REAL := 3.29;
-	rB: REAL := 24.98;
-	rC: REAL := 0.98;
-	rV_0: REAL := 0.3752;
-	rD: REAL := 4.929;
-	rF: REAL := 1.6E-06;
-	rG: REAL := -225;
-	rH: REAL := 2.0253;
-	rK: REAL := 0.52703;
-	rFun: REAL;
-	xB_FULL_SCALE: BOOL;
-	xB_1000_MINVAL: BOOL;
-	xB_1_MINVAL: BOOL;
-	tonGaugeTurnOnTmr: TON;
+
 	stPG: ST_VG;
-	stIG: ST_VG;
 	stVG	:	ST_VG;
-	VG: INT;
-	H2E_GPI00: INT;
+
 	
 	// FBs
 	fb903	:	FB_903;
@@ -93,12 +71,12 @@ CASE iq_astGauges[i_iIndex].eTYPE OF
 		fb909(IG:=stVG, PG:=stPG);
 	PG925:
 		fb925(VG:=stVG);
-	ELSE:
+	ELSE
 		(* Now, since we don't know what gauge type we're dealing with, we want to make sure to reset all the gauge parameters, otherwise we may be left with stale information *)
-	stPG.rPRESS := 760;
-	stPG.xAT_VAC := FALSE;
-	stPG.xPRESS_OK := FALSE;
-	stPG.xHV_SW := FALSE;
+	stVG.rPRESS := 760;
+	stVG.xAT_VAC := FALSE;
+	stVG.xPRESS_OK := FALSE;
+	stVG.xHV_SW := FALSE;
 		
 END_CASE
 
