@@ -45,19 +45,20 @@ P = 10^(V/0.6-12)
 
 stVG := iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)];
 
-IF WORD_TO_INT(stIG.wPG) <= gc_iSizeOfGGOArray THEN
+IF WORD_TO_INT(stVG.wPG) <= gc_iSizeOfGGOArray THEN
 	(* Check pressure gauge type before assignment *)
 	(* Add high pressure gauge types here *)
 		IF iq_astGauges[stVG.wPG].eTYPE = PG722B OR //722B
 		iq_astGauges[stVG.wPG].eTYPE = PG907 OR //907
 		iq_astGauges[stVG.wPG].eTYPE = PG925 THEN //925
 			stPG := iq_astGauges[stVG.wPG];
-		END_IF
-	
-	ELSE
+			
+		ELSE
 		//Default to allow the IG to turn on, this allows someone to set the PG to another IG and turn the gauge on whenever they want
 		stPG.rPRESS := 1E-3;
 		stPG.xPRESS_OK := TRUE;
+		END_IF
+	
 END_IF
 
 CASE iq_astGauges[i_iIndex].eTYPE OF
@@ -81,7 +82,7 @@ CASE iq_astGauges[i_iIndex].eTYPE OF
 END_CASE
 
 iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)] := stVG;
-iq_axHV_RO[LIMIT(0,stVG.wHV_RO,gc_iSizeOfGGOArray)]:=stVG.xHV_DIS;]]></ST>
+iq_axHV_RO[LIMIT(0,WORD_TO_INT(stVG.wHV_RO),gc_iSizeOfGGOArray)]:=stVG.xHV_DIS;]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
