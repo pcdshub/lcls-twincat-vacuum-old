@@ -66,10 +66,8 @@ ELSE
 				q_eState := Valid;
 			ELSIF iq_stVG.rPRESS < i_MinPressure THEN
 				q_eState := ValidLo;
-			ELSIF iq_stVG.rPRESS > i_MaxPressure THEN
-				q_eState := ValidHi;
 			ELSE
-				q_eState := Invalid;
+				q_eState := ValidHi;
 			END_IF
 		ELSE
 			q_eState := Invalid;
