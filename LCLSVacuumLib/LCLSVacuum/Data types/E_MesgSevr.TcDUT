@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <DUT Name="E_MesgSevr" Id="{cb5c14c3-fbb9-40ae-b518-0fced558f634}">
+    <Declaration><![CDATA[TYPE E_MesgSevr :
+(
+	Info := 0,
+	Debug	:= 1,
+	Warning	:= 2,
+	Fault	:= 3
+	
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -45,6 +45,14 @@
     <Folder Include="Visualizations" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data types\E_MesgSevr.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="Data types\E_MessengerState.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
     <Compile Include="Data types\Gauges\E_PressureState.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
@@ -87,6 +95,10 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="Data types\ST_Encoder.TcDUT" />
+    <Compile Include="Data types\ST_fbDiagnostics.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
     <Compile Include="Data types\ST_LaserGate.TcDUT" />
     <Compile Include="Data types\System_Struct.TcDUT" />
     <Compile Include="Data types\UpStrInVac_Struct.TcDUT" />
@@ -124,11 +136,19 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="Global Variables\Global_Variables.TcGVL" />
+    <Compile Include="Global Variables\GVL_Messenger.TcGVL">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
     <Compile Include="POUs\Example_GaugeSup.TcPOU">
       <ExcludeFromBuild>True</ExcludeFromBuild>
     </Compile>
     <Compile Include="POUs\FB_EcatDiag.TcPOU">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\FB_Index.TcPOU">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="POUs\Functions\Gauge FB\FB_500.TcPOU">
       <SubType>Code</SubType>
@@ -233,6 +253,10 @@
     <Compile Include="POUs\Functions\Valve FB\F_TURBO_VRC_ILK.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\p_EPICSMessenger.TcPOU">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
     <Compile Include="Version\Global_Version.TcGVL">
       <SubType>Code</SubType>
     </Compile>
@@ -255,6 +279,16 @@
     <Content Include="LCLSVacuum.tmc">
       <SubType>Content</SubType>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PlaceholderReference Include="Tc2_TcpIp">
+      <DefaultResolution>Tc2_TcpIp, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_TcpIp</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc2_Utilities">
+      <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc2_Utilities</Namespace>
+    </PlaceholderReference>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>

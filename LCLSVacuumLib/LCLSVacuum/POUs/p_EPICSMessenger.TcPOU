@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="p_EPICSMessenger" Id="{f0a01cf2-a6dc-4875-97c8-89cfb51e0a9d}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM p_EPICSMessenger
+VAR_INPUT
+	i_sNewMesg	:	STRING;
+	i_eNewMesgSevr	:	E_MesgSevr;
+	i_sHostname : STRING;
+	i_CloseSocket	:	BOOL;
+	i_bReset	:	BOOL;
+END_VAR
+VAR_OUTPUT
+	
+END_VAR
+VAR
+	fbUDPSocketManager	:	FB_ConnectionlessSocket;
+	udpSocket	:	T_HSOCKET;
+	fbUDPSocketSend	:	FB_SocketUdpSendTo;
+	sString	:	T_MaxString;
+	eState	:	E_MessengerState;
+	stDiag	:	ST_fbDiagnostics;
+	rtReset	:	R_TRIG;
+	fbBuffer : FB_StringRingBuffer;
+	MesgBuffer	:	ARRAY [0..cMesgArraySize] OF T_MaxString;
+	fbFormatString	:	FB_FormatString;
+END_VAR
+VAR CONSTANT
+	cMesgArraySize : INT := 50;
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* EPICS Messenger
+A. Wallace 2016-9-3
+
+This is used to pass PLC notification messeges to a listening client.
+
+A message buffer is added to using an action, and this POU constantly attempts to send out messages from the buffer.
+*)
+
+IF i_CloseSocket THEN 
+	eState := CloseSocket; 
+END_IF
+
+rtReset(CLK:=i_bReset);
+IF rtReset.Q THEN
+	eState := CreateSocket;
+END_IF
+
+CASE eState OF
+	Init:
+		;
+	CreateSocket:
+		fbUDPSocketManager.nLocalPort := 5555;
+		fbUDPSocketManager.bEnable := TRUE;
+		
+		IF fbUDPSocketManager.eState = eSOCKET_CREATED THEN
+			eState := Active;
+		ELSIF fbUDPSocketManager.bError THEN
+			eState := Error;
+			fbUDPSocketManager.bError := FALSE;
+		END_IF
+	Active:
+		IF fbUDPSocketManager.eState = eSOCKET_TRANSIENT  OR 
+			fbUDPSocketManager.bError THEN
+			 eState := Error; 
+		END_IF
+		
+		// While the socket is active, go ahead and send whatever is in the buffer
+		IF fbBuffer.nCount > 0 AND NOT fbUDPSocketSend.bBusy THEN
+			fbBuffer.A_RemoveHead(getValue=>sString);
+			fbUDPSocketSend.bExecute := TRUE; //reset in the action after busy goes true
+		ELSIF fbUDPSocketSend.bError THEN
+			eState := Error;
+		ELSIF fbBuffer.nCount = 0 THEN
+			;
+		ELSE
+			eState := Error;
+		END_IF
+		
+	CloseSocket:
+		fbUDPSocketManager.bEnable R= i_CloseSocket;
+		IF fbUDPSocketManager.eState = eSOCKET_CLOSED THEN
+			eState := Init;
+		ELSIF fbUDPSocketManager.bBusy AND NOT fbUDPSocketManager.bEnable THEN
+			;
+		ELSIF fbUDPSocketManager.bError THEN
+			eState := Error;
+		ELSE
+			eState := Error;
+		END_IF
+	Error:
+		eState := Init;
+END_CASE
+
+
+
+Manager();
+SocketSendTo();]]></ST>
+    </Implementation>
+    <Action Name="LogMessage" Id="{45d57999-71ac-46eb-bde9-55811195ef52}">
+      <Implementation>
+        <ST><![CDATA[fbBuffer.putValue := '';
+fbBuffer.pBuffer := ADR(MesgBuffer);
+fbBuffer.cbSize := SIZEOF(MesgBuffer);
+fbFormatString.sFormat := '%s [%d] %s';
+fbFormatString.arg1 := i_sHostname;
+fbFormatString.arg2 := i_eNewMesgSevr;
+fbFormatString.arg3 := i_sNewMesg;
+fbFormatString(sOut=>fbBuffer.putValue);
+fbBuffer.A_AddTail();]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Manager" Id="{7c7c0a0b-fb2c-4381-a6af-ddf8b7ceb1f0}">
+      <Implementation>
+        <ST><![CDATA[gfbMessengerBuffer.pBuffer := ADR(gaMessBuff);
+gfbMessengerBuffer.cbBuffer := SIZEOF(gaMessBuff);
+
+fbUDPSocketManager();]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="SocketSendTo" Id="{e2ea3aca-dcd2-415e-9cd8-eea2c89c2a10}">
+      <Implementation>
+        <ST><![CDATA[fbUDPSocketSend.hSocket := udpSocket;
+fbUDPSocketSend.sRemoteHost := g_IOCHostIP;
+fbUDPSocketSend.nRemotePort := g_udpMessengerPort;
+fbUDPSocketSend.pSrc := ADR(sString);
+fbUDPSocketSend.cbLen := SIZEOF(sString);
+fbUDPSocketSend();
+fbUDPSocketSend.bExecute R= fbUDPSocketSend.bBusy;]]></ST>
+      </Implementation>
+    </Action>
+  </POU>
+</TcPlcObject>

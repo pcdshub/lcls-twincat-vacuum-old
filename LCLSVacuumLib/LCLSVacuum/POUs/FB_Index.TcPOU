@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_Index" Id="{ca8a34e3-bd4f-442e-9caf-17285b4f6fa2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Index
+VAR_INPUT
+	InitVal : INT := 0;
+	IncVal : INT := 1;
+	UpperLimit	:	INT := 1;
+END_VAR
+VAR_OUTPUT
+	Val	:	INT;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Index FB
+A. Wallace 2016-9-3
+
+Why doesn't beckhoff have this as a builtin type?
+*)
+
+;]]></ST>
+    </Implementation>
+    <Action Name="Dec" Id="{8c309ae9-b73a-4c3f-8e68-797f70101636}">
+      <Implementation>
+        <ST><![CDATA[Val := LIMIT(InitVal, Val - IncVal, UpperLimit);]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Inc" Id="{dddba33c-25fc-4806-a697-b15b846415dc}">
+      <Implementation>
+        <ST><![CDATA[Val := LIMIT(InitVal, Val + IncVal, UpperLimit);]]></ST>
+      </Implementation>
+    </Action>
+  </POU>
+</TcPlcObject>
