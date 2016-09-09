@@ -7,7 +7,7 @@ VAR_INPUT
 	i_eSevr	:	E_MesgSevr;
 	i_CloseSocket	:	BOOL;
 	i_bReset	:	BOOL;
-	i_sSubsystem	:	E_Subsystem; //In-lieu of App-name in the RFC-5424
+	i_eSubsystem	:	E_Subsystem; //In-lieu of App-name in the RFC-5424
 	i_sPID	:	STRING := cNILVALUE;	//Not currently used
 	i_sMSGID	:	STRING := cNILVALUE; //Not currently used
 	i_sSD	:	STRING := cNILVALUE; //Not currently used
@@ -76,7 +76,7 @@ CASE eState OF
 	Init:
 		;
 	CreateSocket:
-		fbUDPSocketManager.nLocalPort := 5555;
+		fbUDPSocketManager.nLocalPort := g_udpSyslog;
 		fbUDPSocketManager.bEnable := TRUE;
 		
 		IF fbUDPSocketManager.eState = eSOCKET_CREATED THEN
@@ -97,7 +97,7 @@ CASE eState OF
 			fbUDPSocketSend.bExecute := TRUE; //reset in the action after busy goes true
 		ELSIF fbUDPSocketSend.bError THEN
 			eState := Error;
-		ELSIF fbBuffer.nCount = 0 THEN
+		ELSIF fbBuffer.nCount = 0 OR fbUDPSocketSend.bBusy THEN
 			;
 		ELSE
 			eState := Error;
@@ -126,7 +126,7 @@ SocketSendTo();]]></ST>
     <Action Name="A_ClearInputs" Id="{3fb7e5fb-968c-46cb-8840-cc28067f61d7}">
       <Implementation>
         <ST><![CDATA[//Reset inputs
-i_sNewMesg := cNILVALUE;
+i_sMsg := cNILVALUE;
 i_eSevr := DEBUG;
 i_sSubsystem := NILVALUE;]]></ST>
       </Implementation>
@@ -144,20 +144,20 @@ wPRIVAL := cwFacility * 8 + i_eSevr;
 fbFormatString.arg1 := wPRIVAL;
 fbFormatString.arg2 := cwSyslogVer;
 fbFormatString.arg3 := sCurrentTime;
-fbFormatString.arg4 := i_sSubsystem;
+fbFormatString.arg4 := acsSubsystems[i_eSubsystem];
 fbFormatString.arg5 := i_sPID;
 fbFormatString.arg6 := i_sSD;
 fbFormatString.arg7 := i_sMsg;
 fbFormatString(sOut=>fbBuffer.putValue);
 fbBuffer.A_AddTail();
 
-]]></ST>
+p_Logger.A_ClearInputs();]]></ST>
       </Implementation>
     </Action>
     <Action Name="Manager" Id="{7c7c0a0b-fb2c-4381-a6af-ddf8b7ceb1f0}">
       <Implementation>
-        <ST><![CDATA[gfbMessengerBuffer.pBuffer := ADR(gaMessBuff);
-gfbMessengerBuffer.cbBuffer := SIZEOF(gaMessBuff);
+        <ST><![CDATA[fbBuffer.pBuffer := ADR(MesgBuffer);
+fbBuffer.cbBuffer := SIZEOF(MesgBuffer);
 
 fbUDPSocketManager();]]></ST>
       </Implementation>
@@ -166,7 +166,7 @@ fbUDPSocketManager();]]></ST>
       <Implementation>
         <ST><![CDATA[fbUDPSocketSend.hSocket := udpSocket;
 fbUDPSocketSend.sRemoteHost := g_IOCHostIP;
-fbUDPSocketSend.nRemotePort := g_udpMessengerPort;
+fbUDPSocketSend.nRemotePort := g_udpSyslog;
 fbUDPSocketSend.pSrc := ADR(sString);
 fbUDPSocketSend.cbLen := SIZEOF(sString);
 fbUDPSocketSend();

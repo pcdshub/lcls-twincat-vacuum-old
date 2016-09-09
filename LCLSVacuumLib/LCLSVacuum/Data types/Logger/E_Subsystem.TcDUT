@@ -3,12 +3,12 @@
   <DUT Name="E_Subsystem" Id="{0625d196-cb6d-4bee-9ee7-7900621abd78}">
     <Declaration><![CDATA[TYPE E_Subsystem :
 (
-	VACUUM := 'VACUUM',
-	MPS := 'MPS',
-	MOTION := 'MOTION',
-	FIELDBUS := 'FIELDBUS',
-	NILVALUE := '-'
-)STRING;
+	NILVALUE := 0,
+	VACUUM := 1,
+	MPS := 2,
+	MOTION := 3,
+	FIELDBUS := 4
+)WORD;
 END_TYPE
 ]]></Declaration>
   </DUT>

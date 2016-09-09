@@ -33,6 +33,7 @@
   <ItemGroup>
     <Folder Include="Data types" />
     <Folder Include="Data types\Gauges" />
+    <Folder Include="Data types\Logger" />
     <Folder Include="Data types\Pumps" />
     <Folder Include="Data types\Valves" />
     <Folder Include="Global Variables" />
@@ -45,18 +46,6 @@
     <Folder Include="Visualizations" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data types\E_MesgSevr.TcDUT">
-      <SubType>Code</SubType>
-      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
-    </Compile>
-    <Compile Include="Data types\E_MessengerState.TcDUT">
-      <SubType>Code</SubType>
-      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
-    </Compile>
-    <Compile Include="Data types\E_Subsystem.TcDUT">
-      <SubType>Code</SubType>
-      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
-    </Compile>
     <Compile Include="Data types\Gauges\E_PressureState.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
@@ -70,6 +59,18 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="Data types\ISG_Struct.TcDUT" />
+    <Compile Include="Data types\Logger\E_MesgSevr.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="Data types\Logger\E_MessengerState.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="Data types\Logger\E_Subsystem.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
     <Compile Include="Data types\Pumps\ST_AgilentControlStatus.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
