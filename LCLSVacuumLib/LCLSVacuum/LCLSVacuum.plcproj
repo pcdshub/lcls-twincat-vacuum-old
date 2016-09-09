@@ -28,7 +28,7 @@
 1.5.1 seamless override open/close on vgc during transition from override to normal mode.
 1.7.0 ST_PTM now uses inheritence model.  Started implementing Ebara support.
 1.8.0 Moved to seperate functions for 937A and 937B controllers.</Description>
-    <ProjectVersion>1.9.0</ProjectVersion>
+    <ProjectVersion>1.10.0</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Data types" />
