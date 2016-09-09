@@ -7,7 +7,7 @@
 	CreateSocket	:= 1,
 	Active	:= 2,
 	CloseSocket := 3,
-	Error	:= 10
+	Err	:= 10
 );
 END_TYPE
 ]]></Declaration>

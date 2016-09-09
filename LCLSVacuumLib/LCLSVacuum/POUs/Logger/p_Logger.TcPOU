@@ -37,7 +37,7 @@ VAR CONSTANT
 	cMesgArraySize : INT := 50;
 	cwFacility: WORD := 20; // local4
 	// Syslog Version
-	cwSyslogVer: T_Arg := 1;
+	cwSyslogVer: WORD := 1;
 	cNILVALUE	:	STRING := '-';
 END_VAR]]></Declaration>
     <Implementation>
@@ -82,13 +82,13 @@ CASE eState OF
 		IF fbUDPSocketManager.eState = eSOCKET_CREATED THEN
 			eState := Active;
 		ELSIF fbUDPSocketManager.bError THEN
-			eState := Error;
-			fbUDPSocketManager.bError := FALSE;
+			eState := Err;
+			fbUDPSocketManager.bEnable := FALSE;
 		END_IF
 	Active:
 		IF fbUDPSocketManager.eState = eSOCKET_TRANSIENT  OR 
 			fbUDPSocketManager.bError THEN
-			 eState := Error; 
+			 eState := Err; 
 		END_IF
 		
 		// While the socket is active, go ahead and send whatever is in the buffer
@@ -96,11 +96,11 @@ CASE eState OF
 			fbBuffer.A_RemoveHead(getValue=>sString);
 			fbUDPSocketSend.bExecute := TRUE; //reset in the action after busy goes true
 		ELSIF fbUDPSocketSend.bError THEN
-			eState := Error;
+			eState := Err;
 		ELSIF fbBuffer.nCount = 0 OR fbUDPSocketSend.bBusy THEN
 			;
 		ELSE
-			eState := Error;
+			eState := Err;
 		END_IF
 		
 	CloseSocket:
@@ -110,11 +110,11 @@ CASE eState OF
 		ELSIF fbUDPSocketManager.bBusy AND NOT fbUDPSocketManager.bEnable THEN
 			;
 		ELSIF fbUDPSocketManager.bError THEN
-			eState := Error;
+			eState := Err;
 		ELSE
-			eState := Error;
+			eState := Err;
 		END_IF
-	Error:
+	Err:
 		eState := Init;
 END_CASE
 
