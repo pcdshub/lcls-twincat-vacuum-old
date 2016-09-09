@@ -34,6 +34,7 @@
     <Folder Include="Data types" />
     <Folder Include="Data types\Gauges" />
     <Folder Include="Data types\Logger" />
+    <Folder Include="Data types\Misc" />
     <Folder Include="Data types\Pumps" />
     <Folder Include="Data types\Valves" />
     <Folder Include="Global Variables" />
@@ -42,6 +43,7 @@
     <Folder Include="POUs\Functions\Gauge FB" />
     <Folder Include="POUs\Functions\Pumps" />
     <Folder Include="POUs\Functions\Valve FB" />
+    <Folder Include="POUs\Logger" />
     <Folder Include="Version" />
     <Folder Include="Visualizations" />
   </ItemGroup>
@@ -68,6 +70,14 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="Data types\Logger\E_Subsystem.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="Data types\Misc\ST_fbDiagnostics.TcDUT">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="Data types\Misc\System_Struct.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
@@ -100,12 +110,7 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="Data types\ST_Encoder.TcDUT" />
-    <Compile Include="Data types\ST_fbDiagnostics.TcDUT">
-      <SubType>Code</SubType>
-      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
-    </Compile>
     <Compile Include="Data types\ST_LaserGate.TcDUT" />
-    <Compile Include="Data types\System_Struct.TcDUT" />
     <Compile Include="Data types\UpStrInVac_Struct.TcDUT" />
     <Compile Include="Data types\UpStrOutVac_Struct.TcDUT" />
     <Compile Include="Data types\Valves\E_VCN.TcDUT">
@@ -141,17 +146,18 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="Global Variables\Global_Variables.TcGVL" />
-    <Compile Include="Global Variables\GVL_Messenger.TcGVL">
+    <Compile Include="Global Variables\GVL_Logger.TcGVL">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="POUs\Example_GaugeSup.TcPOU">
       <ExcludeFromBuild>True</ExcludeFromBuild>
     </Compile>
-    <Compile Include="POUs\FB_EcatDiag.TcPOU">
+    <Compile Include="POUs\Functions\FB_EcatDiag.TcPOU">
       <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
-    <Compile Include="POUs\FB_Index.TcPOU">
+    <Compile Include="POUs\Functions\FB_Index.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
@@ -258,11 +264,11 @@
     <Compile Include="POUs\Functions\Valve FB\F_TURBO_VRC_ILK.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\SYSTEM_TIME_TO_RFC3339.TcPOU">
+    <Compile Include="POUs\Logger\p_Logger.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
-    <Compile Include="POUs\p_Logger.TcPOU">
+    <Compile Include="POUs\Logger\SYSTEM_TIME_TO_RFC3339.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>

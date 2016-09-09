@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
-  <GVL Name="GVL_Messenger" Id="{047a20cc-a785-4614-8465-ede098785b35}">
+  <GVL Name="GVL_Logger" Id="{047a20cc-a785-4614-8465-ede098785b35}">
     <Declaration><![CDATA[VAR_GLOBAL
 	g_IOCHostIP	: T_IPv4Addr := '127.0.0.1';
 	g_udpSyslog	:	UDINT := 514;

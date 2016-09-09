@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
-  <POU Name="FB_EcatDiag" Id="{88d39412-3c5d-46f9-9207-5cb5ea2cabda}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <POU Name="FB_EcatDiag" Id="{88d39412-3c5d-46f9-9207-5cb5ea2cabda}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_EcatDiag
 VAR_INPUT
 	///Connect this to an AMSNETID structure as a PLC input. Then link the input to the AMSNETID name in the master info.
@@ -49,6 +49,5 @@ FOR iterator := 1 TO (UINT_TO_INT(fbGetAllSlaveStates.nSlaves) -1) BY 1
 END_FOR
 END_IF]]></ST>
     </Implementation>
-    <ObjectProperties />
   </POU>
 </TcPlcObject>
