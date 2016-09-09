@@ -3,12 +3,15 @@
   <DUT Name="E_MesgSevr" Id="{cb5c14c3-fbb9-40ae-b518-0fced558f634}">
     <Declaration><![CDATA[TYPE E_MesgSevr :
 (
-	Info := 0,
-	Debug	:= 1,
-	Warning	:= 2,
-	Fault	:= 3
-	
-);
+	Emergency := 0, //system is unusable
+	Alert	:= 1,	//action must be taken immediately
+	Critical:= 2,	//critical conditions
+	Error	:= 3,	//error conditions
+	Warning	:= 4,	//warning conditions
+	Notice	:= 5,	//normal but significant condition
+	Info	:= 6,	//informational messages
+	Debug	:= 7	//debug-level messages
+) WORD;
 END_TYPE
 ]]></Declaration>
   </DUT>

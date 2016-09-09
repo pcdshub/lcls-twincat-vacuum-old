@@ -54,9 +54,9 @@ IF WORD_TO_INT(stVG.wPG) <= gc_iSizeOfGGOArray THEN
 			stPG := iq_astGauges[stVG.wPG];
 			
 		ELSE
-		//Default to allow the IG to turn on, this allows someone to set the PG to another IG and turn the gauge on whenever they want
-		stPG.rPRESS := 1E-3;
-		stPG.xPRESS_OK := TRUE;
+			//Default to allow the IG to turn on, this allows someone to set the PG to another IG and turn the gauge on whenever they want
+			stPG.rPRESS := 1E-3;
+			stPG.xPRESS_OK := TRUE;
 		END_IF
 	
 END_IF
