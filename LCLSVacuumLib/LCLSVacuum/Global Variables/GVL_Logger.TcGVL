@@ -4,13 +4,13 @@
     <Declaration><![CDATA[VAR_GLOBAL
 	g_IOCHostIP	: T_IPv4Addr := '127.0.0.1';
 	g_udpSyslog	:	UDINT := 514;
-	gMesgBuffer	:	ARRAY [0..cMesgArraySize] OF T_MaxString;
+	gMesgBuffer	:	ARRAY [0..cMesgArraySize] OF T_MaxString; //maybe this should be persistent...
 	gsCurrentTime	:	T_MaxString := cNILVALUE;
 	gsHostName	:	T_MaxString := cNILVALUE;
 END_VAR
 VAR_GLOBAL CONSTANT
 	acsSubsystems	:	ARRAY [0..4] OF STRING := 
-	['VACUUM', 'MPS', 'MOTION', 'FIELDBUS', '-'];
+	['-', 'VACUUM', 'MPS', 'MOTION', 'FIELDBUS', 'SDS'];
 	cNILVALUE	:	STRING(1) := '-';
 	cMesgArraySize : INT := 50;
 	cwFacility: WORD := 20; // local4

@@ -28,7 +28,7 @@ A. Wallace 2016-9-3
 
 This is used to pass PLC notification messeges to a syslog server.
 
-A message buffer is added to using an action, and this POU constantly attempts to send out messages from the buffer.
+This POU constantly attempts to send out messages from the global buffer.
 *)
 
 fbBuffer.pBuffer := ADR(gMesgBuffer); 

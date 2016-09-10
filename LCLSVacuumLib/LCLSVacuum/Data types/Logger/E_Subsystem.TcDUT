@@ -7,7 +7,8 @@
 	VACUUM := 1,
 	MPS := 2,
 	MOTION := 3,
-	FIELDBUS := 4
+	FIELDBUS := 4,
+	SDS := 5
 )WORD;
 END_TYPE
 ]]></Declaration>

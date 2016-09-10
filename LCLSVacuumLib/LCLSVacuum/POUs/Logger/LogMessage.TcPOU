@@ -6,13 +6,12 @@ VAR_INPUT
 	i_sMsg	:	STRING;
 	i_eSevr	:	E_MesgSevr;
 	i_eSubsystem	:	E_Subsystem; //In-lieu of App-name in the RFC-5424
-	i_sPID	:	STRING;	//Not currently used
-	i_sMSGID	:	STRING; //Not currently used
-	i_sSD	:	STRING; //Not currently used
 END_VAR
 VAR
 	fbBuffer 			:	FB_StringRingBuffer;
-	
+	i_sPID	:	STRING := cNILVALUE;	//Not currently used
+	i_sMSGID	:	STRING := cNILVALUE; //Not currently used
+	i_sSD	:	STRING := cNILVALUE; //Not currently used
 	fbFormatString		:	FB_FormatString;
 	sPRIVAL				: 	T_MaxString := cNILVALUE;
 	sPID				: 	T_MaxString := cNILVALUE;
