@@ -101,6 +101,7 @@ CASE eState OF
 		END_IF
 	Err:
 		eState := Init;
+		stDiag.asResults[stDiag.resultIdx.IncVal] := 'Moving back to Init state from Error';
 END_CASE
 
 

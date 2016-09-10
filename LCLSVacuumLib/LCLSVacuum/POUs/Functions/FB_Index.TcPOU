@@ -8,9 +8,10 @@ VAR_INPUT
 	UpperLimit	:	INT := 1;
 END_VAR
 VAR_OUTPUT
-	Val	:	INT;
+	
 END_VAR
 VAR
+	Val	:	INT := InitVal;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -22,6 +23,16 @@ Why doesn't beckhoff have this as a builtin type?
 
 ;]]></ST>
     </Implementation>
+    <Method Name="IncVal" Id="{39565696-334a-4053-9d1a-5f11c00bc35c}">
+      <Declaration><![CDATA[METHOD PUBLIC IncVal : INT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IncVal := THIS^.Val;
+Inc();]]></ST>
+      </Implementation>
+    </Method>
     <Action Name="Dec" Id="{8c309ae9-b73a-4c3f-8e68-797f70101636}">
       <Implementation>
         <ST><![CDATA[Val := LIMIT(InitVal, Val - IncVal, UpperLimit);]]></ST>
@@ -29,7 +40,8 @@ Why doesn't beckhoff have this as a builtin type?
     </Action>
     <Action Name="Inc" Id="{dddba33c-25fc-4806-a697-b15b846415dc}">
       <Implementation>
-        <ST><![CDATA[Val := LIMIT(InitVal, Val + IncVal, UpperLimit);]]></ST>
+        <ST><![CDATA[Val := Val + IncVal;
+IF Val >  UpperLimit THEN Val := InitVal; END_IF]]></ST>
       </Implementation>
     </Action>
   </POU>

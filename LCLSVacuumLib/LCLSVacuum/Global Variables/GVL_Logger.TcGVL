@@ -9,7 +9,7 @@
 	gsHostName	:	T_MaxString := cNILVALUE;
 END_VAR
 VAR_GLOBAL CONSTANT
-	acsSubsystems	:	ARRAY [0..4] OF STRING := 
+	acsSubsystems	:	ARRAY [0..5] OF STRING := 
 	['-', 'VACUUM', 'MPS', 'MOTION', 'FIELDBUS', 'SDS'];
 	cNILVALUE	:	STRING(1) := '-';
 	cMesgArraySize : INT := 50;
