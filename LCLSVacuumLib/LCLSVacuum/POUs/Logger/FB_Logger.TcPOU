@@ -4,41 +4,22 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Logger
 VAR_INPUT
 	i_CloseSocket	:	BOOL := FALSE;
-	i_bReset	:	BOOL := FALSE;
-END_VAR
-VAR_IN_OUT
-
-END_VAR
-VAR_OUTPUT
-	
+	i_bReset		:	BOOL := FALSE;
 END_VAR
 VAR
 	fbUDPSocketManager	:	FB_ConnectionlessSocket;
-	udpSocket	:	T_HSOCKET;
-	fbUDPSocketSend	:	FB_SocketUdpSendTo;
-	sOutgoingMesg	:	T_MaxString;
-	eState	:	E_MessengerState;
-	stDiag	:	ST_fbDiagnostics;
-	rtReset	:	R_TRIG;
-	fbBuffer : FB_StringRingBuffer;
-	MesgBuffer	:	ARRAY [0..cMesgArraySize] OF T_MaxString;
-	fbFormatString	:	FB_FormatString;
-	i_wSevr: WORD;
-	fbGetSystemTime	:	FB_LocalSystemTime := (bEnable := TRUE);
-	sCurrentTime: T_MaxString;
-	fbGetHostName	:	FB_GetHostName := (bExecute := TRUE, sNetID := '');
-	sHostName: T_MaxString;
-	sPRIVAL: T_MaxString := cNILVALUE;
-	sPID: T_MaxString := cNILVALUE;
-	sSubsystem: T_MaxString := cNILVALUE;
-	wSyslogVer: WORD := cwSyslogVer;
-	sSD: T_MaxString := cNILVALUE;
-	sMsg: T_MaxString := cNILVALUE;
+	udpSocket			:	T_HSOCKET;
+	fbUDPSocketSend		:	FB_SocketUdpSendTo;
+	sOutgoingMesg		:	T_MaxString;
+	eState				:	E_MessengerState;
+	stDiag				:	ST_fbDiagnostics;
+	rtReset				:	R_TRIG;
+	fbBuffer 			:	FB_StringRingBuffer;
+	fbGetSystemTime		:	FB_LocalSystemTime := (bEnable := TRUE);
+	fbGetHostName		:	FB_GetHostName := (bExecute := TRUE, sNetID := '');
 END_VAR
 VAR CONSTANT
-	cwFacility: WORD := 20; // local4
-	// Syslog Version
-	cwSyslogVer: WORD := 1;
+
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -51,20 +32,20 @@ A message buffer is added to using an action, and this POU constantly attempts t
 *)
 
 fbBuffer.pBuffer := ADR(gMesgBuffer); 
-fbBuffer.cbBuffer:=SIZEOF(gMesgBuffer);
+fbBuffer.cbBuffer:= SIZEOF(gMesgBuffer);
 
 fbGetSystemTime(); 
 IF fbGetSystemTime.bValid THEN
-	sCurrentTime := SYSTEM_TIME_TO_RFC3339(fbGetSystemTime.systemTime);
+	gsCurrentTime := SYSTEM_TIME_TO_RFC3339(fbGetSystemTime.systemTime);
 ELSE
-	sCurrentTime := cNILVALUE;
+	gsCurrentTime := cNILVALUE;
 END_IF
 
 fbGetHostName();
 IF NOT (fbGetHostName.bBusy OR fbGetHostName.bError) THEN
-	sHostName := fbGetHostName.sHostName;
+	gsHostName := fbGetHostName.sHostName;
 ELSE
-	sHostName := cNILVALUE;
+	gsHostName := cNILVALUE;
 END_IF
 
 IF i_CloseSocket THEN 
@@ -129,57 +110,9 @@ SocketSendTo();]]></ST>
     </Implementation>
     <Action Name="Manager" Id="{0b30d4fb-bcf3-449a-83ce-64e06542700f}">
       <Implementation>
-        <ST><![CDATA[fbBuffer.pBuffer := ADR(MesgBuffer);
-fbBuffer.cbBuffer := SIZEOF(MesgBuffer);
-
-fbUDPSocketManager();]]></ST>
+        <ST><![CDATA[fbUDPSocketManager();]]></ST>
       </Implementation>
     </Action>
-    <Action Name="A_ClearInputs" Id="{93fc21ce-530e-40fb-9ff5-55e09436f771}">
-      <Implementation>
-        <ST><![CDATA[//Reset inputs
-i_sMsg := cNILVALUE;
-i_eSevr := DEBUG;
-i_eSubsystem := NILVALUE;]]></ST>
-      </Implementation>
-    </Action>
-    <Method Name="LogMsg" Id="{b10e8637-5726-42bb-96fa-8e79691c8cce}">
-      <Declaration><![CDATA[METHOD PUBLIC LogMsg : WORD
-VAR_INPUT
-	i_sMsg	:	STRING;
-	i_eSevr	:	E_MesgSevr;
-	i_eSubsystem	:	E_Subsystem; //In-lieu of App-name in the RFC-5424
-	i_sPID	:	STRING;	//Not currently used
-	i_sMSGID	:	STRING; //Not currently used
-	i_sSD	:	STRING; //Not currently used
-END_VAR
-]]></Declaration>
-      <Implementation>
-        <ST><![CDATA[fbBuffer.putValue := '';
-
-fbFormatString.sFormat := '<%s> %d %s %s %s %s BOM%s';
-
-sPRIVAL := LEFT( WORD_TO_STRING(cwFacility * 8 + i_eSevr), 5);
-//bad language ahead, sorry
-sPID := cNILVALUE;
-sSubsystem := acsSubsystems[i_eSubsystem];
-wSyslogVer := cwSyslogVer;
-sSD := i_sSD;
-sMsg := i_sMsg;
-fbFormatString(
-arg1 := F_STRING(sPRIVAL),
-arg2 := F_WORD(wSyslogVer),
-arg3 := F_STRING(sCurrentTime),
-arg4 := F_STRING(sSubsystem), 
-arg5 := F_STRING(sPID), 
-arg6 := F_STRING(sSD),
-arg7 := F_STRING(sMsg),
-sOut=>fbBuffer.putValue);
-fbBuffer.A_AddTail();
-
-p_Logger.A_ClearInputs();]]></ST>
-      </Implementation>
-    </Method>
     <Action Name="SocketSendTo" Id="{fca34bf9-1619-4cff-a5ea-95f906bcb6c8}">
       <Implementation>
         <ST><![CDATA[fbUDPSocketSend.hSocket := udpSocket;

@@ -5,12 +5,17 @@
 	g_IOCHostIP	: T_IPv4Addr := '127.0.0.1';
 	g_udpSyslog	:	UDINT := 514;
 	gMesgBuffer	:	ARRAY [0..cMesgArraySize] OF T_MaxString;
+	gsCurrentTime	:	T_MaxString := cNILVALUE;
+	gsHostName	:	T_MaxString := cNILVALUE;
 END_VAR
 VAR_GLOBAL CONSTANT
 	acsSubsystems	:	ARRAY [0..4] OF STRING := 
 	['VACUUM', 'MPS', 'MOTION', 'FIELDBUS', '-'];
 	cNILVALUE	:	STRING(1) := '-';
 	cMesgArraySize : INT := 50;
+	cwFacility: WORD := 20; // local4
+	// Syslog Version
+	cwSyslogVer: WORD := 1;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
