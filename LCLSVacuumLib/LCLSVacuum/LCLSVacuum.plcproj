@@ -264,6 +264,11 @@
     <Compile Include="POUs\Functions\Valve FB\F_TURBO_VRC_ILK.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Logger\FB_Logger.TcPOU">
+      <SubType>Code</SubType>
+      <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+      <LinkAlways>True</LinkAlways>
+    </Compile>
     <Compile Include="POUs\Logger\p_Logger.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
