@@ -8,7 +8,6 @@ VAR_INPUT
 	i_eSubsystem	:	E_Subsystem; //In-lieu of App-name in the RFC-5424
 END_VAR
 VAR
-	fbBuffer 			:	FB_StringRingBuffer;
 	i_sPID	:	STRING := cNILVALUE;	//Not currently used
 	i_sMSGID	:	STRING := cNILVALUE; //Not currently used
 	i_sSD	:	STRING := cNILVALUE; //Not currently used
@@ -22,9 +21,9 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbBuffer.putValue := '';
-fbBuffer.pBuffer := ADR(gMesgBuffer);
-fbBuffer.cbBuffer := SIZEOF(gMesgBuffer);
+      <ST><![CDATA[gfbBuffer.putValue := '';
+gfbBuffer.pBuffer := ADR(gMesgBuffer);
+gfbBuffer.cbBuffer := SIZEOF(gMesgBuffer);
 
 fbFormatString.sFormat := '<%s> %d %s %s %s %s BOM%s';
 
@@ -42,8 +41,8 @@ fbFormatString.arg4 := F_STRING(sSubsystem);
 fbFormatString.arg5 := F_STRING(sPID);
 fbFormatString.arg6 := F_STRING(sSD);
 fbFormatString.arg7 := F_STRING(sMsg);
-fbFormatString( sOut=>fbBuffer.putValue);
-fbBuffer.A_AddTail();]]></ST>
+fbFormatString( sOut=>gfbBuffer.putValue);
+gfbBuffer.A_AddTail();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

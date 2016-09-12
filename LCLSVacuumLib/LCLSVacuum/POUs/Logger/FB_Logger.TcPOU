@@ -14,7 +14,6 @@ VAR
 	eState				:	E_MessengerState;
 	stDiag				:	ST_fbDiagnostics;
 	rtReset				:	R_TRIG;
-	fbBuffer 			:	FB_StringRingBuffer;
 	fbGetSystemTime		:	FB_LocalSystemTime := (bEnable := TRUE);
 	fbGetHostName		:	FB_GetHostName := (bExecute := TRUE, sNetID := '');
 	ctuSentSomething	:	CTU := (PV := 100);
@@ -32,8 +31,8 @@ This is used to pass PLC notification messeges to a syslog server.
 This POU constantly attempts to send out messages from the global buffer.
 *)
 
-fbBuffer.pBuffer := ADR(gMesgBuffer); 
-fbBuffer.cbBuffer:= SIZEOF(gMesgBuffer);
+gfbBuffer.pBuffer := ADR(gMesgBuffer); 
+gfbBuffer.cbBuffer:= SIZEOF(gMesgBuffer);
 
 fbGetSystemTime(); 
 IF fbGetSystemTime.bValid THEN
@@ -80,20 +79,24 @@ CASE eState OF
 		END_IF
 		
 		// While the socket is active, go ahead and send whatever is in the buffer
-		IF fbBuffer.nCount > 0 AND NOT fbUDPSocketSend.bBusy THEN
-			fbBuffer.A_RemoveHead(getValue=>sOutgoingMesg);
+		IF gfbBuffer.nCount > 0 AND NOT fbUDPSocketSend.bBusy THEN
+			gfbBuffer.A_RemoveHead(getValue=>sOutgoingMesg);
 			fbUDPSocketSend.bExecute := TRUE; //reset in the action after busy goes true
 			IF sOutgoingMesg <> '' THEN
 				ctuSentSomething(CU:=TRUE);
-			ELSE
-				ctuSentSomething(CU:=FALSE);
 			END_IF
 		ELSIF fbUDPSocketSend.bError THEN
 			eState := Err;
-		ELSIF fbBuffer.nCount = 0 OR fbUDPSocketSend.bBusy THEN
-			;
+			stDiag.resultIdx.Inc();
+			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.Val], sFormat:='Socketm send error: %d', arg1:=F_UDINT(fbUDPSocketSend.nErrId));
+		ELSIF gfbBuffer.nCount = 0 OR fbUDPSocketSend.bBusy THEN
+			stDiag.resultIdx.Inc();
+			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.Val], sFormat:='Waiting to send');
+			ctuSentSomething(CU:=FALSE);
 		ELSE
 			eState := Err;
+			stDiag.resultIdx.Inc();
+			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.Val], sFormat:='Something else happened in active -> error');
 		END_IF
 		
 	CloseSocket:
@@ -120,7 +123,7 @@ SocketSendTo();]]></ST>
     </Implementation>
     <Action Name="Manager" Id="{0b30d4fb-bcf3-449a-83ce-64e06542700f}">
       <Implementation>
-        <ST><![CDATA[fbUDPSocketManager();]]></ST>
+        <ST><![CDATA[fbUDPSocketManager(hSocket => udpSocket);]]></ST>
       </Implementation>
     </Action>
     <Action Name="SocketSendTo" Id="{fca34bf9-1619-4cff-a5ea-95f906bcb6c8}">

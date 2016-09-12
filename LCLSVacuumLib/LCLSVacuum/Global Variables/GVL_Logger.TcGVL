@@ -2,12 +2,13 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
   <GVL Name="GVL_Logger" Id="{047a20cc-a785-4614-8465-ede098785b35}">
     <Declaration><![CDATA[VAR_GLOBAL
-	g_IOCHostIP	: T_IPv4Addr := '127.0.0.1';
+	g_IOCHostIP	: T_IPv4Addr := '172.21.42.61';
 	g_udpSyslog	:	UDINT := 514;
 	gMesgBuffer	:	ARRAY [0..cMesgArraySize] OF T_MaxString; //maybe this should be persistent...
 	gsCurrentTime	:	T_MaxString := cNILVALUE;
 	gsHostName	:	T_MaxString := cNILVALUE;
 	fbLogMessage : FB_LogMessage;
+	gfbBuffer 			:	FB_StringRingBuffer;
 END_VAR
 VAR_GLOBAL CONSTANT
 	acsSubsystems	:	ARRAY [0..5] OF STRING := 
