@@ -8,6 +8,7 @@ STRUCT
 		InitVal := 1,
 		UpperLImit := 20
 	);
+	fString	:	FB_FormatString;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

@@ -17,6 +17,7 @@ VAR
 	fbBuffer 			:	FB_StringRingBuffer;
 	fbGetSystemTime		:	FB_LocalSystemTime := (bEnable := TRUE);
 	fbGetHostName		:	FB_GetHostName := (bExecute := TRUE, sNetID := '');
+	ctuSentSomething	:	CTU := (PV := 100);
 END_VAR
 VAR CONSTANT
 
@@ -69,6 +70,8 @@ CASE eState OF
 		ELSIF fbUDPSocketManager.bError THEN
 			eState := Err;
 			fbUDPSocketManager.bEnable := FALSE;
+			stDiag.resultIdx.Inc();
+			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.Val], sFormat:='Socketmanger error: %d', arg1:=F_UDINT(fbUDPSocketManager.nErrID));
 		END_IF
 	Active:
 		IF fbUDPSocketManager.eState = eSOCKET_TRANSIENT  OR 
@@ -80,6 +83,11 @@ CASE eState OF
 		IF fbBuffer.nCount > 0 AND NOT fbUDPSocketSend.bBusy THEN
 			fbBuffer.A_RemoveHead(getValue=>sOutgoingMesg);
 			fbUDPSocketSend.bExecute := TRUE; //reset in the action after busy goes true
+			IF sOutgoingMesg <> '' THEN
+				ctuSentSomething(CU:=TRUE);
+			ELSE
+				ctuSentSomething(CU:=FALSE);
+			END_IF
 		ELSIF fbUDPSocketSend.bError THEN
 			eState := Err;
 		ELSIF fbBuffer.nCount = 0 OR fbUDPSocketSend.bBusy THEN
@@ -101,7 +109,8 @@ CASE eState OF
 		END_IF
 	Err:
 		eState := Init;
-		stDiag.asResults[stDiag.resultIdx.IncVal] := 'Moving back to Init state from Error';
+		stDiag.resultIdx.Inc();
+		stDiag.asResults[stDiag.resultIdx.Val] := 'Moving back to Init state from Error';
 END_CASE
 
 
