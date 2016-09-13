@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+  <Task Name="LoggerTask" Id="{e595b7b7-031a-4906-a3d6-4804a825af63}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>10000</CycleTime>
+    <Priority>21</Priority>
+    <PouCall>
+      <Name>LOGGER</Name>
+    </PouCall>
+    <TaskFBGuid>{7eeedfa7-46cc-496f-8b2f-d7a3aee5c385}</TaskFBGuid>
+    <Fb_init>{23a2351d-df1c-4aa4-84ae-1936a33dca43}</Fb_init>
+    <Fb_exit>{659576ef-0a26-4718-8eb1-c09dc814aced}</Fb_exit>
+    <CycleUpdate>{a0674e1e-8c0e-4d52-be41-779e669cfdf9}</CycleUpdate>
+    <PostCycleUpdate>{a6c2a964-e946-4dc8-ae7a-3956d5d87f15}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

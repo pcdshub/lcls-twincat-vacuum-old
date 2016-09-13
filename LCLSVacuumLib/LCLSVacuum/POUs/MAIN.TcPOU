@@ -4,6 +4,8 @@
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
 	tpImAPLC : TP;
+	stDiag	:	ST_fbDiagnostics;
+	valu: INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -13,7 +15,11 @@ tpImAPLC();
 IF NOT tpImAPLC.Q THEN
 	fbLogMessage(i_sMsg:='Hello world, I am a PLC', i_eSevr:=Info, i_eSubsystem:=E_Subsystem.VACUUM);
 	tpImAPLC(IN:= FALSE ); tpImAPLC(IN:= TRUE);
-END_IF]]></ST>
+END_IF
+
+////////////////////////////////////////////////////////////
+// This gives you an increment at the same time as you get the current index value.
+valu := stDiag.resultIdx.ValInc();]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>

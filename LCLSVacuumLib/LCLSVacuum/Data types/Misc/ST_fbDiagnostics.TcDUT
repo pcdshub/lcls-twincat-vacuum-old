@@ -6,7 +6,7 @@ STRUCT
 	asResults	:	ARRAY [1..20] OF STRING;
 	resultIdx	:	FB_Index := (
 		InitVal := 1,
-		UpperLImit := 20
+		UpperLimit := 20
 	);
 	fString	:	FB_FormatString;
 END_STRUCT

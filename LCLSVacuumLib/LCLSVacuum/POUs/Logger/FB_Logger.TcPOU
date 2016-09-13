@@ -17,6 +17,7 @@ VAR
 	fbGetSystemTime		:	FB_LocalSystemTime := (bEnable := TRUE);
 	fbGetHostName		:	FB_GetHostName := (bExecute := TRUE, sNetID := '');
 	ctuSentSomething	:	CTU := (PV := 100);
+	rtSocketSendErr		:	R_TRIG;
 END_VAR
 VAR CONSTANT
 
@@ -55,7 +56,10 @@ END_IF
 rtReset(CLK:=i_bReset);
 IF rtReset.Q THEN
 	eState := CreateSocket;
+	i_bReset R= i_bReset;
 END_IF
+
+rtSocketSendErr(CLK:=fbUDPSocketSend.bError);
 
 CASE eState OF
 	Init:
@@ -69,34 +73,34 @@ CASE eState OF
 		ELSIF fbUDPSocketManager.bError THEN
 			eState := Err;
 			fbUDPSocketManager.bEnable := FALSE;
-			stDiag.resultIdx.Inc();
-			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.Val], sFormat:='Socketmanger error: %d', arg1:=F_UDINT(fbUDPSocketManager.nErrID));
+			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.ValInc()], sFormat:='Socketmanger error in createsocket: %d', arg1:=F_UDINT(fbUDPSocketManager.nErrID));
+		ELSE
+			eState := Err;
+			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.ValInc()], sFormat:='Something else happened in createsocket -> error');
 		END_IF
 	Active:
 		IF fbUDPSocketManager.eState = eSOCKET_TRANSIENT  OR 
 			fbUDPSocketManager.bError THEN
-			 eState := Err; 
+			eState := Err; 
+			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.ValInc()], sFormat:='Socketmanager error in active: %d', arg1:=F_UDINT(fbUDPSocketManager.nErrId));
 		END_IF
 		
 		// While the socket is active, go ahead and send whatever is in the buffer
-		IF gfbBuffer.nCount > 0 AND NOT fbUDPSocketSend.bBusy THEN
+		IF rtSocketSendErr.Q THEN
+			eState := Err;
+			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.ValInc()], sFormat:='Socket send error: %d', arg1:=F_UDINT(fbUDPSocketSend.nErrId));
+		ELSIF gfbBuffer.nCount > 0 AND NOT fbUDPSocketSend.bBusy THEN
 			gfbBuffer.A_RemoveHead(getValue=>sOutgoingMesg);
 			fbUDPSocketSend.bExecute := TRUE; //reset in the action after busy goes true
 			IF sOutgoingMesg <> '' THEN
 				ctuSentSomething(CU:=TRUE);
 			END_IF
-		ELSIF fbUDPSocketSend.bError THEN
-			eState := Err;
-			stDiag.resultIdx.Inc();
-			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.Val], sFormat:='Socketm send error: %d', arg1:=F_UDINT(fbUDPSocketSend.nErrId));
 		ELSIF gfbBuffer.nCount = 0 OR fbUDPSocketSend.bBusy THEN
-			stDiag.resultIdx.Inc();
-			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.Val], sFormat:='Waiting to send');
+			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.ValInc()], sFormat:='Waiting to send');
 			ctuSentSomething(CU:=FALSE);
 		ELSE
 			eState := Err;
-			stDiag.resultIdx.Inc();
-			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.Val], sFormat:='Something else happened in active -> error');
+			stDiag.fString( sOut=>stDiag.asResults[stDiag.resultIdx.ValInc()], sFormat:='Something else happened in active -> error');
 		END_IF
 		
 	CloseSocket:
@@ -112,8 +116,7 @@ CASE eState OF
 		END_IF
 	Err:
 		eState := Init;
-		stDiag.resultIdx.Inc();
-		stDiag.asResults[stDiag.resultIdx.Val] := 'Moving back to Init state from Error';
+		stDiag.asResults[stDiag.resultIdx.ValInc()] := 'Moving back to Init state from Error';
 END_CASE
 
 
