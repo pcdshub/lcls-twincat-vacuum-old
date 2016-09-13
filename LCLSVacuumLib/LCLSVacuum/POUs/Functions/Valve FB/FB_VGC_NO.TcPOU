@@ -79,12 +79,12 @@ END_IF
 (* Assuming the pump down went well, we are now at vacuum on both sides,
 so we move to the vacuum state, otherwise remain in the vented state *)
 IF i_stUSG.xAT_VAC AND i_stDSG.xAT_VAC AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
-VGC_State := Vacuum;
+VGC_State := AtVacuum;
 ELSE
 VGC_State := Vented;
 END_IF
 
-Vacuum:
+AtVacuum:
 (* Note for normally open valves, the condition for remaining closed is that the differential pressure
 does not exceed some certain value, which comes from the pressure that the window can hold.
 *)
@@ -93,7 +93,7 @@ IF rDiffPress <= rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK T
 then enable the differential pressure interlock, regardless of the valve state
 assuming we're using some kind of ion gauge where a pressure setpoint cannot be higher than 1E-4 T *)
 iq_stValve.xDP_OK := TRUE;
-VGC_State := Vacuum;
+VGC_State := AtVacuum;
 ELSE
 
 	(* If the valve is closed (or in an unknown state) and either gauge is not at it's vacuum setpoint,

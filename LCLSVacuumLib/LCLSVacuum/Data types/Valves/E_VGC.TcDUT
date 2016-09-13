@@ -5,7 +5,7 @@
 (
 
 	Vented,
-	Vacuum,
+	AtVacuum,
 	ERR_DiffPress,
 	ERR_LostVac
 
