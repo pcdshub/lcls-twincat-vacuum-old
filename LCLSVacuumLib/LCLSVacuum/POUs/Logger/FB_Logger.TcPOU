@@ -132,7 +132,7 @@ SocketSendTo();]]></ST>
     <Action Name="SocketSendTo" Id="{fca34bf9-1619-4cff-a5ea-95f906bcb6c8}">
       <Implementation>
         <ST><![CDATA[fbUDPSocketSend.hSocket := udpSocket;
-fbUDPSocketSend.sRemoteHost := g_IOCHostIP;
+fbUDPSocketSend.sRemoteHost := g_psLogHost;
 fbUDPSocketSend.nRemotePort := g_udpSyslog;
 fbUDPSocketSend.pSrc := ADR(sOutgoingMesg);
 fbUDPSocketSend.cbLen := SIZEOF(sOutgoingMesg);
