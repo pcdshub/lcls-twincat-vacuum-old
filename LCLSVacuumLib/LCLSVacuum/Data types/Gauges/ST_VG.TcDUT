@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
   <DUT Name="ST_VG" Id="{8ebcc563-a05a-4cb9-b161-a02f8eac0f57}">
     <Declaration><![CDATA[TYPE ST_VG :
 STRUCT
@@ -7,9 +7,9 @@ STRUCT
 	///These features aren't disabled, they just aren't used, think child/parent classes. 
 	/// Readbacks 
 	rPRESS: REAL; //This is the human-readable pressure
-	iPRESS_R: INT;
-	xAT_VAC: BOOL;
-	xPRESS_OK: BOOL;
+	iPRESS_R: INT; //input pressure in machine form
+	xAT_VAC: BOOL; //Pressure At Vacuum
+	xPRESS_OK: BOOL; // Pressure Reading is trustworthy
 	wState	:	WORD; //current gauge state, to be used as replacement for press OK bit in the future.
 	(* 00 controller not on
 		01 normal, aka pressure OK
@@ -21,27 +21,22 @@ STRUCT
 	eState	:	E_PressureState;
 	
 	/// Controls 
-	xHV_DIS: BOOL;
-	xHV_SW: BOOL;
-	wHV_RO: WORD;
+	xHV_DIS: BOOL;// Enable High Voltage when True
+	xHV_SW: BOOL;// High Voltage Switch
+	wHV_RO: WORD;// Relay Output Location
 	
-	/// Bakeout bit 
-	xBAKEOUT: BOOL;
+	xBAKEOUT: BOOL; /// Bakeout bit 
 	
 	eTYPE: Gauge_Type := PG907;
 	iTYPE : INT := 0;
-	wPG: WORD;
+	wPG: WORD;  /// Index location of the associated Pirani Guage
 	
-	/// Turn on Timers for cold cathode warmup 
-	xTurnOnTime: BOOL;
-	/// At vacuum setpoint for all gauges
-	rVAC_SP: REAL := 0.5;
-	/// Protection setpoint for ion gauges at which the gauge turns off, not used for pirani 
-	rPRO_SP: REAL := 0.01;
-	/// Protection setpoint hysteresis 
-	rHYS_PR: REAL;
-	/// Full scale pressure in Torr for baratron pressure conversion 
-	rFULL_SCALE: REAL := 1000;
+	xTurnOnTime: BOOL;/// Turn on Timers for cold cathode warmup 
+	
+	rVAC_SP: REAL := 0.5; // At vacuum setpoint for all gauges
+	rPRO_SP: REAL := 0.01; // Protection setpoint for ion gauges at which the gauge turns off, not used for pirani
+	rHYS_PR: REAL; // Protection setpoint hysteresis 
+	rFULL_SCALE: REAL := 1000; // Full scale pressure in Torr for baratron pressure conversion 
 END_STRUCT
 END_TYPE
 ]]></Declaration>
