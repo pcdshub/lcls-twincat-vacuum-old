@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
   <POU Name="FB_GGO" Id="{10b35b2a-0339-4871-a987-1f7d7e8bc93e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_GGO
 VAR_IN_OUT
@@ -43,10 +43,12 @@ P = 10^(V/0.6-12)
 
 *)
 
+(* Make a copy of gauge at index*)
 stVG := iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)];
 
+(* Check that Associated Gauge is within index*)
 IF WORD_TO_INT(stVG.wPG) <= gc_iSizeOfGGOArray THEN
-	(* Check pressure gauge type before assignment *)
+	(* Check  pressure gauge type before assignment *)
 	(* Add high pressure gauge types here *)
 		IF iq_astGauges[stVG.wPG].eTYPE = PG722B OR //722B
 		iq_astGauges[stVG.wPG].eTYPE = PG907 OR //907
@@ -61,19 +63,32 @@ IF WORD_TO_INT(stVG.wPG) <= gc_iSizeOfGGOArray THEN
 	
 END_IF
 
+(* Evaluate each Gauge pressure based on eTYPE*)
 CASE iq_astGauges[i_iIndex].eTYPE OF
+	
+	//Baratron Gauge
 	PG722B:
 		fbGCM(stVG:=stVG);
+		
+	//Cold Cathode
 	IG903:
 		fb903(IG:=stVG, PG:=stPG);
+		
+	//Pirani Gauge	
 	PG907:
 		fb907(PG:=stVG);
+		
+	//Hot Cathode	
 	IG909:
 		fb909(IG:=stVG, PG:=stPG);
+		
+	//MicroPirani Gauge	
 	PG925:
 		fb925(VG:=stVG);
 	ELSE
-		(* Now, since we don't know what gauge type we're dealing with, we want to make sure to reset all the gauge parameters, otherwise we may be left with stale information *)
+		(* Now, since we don't know what gauge type we're dealing with, we want 
+		to make sure to reset all the gauge parameters, otherwise we may be 
+		left with stale information *)
 	stVG.rPRESS := 760;
 	stVG.xAT_VAC := FALSE;
 	stVG.xPRESS_OK := FALSE;
@@ -81,6 +96,7 @@ CASE iq_astGauges[i_iIndex].eTYPE OF
 		
 END_CASE
 
+(* reAssign Gauge back to Gauge Array and reAssign "HV On" back into High Voltage Array*)
 iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)] := stVG;
 iq_axHV_RO[LIMIT(0,WORD_TO_INT(stVG.wHV_RO),gc_iSizeOfGGOArray)]:=stVG.xHV_DIS;]]></ST>
     </Implementation>
