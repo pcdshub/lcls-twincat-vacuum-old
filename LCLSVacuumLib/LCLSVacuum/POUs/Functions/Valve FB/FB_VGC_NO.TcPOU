@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <POU Name="FB_VGC_NO" Id="{834212c8-dcca-4e79-bd90-03fb1a3458f2}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VGC_NO
 VAR_IN_OUT
@@ -13,7 +13,7 @@ VAR_INPUT
 	i_stDSG	:	ST_VG;
 
 	i_xDis_DPIlk : BOOL := FALSE; (*Set to true when calling the function to disable the differential pressure interlock *)
-
+	i_rDiffPressAllowed	:	REAL := 22.5;
 END_VAR
 VAR_OUTPUT
 END_VAR
@@ -21,7 +21,7 @@ VAR
 
 	rDiffPress : REAL;
 
-	rDiffPressAllowed	:	REAL := 22.5;
+	
 
 	VGC_State : E_VGC;
 
@@ -66,7 +66,7 @@ CASE VGC_State OF
 Vented: (* The Vented state is used during pump down *)
 
 (* As long as the differential pressure is less than 30mbar, the valve is allowed to close/ remain closed *)
-IF rDiffPress <= rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
+IF rDiffPress <= i_rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
 iq_stValve.xDP_OK := TRUE;
 ELSE
 iq_stValve.xDP_OK	:= FALSE;
@@ -88,7 +88,7 @@ AtVacuum:
 (* Note for normally open valves, the condition for remaining closed is that the differential pressure
 does not exceed some certain value, which comes from the pressure that the window can hold.
 *)
-IF rDiffPress <= rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
+IF rDiffPress <= i_rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
 (* If both pressure setpoints are made,
 then enable the differential pressure interlock, regardless of the valve state
 assuming we're using some kind of ion gauge where a pressure setpoint cannot be higher than 1E-4 T *)
@@ -156,5 +156,11 @@ tonOvrd(IN:=iq_stValve.xOvrdCls, PT:=T#10S);
 iq_stValve.xCLS_DO := (iq_stValve.xCLS_SW AND iq_stValve.xCLS_OK) OR (tonOvrd.Q AND g_stSystem.xOverrideMode);
 ]]></ST>
     </Implementation>
+    <Action Name="ACT_ResetAlarms" Id="{8a371ee9-59fe-4bcb-98ab-980d04689b6c}">
+      <Implementation>
+        <ST><![CDATA[iq_stValve.xERR_DifPres R= iq_stValve.xAlmRst;
+iq_stValve.xERR_LstVac R= iq_stValve.xAlmRst;]]></ST>
+      </Implementation>
+    </Action>
   </POU>
 </TcPlcObject>

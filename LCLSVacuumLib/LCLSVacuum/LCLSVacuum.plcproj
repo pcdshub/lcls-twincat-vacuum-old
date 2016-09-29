@@ -362,6 +362,9 @@
     <SubObject Include="FB_VGC.ACT_ResetAlarms">
       <LinkAlways>true</LinkAlways>
     </SubObject>
+    <SubObject Include="FB_VGC_NO.ACT_ResetAlarms">
+      <LinkAlways>true</LinkAlways>
+    </SubObject>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
