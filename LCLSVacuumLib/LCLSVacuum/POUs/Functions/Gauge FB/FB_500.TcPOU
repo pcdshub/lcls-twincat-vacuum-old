@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <POU Name="FB_500" Id="{6241046a-c3ba-40b6-8b76-514cf5cc9cb4}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_500
 VAR_IN_OUT
@@ -33,12 +33,15 @@ rV := 10*INT_TO_REAL(IG.iPRESS_R)/32767;
 
 IF rV >= 0.5 AND rV < 1.0  THEN
 	IG.wState := 5;
+	IG.eState := Starting;
 	IG.rPRESS := cDefaultPressure;
 ELSIF rV < 0.4 THEN
 	IG.wState := 4;//HV Off/ gauge disconnected
+	IG.eState := Off;
 	IG.rPRESS := cDefaultPressure;
 ELSE
 	IG.wState := 1;
+	IG.eState := Valid;
 	IG.rPRESS := LREAL_TO_REAL(EXPT(10,((rV-vBase)/vSlope+LOG(pBase))));
 END_IF
 
@@ -48,8 +51,6 @@ END_IF
 (* If the PG pressure is greater than the VG.PRO_SP then the gauge is disabled *)
 (* If the PG pressure is less than the VG.PRO_SP then the gauge is enabled *)
 (* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
-
-
 
 IF PG.rPRESS < IG.rPRO_SP AND PG.xPRESS_OK THEN
 
