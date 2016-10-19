@@ -1,18 +1,28 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
   <DUT Name="ST_VRC" Id="{cb0eb88e-32ce-4b88-92df-8442dedadfcd}">
     <Declaration><![CDATA[TYPE ST_VRC :
 STRUCT
 (* Readbacks *)
+	//If True, Valve is Open
 	i_xOpnLS	:	BOOL;
+	//If True, Vavle is Closed
 	i_xClsLS	:	BOOL;
+	//If both above are false, 
+	//then in between open/close status
 
 (* Inputs *)
+	//Manually Pressing open/close on EDM
 	xOPN_SW	: BOOL;
+	//Local Overload butoon toggled on EDM
 	xOvrdOpn	:	BOOL;
+	//Calculated permissions to open valve
 	xOPN_OK	: BOOL;
+	//???
 	xCLS_OK : BOOL := TRUE;
 (* Outputs *)
+	//When True, Opens valve
+	//When False, Closes valve
 	xOPN_DO	: BOOL;
 
 END_STRUCT
