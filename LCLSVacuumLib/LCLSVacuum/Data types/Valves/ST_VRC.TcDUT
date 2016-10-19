@@ -12,9 +12,9 @@ STRUCT
 	//then in between open/close status
 
 (* Inputs *)
-	//Manually Pressing open/close on EDM
+	//Manually Pressing valve "Open/Close" on EDM
 	xOPN_SW	: BOOL;
-	//Local Overload butoon toggled on EDM
+	//Manually toggling valve Local "ILK on button" on EDM
 	xOvrdOpn	:	BOOL;
 	//Calculated permissions to open valve
 	xOPN_OK	: BOOL;
