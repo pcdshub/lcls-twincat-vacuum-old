@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <DUT Name="ST_PTM" Id="{800c0744-7104-483e-92b7-6bb5c958de58}">
     <Declaration><![CDATA[TYPE ST_PTM :
 STRUCT
@@ -11,8 +11,9 @@ NOTE: This is an archetype, use an extension of this structure for a specific pu
 *)
 
 (* Controls *)
-	i_xRunSW : BOOL;
-	q_RunDO : BOOL;
+	i_xRunSW	:	BOOL;
+	i_xReset	:	BOOL; //For resetting faults
+	q_RunDO 	:	BOOL;
 
 (* Readbacks *)
 	xExtRunOk	:	BOOL; (* also a control *)

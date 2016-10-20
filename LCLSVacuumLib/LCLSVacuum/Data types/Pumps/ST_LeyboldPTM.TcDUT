@@ -15,10 +15,10 @@ More?
 	i_diPwr   	:   DINT;
 	i_diElecTemp:	DINT;
 	i_xTempFault:	BOOL;
+	i_xNCError	:	BOOL; //Using normally closed wiring
 
 //Controls
 	q_xRemote : BOOL; (* Remote control enabled *)
-
 END_STRUCT
 END_TYPE
 ]]></Declaration>

@@ -10,13 +10,29 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
+	rtReset	:	R_TRIG;
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[(* Basic pump supervisory section *)
-IF iq_stPTM.xExtRunOk AND NOT (iq_stPTM.xFault OR iq_stPTM.i_xTempFault) THEN
+      <ST><![CDATA[(* Leybold TD20 Classic FB
+A. Wallace
+NOTE: This FB should be instanced for each pump. It relies on a
+persistent state for reseting faults.
+*)
+
+//Faults
+////////////////////////////
+	rtReset(CLK:=iq_stPTM.i_xReset);
+	iq_stPTM.xFault R= rtReset.Q;
+	iq_stPTM.xFault S= iq_stPTM.i_xTempFault OR NOT iq_stPTM.i_xNCError;
+
+	iq_stPTM.xWarn R= rtReset.Q;
+	iq_stPTM.xWarn S= iq_stPTM.xCommTimeout;
+
+(* Basic pump supervisory section *)
+IF iq_stPTM.xExtRunOk AND NOT iq_stPTM.xFault THEN
 	iq_stPTM.q_RunDO:=iq_stPTM.i_xRunSW;
 ELSE
-	iq_stPTM.i_xRunSW:=0;
+	iq_stPTM.i_xRunSW:=FALSE;
 	iq_stPTM.q_RunDO:=FALSE;
 END_IF]]></ST>
     </Implementation>
