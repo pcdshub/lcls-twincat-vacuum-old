@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+  <POU Name="FB_PTM_LeyboldTD20Classic" Id="{6898752d-385c-4950-924e-2a428f36744e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_PTM_LeyboldTD20Classic
+VAR_IN_OUT
+	iq_stPTM : ST_LeyboldPTM;
+END_VAR
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* Basic pump supervisory section *)
+IF iq_stPTM.xExtRunOk AND NOT (iq_stPTM.xFault OR iq_stPTM.i_xTempFault) THEN
+	iq_stPTM.q_RunDO:=iq_stPTM.i_xRunSW;
+ELSE
+	iq_stPTM.i_xRunSW:=0;
+	iq_stPTM.q_RunDO:=FALSE;
+END_IF]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>

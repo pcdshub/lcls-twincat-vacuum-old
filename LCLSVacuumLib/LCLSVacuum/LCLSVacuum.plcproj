@@ -92,7 +92,7 @@
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
-    <Compile Include="Data types\Pumps\ST_OerlikonPTM.TcDUT">
+    <Compile Include="Data types\Pumps\ST_LeyboldPTM.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
@@ -241,7 +241,7 @@
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
-    <Compile Include="POUs\Functions\Pumps\FB_PFEIFFER_PTM.TcPOU">
+    <Compile Include="POUs\Functions\Pumps\FB_PTM_Pfeiffer.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
@@ -256,6 +256,9 @@
     <Compile Include="POUs\Functions\Pumps\FB_PTM_MagDriveDigital.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="POUs\Functions\Pumps\FB_PTM_LeyboldTD20Classic.TcPOU">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\Pumps\FB_VARIAN301TURBO.TcPOU">
       <SubType>Code</SubType>
