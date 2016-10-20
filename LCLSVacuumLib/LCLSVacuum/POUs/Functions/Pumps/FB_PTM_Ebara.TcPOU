@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <POU Name="FB_PTM_Ebara" Id="{db9fdbdf-85bb-4e58-96cc-808f2a65a0e5}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_PTM_Ebara
 VAR_IN_OUT
@@ -29,6 +29,9 @@ TOF_STOP();
 TOF_RESET.IN := iq_stPTM.i_xReset;
 TOF_RESET();
 
+//Normally closed fault handling
+iq_stPTM.xFault := NOT iq_stPTM.i_xNCFault;
+
 (* Simple protection reset *)
 IF iq_stPTM.xExtRunOk THEN
 	iq_stPTM.q_xProtection:=TRUE;
@@ -43,7 +46,7 @@ IF iq_stPTM.i_xOverride THEN
 		iq_stPTM.q_RunDO:=FALSE;
 	END_IF
 	//Handle faults - the way the Ebara cable is done, xFault is normally closed
-ELSIF NOT iq_stPTM.xFault OR (iq_stPTM.q_RunDO AND NOT iq_stPTM.xExtRunOk) THEN
+ELSIF iq_stPTM.xFault OR (iq_stPTM.q_RunDO AND NOT iq_stPTM.xExtRunOk) THEN
 	iq_stPTM.q_RunDO:=FALSE;
 	iq_stPTM.q_xProtection:=FALSE;
 	//And one for when we need to start the pump normally. Only allows pump to be started if ILK ok.
