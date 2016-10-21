@@ -10,7 +10,7 @@ ETC series
 //Controls
 i_xStart   : BOOL; //Momentary start switch
 i_xStop    : BOOL; //Momentary stop switch
-i_xReset   : BOOL; //Momentary reset switch - resets protection functions
+// i_xReset is momentary reset switch - resets protection functions
 q_xStart   : BOOL; //Outputs - FB decides if these are actually set
 q_xStop    : BOOL;
 q_xReset   : BOOL;

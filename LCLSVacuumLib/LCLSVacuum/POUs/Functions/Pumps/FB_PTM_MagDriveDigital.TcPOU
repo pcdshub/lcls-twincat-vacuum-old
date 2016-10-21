@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <POU Name="FB_PTM_MagDriveDigital" Id="{50197c8d-2497-4812-a680-acd70b819f81}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_PTM_MagDriveDigital
 VAR_IN_OUT
-	iq_stPtm	:	ST_OerlikonPTM;
+	iq_stPtm	:	ST_LeyboldPTM;
 END_VAR
 VAR_INPUT
 END_VAR
