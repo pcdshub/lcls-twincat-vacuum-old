@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
   <POU Name="FB_VGC" Id="{e37ddbb4-4f83-44d0-bab6-047e5a609a6c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VGC
 VAR_IN_OUT
@@ -68,6 +68,17 @@ fbFSInit( CLK := TRUE,
 IF xFirstPass THEN
 VGC_State := Vented;
 iq_stValve.xOPN_SW := FALSE;
+END_IF
+
+///Check valve postion
+IF NOT iq_stValve.i_xClsLS AND iq_stValve.i_xOpnLS THEN 
+	iq_stValve.eState:=0;
+ELSIF iq_stValve.i_xClsLS AND NOT iq_stValve.i_xOpnLS THEN 
+	iq_stValve.eState:=1;
+ELSIF NOT iq_stValve.i_xClsLS AND NOT iq_stValve.i_xOpnLS THEN 
+	iq_stValve.eState:=2;
+ELSE
+	iq_stValve.eState:=3;
 END_IF
 
 // Update hysteresis
@@ -184,6 +195,8 @@ iq_stValve.xOPN_DO := (iq_stValve.xOPN_SW AND iq_stValve.xOPN_OK) OR (tonOvrd.Q 
 // Alarm reset
 //////////////////////////////////////
 ACT_ResetAlarms();
+
+
 ]]></ST>
     </Implementation>
     <Action Name="ACT_ResetAlarms" Id="{8962b369-e8aa-42c4-9c4c-4249c380363a}">

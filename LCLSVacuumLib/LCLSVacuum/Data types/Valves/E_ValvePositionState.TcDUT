@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
+  <DUT Name="E_ValvePositionState" Id="{7ac0533e-e8a2-4d2f-8187-b7891db4b9bb}">
+    <Declaration><![CDATA[TYPE E_ValvePositionState :
+	(
+OPEN	:= 0,
+CLOSED	:= 1,
+MOVING	:= 2,
+INVALID :=3
+	);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

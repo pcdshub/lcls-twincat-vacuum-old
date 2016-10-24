@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
   <DUT Name="ST_VGC" Id="{2c4a7ba8-0fa6-4a25-9ffd-90841b7d250a}">
     <Declaration><![CDATA[TYPE ST_VGC :
 STRUCT
@@ -23,7 +23,8 @@ rAT_VAC_SP	:	REAL;	// Interlock setpoint for gauges on both sides of valve
 	rAT_VAC_HYS	:	REAL;	// Hysteresis of the vacuum sp
 	rHYST_PERC	:	REAL;	// Hysteresis percentage
 	xAT_VAC	:	BOOL;	//At vacuum setpoint
-
+	
+eState	:	E_ValvePositionState;
 (* Controls *)
 	xOPN_DO	: BOOL;
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
   <POU Name="FB_VRC" Id="{2db6a988-e12f-4920-baa1-9b034d8c1cf9}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VRC
 VAR_IN_OUT
@@ -21,6 +21,17 @@ rtOK	:	R_TRIG;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[
+///Check valve postion
+IF NOT iq_stValve.i_xClsLS AND iq_stValve.i_xOpnLS THEN 
+	iq_stValve.eState:=0;
+ELSIF iq_stValve.i_xClsLS AND NOT iq_stValve.i_xOpnLS THEN 
+	iq_stValve.eState:=1;
+ELSIF NOT iq_stValve.i_xClsLS AND NOT iq_stValve.i_xOpnLS THEN 
+	iq_stValve.eState:=2;
+ELSE
+	iq_stValve.eState:=3;
+END_IF
+
 IF NOT iq_stValve.xOPN_OK and NOT tonOvrd.Q THEN
 iq_stValve.xOPN_SW := FALSE;
 END_IF

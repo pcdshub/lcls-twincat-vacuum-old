@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
   <POU Name="FB_VGC_NO" Id="{834212c8-dcca-4e79-bd90-03fb1a3458f2}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VGC_NO
 VAR_IN_OUT
@@ -48,6 +48,16 @@ VGC_State := Vented;
 iq_stValve.xCLS_SW := FALSE;
 END_IF
 
+///Check valve postion
+IF NOT iq_stValve.i_xClsLS AND iq_stValve.i_xOpnLS THEN 
+	iq_stValve.eState:=0;
+ELSIF iq_stValve.i_xClsLS AND NOT iq_stValve.i_xOpnLS THEN 
+	iq_stValve.eState:=1;
+ELSIF NOT iq_stValve.i_xClsLS AND NOT iq_stValve.i_xOpnLS THEN 
+	iq_stValve.eState:=2;
+ELSE
+	iq_stValve.eState:=3;
+END_IF
 
 (* Calc the differential pressure across the valve *)
 rDiffPress := ABS(i_stUSG.rPRESS - i_stDSG.rPRESS);

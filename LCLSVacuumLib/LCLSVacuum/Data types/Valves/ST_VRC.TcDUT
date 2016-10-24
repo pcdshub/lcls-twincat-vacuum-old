@@ -8,8 +8,8 @@ STRUCT
 	i_xOpnLS	:	BOOL;
 	//If True, Vavle is Closed
 	i_xClsLS	:	BOOL;
-	//If both above are false, 
-	//then in between open/close status
+	
+	eState	:	E_ValvePositionState;
 
 (* Inputs *)
 	//Manually Pressing valve "Open/Close" on EDM
