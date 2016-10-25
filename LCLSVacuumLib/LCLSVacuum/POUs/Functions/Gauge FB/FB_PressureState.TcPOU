@@ -30,9 +30,9 @@ This FB serves to evaluate the state of the pressure based on the raw voltage, p
 *)
 // Is the gauge plugged in, and within a reasonable range?
 IF i_rV < i_rVMin THEN
-	q_eState := Disconnected;
+	q_eState := GaugeDisconnected;
 ELSIF i_rV > i_rVMax THEN
-	q_eState := NotValid;
+	q_eState := PressInvalid;
 ELSE
 	// Is the gauge reading back a pressure that makes sense?
 	CASE iq_stVG.eTYPE OF
@@ -70,7 +70,7 @@ ELSE
 				q_eState := ValidHi;
 			END_IF
 		ELSE
-			q_eState := NotValid;
+			q_eState := PressInvalid;
 	END_CASE
 END_IF
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <POU Name="FB_VGC" Id="{e37ddbb4-4f83-44d0-bab6-047e5a609a6c}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VGC
 VAR_IN_OUT
@@ -89,10 +89,11 @@ IF iq_stValve.rAT_VAC_SP_LAST <> iq_stValve.rAT_VAC_SP THEN
 END_IF
 
 iq_stValve.rAT_VAC_HYS := LIMIT(0, iq_stValve.rAT_VAC_HYS, iq_stValve.rAT_VAC_SP);
-IF iq_stValve.rHYST_PERC <> (iq_stValve.rAT_VAC_HYS / iq_stValve.rAT_VAC_SP) THEN
-	iq_stValve.rHYST_PERC := LIMIT(0, (iq_stValve.rAT_VAC_HYS / iq_stValve.rAT_VAC_SP) ,1);
+IF iq_stValve.rAT_VAC_SP <> 0 THEN
+	IF iq_stValve.rHYST_PERC <> (iq_stValve.rAT_VAC_HYS / iq_stValve.rAT_VAC_SP) THEN
+		iq_stValve.rHYST_PERC := LIMIT(0, (iq_stValve.rAT_VAC_HYS / iq_stValve.rAT_VAC_SP) ,1);
+	END_IF
 END_IF
-
 // Valve at vacuum check
 ///////////////////////////////////////////////////
 	iq_stValve.xAT_VAC S= i_stUSG.rPRESS < iq_stValve.rAT_VAC_HYS AND i_stDSG.rPRESS < iq_stValve.rAT_VAC_HYS AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK;

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <POU Name="FB_275" Id="{c7ed38c5-1632-4c13-8a74-9f223c4eeee5}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_275
 VAR_IN_OUT
@@ -48,7 +48,7 @@ PG.eState := Valid;
 
 ELSIF V <= 0.36 THEN
 
-PG.eState :=Disconnected; //Most likely not connected
+PG.eState := GaugeDisconnected; //Most likely not connected
 
 ELSE
 	

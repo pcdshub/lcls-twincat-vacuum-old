@@ -8,9 +8,9 @@
 	ValidHi	:= 1, //gc_GaugeValidState + 1,
 	ValidLo	:= 2, //gc_GaugeValidState + 2,
 	
-	// Invalid states (Negative)
-	NotValid	:= -1, //gc_GaugeValidState - 1,
-	Disconnected	:=	-2, //gc_GaugeValidState -2,
+	// Invalid states
+	PressInvalid	:= -1, //gc_GaugeValidState - 1,
+	GaugeDisconnected	:=	-2, //gc_GaugeValidState -2,
 	OoR	:= -6, //gc_GaugeValidState -6,
 	// Ion gauges
 	Off		:= -3, //gc_GaugeValidState - 3,
