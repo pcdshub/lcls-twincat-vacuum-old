@@ -97,7 +97,7 @@ END_IF
 // Valve at vacuum check
 ///////////////////////////////////////////////////
 	iq_stValve.xAT_VAC S= i_stUSG.rPRESS < iq_stValve.rAT_VAC_HYS AND i_stDSG.rPRESS < iq_stValve.rAT_VAC_HYS AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK;
-	iq_stValve.xAT_VAC R= i_stUSG.rPRESS < iq_stValve.rAT_VAC_SP AND i_stDSG.rPRESS < iq_stValve.rAT_VAC_SP AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK;
+	iq_stValve.xAT_VAC R= i_stUSG.rPRESS > iq_stValve.rAT_VAC_SP AND i_stDSG.rPRESS > iq_stValve.rAT_VAC_SP AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK;
 
 // Differential pressure check
 ///////////////////////////////////////////////////
