@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <POU Name="FB_909" Id="{6704ae1a-1a21-4980-b06c-d89623cfcf41}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_909
 VAR_IN_OUT
@@ -61,6 +61,9 @@ fbGaugeState.i_rV := V;
 fbGaugeState.i_MaxPressure := rMaxPressure;
 fbGaugeState.i_MinPressure := rMinPressure;
 fbGaugeState(iq_stVG:=IG);
+
+//Backwards compatibility
+IG.xPRESS_OK := (IG.wState = 1) OR IG.xBAKEOUT;
 
 (* Setpoint evaluation *)
 IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS<IG.rVAC_SP)) OR IG.xBAKEOUT;]]></ST>
