@@ -72,18 +72,18 @@ END_IF
 
 ///Check valve postion
 IF NOT iq_stValve.i_xClsLS AND iq_stValve.i_xOpnLS THEN 
-	iq_stValve.eState:=0;
+	iq_stValve.eState:=OPEN;
 ELSIF iq_stValve.i_xClsLS AND NOT iq_stValve.i_xOpnLS THEN 
-	iq_stValve.eState:=1;
+	iq_stValve.eState:=CLOSED;
 ELSIF NOT iq_stValve.i_xClsLS AND NOT iq_stValve.i_xOpnLS THEN 
-	iq_stValve.eState:=2;
+	iq_stValve.eState:=MOVING;
 ELSE
-	iq_stValve.eState:=3;
+	iq_stValve.eState:=INVALID;
 END_IF
 
 // Update hysteresis
 ///////////////////////////////////////////////////
-IF iq_stValve.rAT_VAC_SP_LAST <> iq_stValve.rAT_VAC_SP THEN
+IF iq_stValve.rAT_VAC_SP_LAST <> iq_stValve.rAT_VAC_SP OR xFirstPass THEN
 	iq_stValve.rAT_VAC_SP_LAST := iq_stValve.rAT_VAC_SP;
 	iq_stValve.rAT_VAC_HYS := iq_stValve.rHYST_PERC * iq_stValve.rAT_VAC_SP;
 END_IF
