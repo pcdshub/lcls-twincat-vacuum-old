@@ -69,7 +69,7 @@ END_IF
 (* Pressure gauge OK checks *)
 
 //Backwards compatibility
-IG.xPRESS_OK := (IG.wState = 1) OR IG.xBAKEOUT;
+IG.xPRESS_OK := (IG.eState = gc_GaugeValidState) OR IG.xBAKEOUT;
 
 (* Setpoint evaluation *)
 IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS < IG.rVAC_SP)) OR IG.xBAKEOUT;
