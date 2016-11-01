@@ -65,7 +65,7 @@ fbGaugeState.i_MinPressure := rMinPressure;
 fbGaugeState(iq_stVG:=IG);
 
 //Backwards compatibility
-IG.xPRESS_OK := (IG.eState = gc_GaugeValidState) OR IG.xBAKEOUT;
+IG.xPRESS_OK := (IG.eState = Valid) OR IG.xBAKEOUT;
 
 (* Setpoint evaluation *)
 IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS<IG.rVAC_SP)) OR IG.xBAKEOUT;

@@ -32,15 +32,12 @@ END_VAR
 rV := 10*INT_TO_REAL(IG.iPRESS_R)/32767;
 
 IF rV >= 0.5 AND rV < 1.0  THEN
-	IG.wState := 5;
 	IG.eState := Starting;
 	IG.rPRESS := cDefaultPressure;
 ELSIF rV < 0.4 THEN
-	IG.wState := 4;//HV Off/ gauge disconnected
 	IG.eState := Off;
 	IG.rPRESS := cDefaultPressure;
 ELSE
-	IG.wState := 1;
 	IG.eState := Valid;
 	IG.rPRESS := LREAL_TO_REAL(EXPT(10,((rV-vBase)/vSlope+LOG(pBase))));
 END_IF
@@ -69,7 +66,7 @@ END_IF
 (* Pressure gauge OK checks *)
 
 //Backwards compatibility
-IG.xPRESS_OK := (IG.eState = gc_GaugeValidState) OR IG.xBAKEOUT;
+IG.xPRESS_OK := (IG.eState = Valid) OR IG.xBAKEOUT;
 
 (* Setpoint evaluation *)
 IG.xAT_VAC := (IG.xPRESS_OK AND (IG.rPRESS < IG.rVAC_SP)) OR IG.xBAKEOUT;

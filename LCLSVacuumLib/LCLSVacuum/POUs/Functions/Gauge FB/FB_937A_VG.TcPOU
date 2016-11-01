@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <POU Name="FB_937A_VG" Id="{0483146b-b0e8-4c2d-b90b-7317630633a1}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_937A_VG
 VAR_IN_OUT
@@ -45,21 +45,19 @@ END_IF
 VG.xPRESS_OK := (rV <=9.6 ) AND (rV>=0.6); //legacy
 
 IF (rV <=9.6 ) AND (rV>=0.6) THEN
-	VG.wState := 1; // normal
+	VG.eState := Valid; // normal
 ELSIF rV >= 0.18 AND rV <= 0.22 THEN
-	VG.wState := 2; //LO
+	VG.eState := ValidLo; //LO
 ELSIF rV >= 9.7 AND rV<= 9.9 THEN
-	VG.wState := 3; //HIGH
-ELSIF rV > 9.9 THEN
-	VG.wState := 4; //other fault
+	VG.eState := ValidHi; //HIGH
 ELSIF rV < 0.18 THEN
-	VG.wState := 0; //not on
+	VG.eState := GaugeDisconnected; //not on
 ELSE
-	VG.wState := 9; // unknown state, something is really messed up
+	VG.eState := PressInvalid; //other fault - could be no gauge, controller powering up etc
 END_IF
 
 (* Setpoint evaluation *)
-VG.xAT_VAC := (VG.wState =1) AND VG.rPRESS < VG.rVAC_SP;
+VG.xAT_VAC := (VG.eState =Valid) AND VG.rPRESS < VG.rVAC_SP;
 
 
 

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <DUT Name="ST_VG" Id="{8ebcc563-a05a-4cb9-b161-a02f8eac0f57}">
     <Declaration><![CDATA[TYPE ST_VG :
 STRUCT
@@ -10,14 +10,6 @@ STRUCT
 	iPRESS_R: INT; //input pressure in machine form
 	xAT_VAC: BOOL; //Pressure At Vacuum
 	xPRESS_OK: BOOL; // Pressure Reading is trustworthy
-	wState	:	WORD; //current gauge state, to be used as replacement for press OK bit in the future.
-	(* 00 controller not on
-		01 normal, aka pressure OK
-		02 LO, pressure too low
-		03 HI, pressure too high
-		04 Gauge disconnected, HV off, no sensor detected, controller powering up
-		05 cold cathode warming up
-		*)
 	eState	:	E_PressureState;
 	
 	/// Controls 
