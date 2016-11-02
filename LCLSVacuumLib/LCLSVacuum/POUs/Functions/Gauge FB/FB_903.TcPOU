@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
   <POU Name="FB_903" Id="{43f992bb-7482-4786-b361-2c82626a8580}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_903
 VAR_IN_OUT
@@ -19,8 +19,6 @@ VAR
 	rMinPressure: REAL := 3E-10;
 
 	V: REAL;
-
-	GaugeTurnOnTmr : TON;
 	fbGaugeState : FB_PressureState;
 END_VAR]]></Declaration>
     <Implementation>
