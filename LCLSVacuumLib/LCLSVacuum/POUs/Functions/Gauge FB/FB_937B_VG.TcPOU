@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <POU Name="FB_937B_VG" Id="{8a56f7a2-f285-4648-be2d-40acd79b269f}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_937B_VG
 VAR_IN_OUT
@@ -28,7 +28,7 @@ VG.rPRESS := LREAL_TO_REAL(EXPT(10,(rV-7.2)/0.6));
 (* If the PG pressure is less than the VG.PRO_SP then the gauge is enabled *)
 (* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
 
-IF PG.rPRESS < VG.rPRO_SP AND PG.wPG = 1 THEN
+IF PG.rPRESS < VG.rPRO_SP THEN
 
 VG.xHV_DIS := NOT VG.xHV_SW;
 
@@ -61,5 +61,9 @@ VG.xAT_VAC := (VG.eState =Valid) AND VG.rPRESS < VG.rVAC_SP;
 
 ]]></ST>
     </Implementation>
+    <LineIds Name="FB_937B_VG">
+      <LineId Id="3" Count="43" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

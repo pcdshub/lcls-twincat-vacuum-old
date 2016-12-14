@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <DUT Name="ST_VG" Id="{8ebcc563-a05a-4cb9-b161-a02f8eac0f57}">
     <Declaration><![CDATA[TYPE ST_VG :
 STRUCT
@@ -21,7 +21,7 @@ STRUCT
 	
 	eTYPE: Gauge_Type := PG907; //enum for gauge type
 	iTYPE : INT := 0;
-	wPG: WORD;  /// Index location of the associated Pirani Guage
+	wPG: WORD;  /// Index location of the associated Pirani Gauge
 	
 	xTurnOnTime: BOOL;/// Turn on Timers for cold cathode warmup 
 	

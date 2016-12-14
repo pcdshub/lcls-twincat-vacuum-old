@@ -27,7 +27,7 @@
 1.7.0 ST_PTM now uses inheritence model.  Started implementing Ebara support.
 1.8.0 Moved to seperate functions for 937A and 937B controllers.</Description>
     <CombineIds>false</CombineIds>
-    <ProjectVersion>1.10.6</ProjectVersion>
+    <ProjectVersion>1.10.7</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Data types" />
