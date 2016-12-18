@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="ST_VCC_NO" Id="{ef583352-abd3-48c7-b2ed-d59d0912a5b6}">
+    <Declaration><![CDATA[TYPE ST_VCC_NO :
+STRUCT
+
+(* A normally open valve needs permission to close! *)
+(* Inputs *)
+	xCLS_SW	: BOOL;
+	xOvrdCls	:	BOOL;
+	xCLS_OK	: BOOL;
+
+(* Outputs *)
+	xCLS_DO	: BOOL;
+
+END_STRUCT
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <POU Name="FB_VCC_NO" Id="{ba131e16-6293-4fa2-9f66-e3d9ca59a9ec}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_VCC_NO
+VAR_IN_OUT
+
+	iq_stValve : ST_VCC_NO;
+
+END_VAR
+VAR_INPUT
+
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+
+tonOvrd	:	TON;
+tonDelOK : TON;
+rtOK	:	R_TRIG;
+
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+IF NOT iq_stValve.xCLS_OK THEN
+iq_stValve.xCLS_SW := FALSE;
+END_IF
+
+(* Override logic *)
+(* Goal: give ability to override, but do so in a way that people won't forget it.
+Solution: Override only after ten seconds of override, protect against blips,
+when the valve permission goes true for more than ten seconds consistently, remove override
+*)
+
+tonDelOK(IN:=iq_stValve.xCLS_OK, PT:=T#10S);
+rtOK(CLK:=tonDelOK.Q);
+IF rtOK.Q THEN iq_stValve.xOvrdCls :=FALSE; END_IF
+
+//Override timer
+tonOvrd(IN:=iq_stValve.xOvrdCls, PT:=T#10S);
+
+(* Here's where the valve is closed *)
+iq_stValve.xCLS_DO := (iq_stValve.xCLS_SW AND iq_stValve.xCLS_OK) OR (tonOvrd.Q AND g_stSystem.xOverrideMode);]]></ST>
+    </Implementation>
+    <LineIds Name="FB_VCC_NO">
+      <LineId Id="3" Count="18" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
