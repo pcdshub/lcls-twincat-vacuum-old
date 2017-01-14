@@ -1,17 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <POU Name="FB_Index" Id="{ca8a34e3-bd4f-442e-9caf-17285b4f6fa2}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Index
 VAR_INPUT
-	InitVal : INT := 0;
-	IncVal : INT := 1;
+	LowerLimit : INT := 0;
+	ValInc : INT := 1;
 	UpperLimit	:	INT := 1;
 END_VAR
 VAR_OUTPUT
 	
 END_VAR
 VAR
-	Val	:	INT := InitVal;
+	Val	:	INT := LowerLimit;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -23,27 +23,38 @@ Why doesn't beckhoff have this as a builtin type?
 
 ;]]></ST>
     </Implementation>
-    <Method Name="ValInc" Id="{39565696-334a-4053-9d1a-5f11c00bc35c}">
-      <Declaration><![CDATA[METHOD PUBLIC ValInc : INT
+    <Method Name="IncVal" Id="{6f28d89a-7191-4dad-8824-c5fe9fb32dd9}">
+      <Declaration><![CDATA[METHOD PUBLIC IncVal : INT
 VAR_INPUT
 END_VAR
 ]]></Declaration>
       <Implementation>
-        <ST><![CDATA[ValInc := THIS^.Val;
-THIS^.Inc();]]></ST>
+        <ST><![CDATA[Inc();
+IncVal := Val;]]></ST>
       </Implementation>
     </Method>
-    <Action Name="Dec" Id="{8c309ae9-b73a-4c3f-8e68-797f70101636}">
-      <Implementation>
-        <ST><![CDATA[Val := LIMIT(InitVal, Val - IncVal, UpperLimit);]]></ST>
-      </Implementation>
-    </Action>
-    <Action Name="Inc" Id="{dddba33c-25fc-4806-a697-b15b846415dc}">
+    <Action Name="Inc" Id="{a11e830b-c881-456f-af74-5a750bccfd58}">
       <Implementation>
         <ST><![CDATA[// Dont use this, use ValInc
-Val := Val + IncVal;
-IF Val >  UpperLimit THEN Val := InitVal; END_IF]]></ST>
+Val := Val + ValInc;
+IF Val >  UpperLimit THEN Val := LowerLimit; END_IF]]></ST>
       </Implementation>
     </Action>
+    <Action Name="Dec" Id="{b1b81818-0c2b-42cc-90f3-55cd7cad3e87}">
+      <Implementation>
+        <ST><![CDATA[Val := Val - ValInc;
+IF Val < LowerLimit THEN Val := UpperLimit;]]></ST>
+      </Implementation>
+    </Action>
+    <Method Name="DecVal" Id="{cf4e17a1-86cd-4a59-ad6f-fc3838ffede5}">
+      <Declaration><![CDATA[METHOD DecVal : INT
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[Dec();
+DecVal := Val;]]></ST>
+      </Implementation>
+    </Method>
   </POU>
 </TcPlcObject>
