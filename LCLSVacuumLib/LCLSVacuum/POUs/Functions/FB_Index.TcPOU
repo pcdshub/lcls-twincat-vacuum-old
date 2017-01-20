@@ -4,7 +4,7 @@
     <Declaration><![CDATA[FUNCTION_BLOCK FB_Index
 VAR_INPUT
 	LowerLimit : INT := 0;
-	Increment : INT := 1;
+	IncVal : INT := 1;
 	UpperLimit	:	INT := 1;
 END_VAR
 VAR_OUTPUT
@@ -36,13 +36,13 @@ ValInc := Val;]]></ST>
     <Action Name="Inc" Id="{a11e830b-c881-456f-af74-5a750bccfd58}">
       <Implementation>
         <ST><![CDATA[// Dont use this, use ValInc
-Val := Val + Increment;
+Val := Val + IncVal;
 IF Val >  UpperLimit THEN Val := LowerLimit; END_IF]]></ST>
       </Implementation>
     </Action>
     <Action Name="Dec" Id="{b1b81818-0c2b-42cc-90f3-55cd7cad3e87}">
       <Implementation>
-        <ST><![CDATA[Val := Val - Increment;
+        <ST><![CDATA[Val := Val - IncVal;
 IF Val < LowerLimit THEN Val := UpperLimit; END_IF]]></ST>
       </Implementation>
     </Action>
