@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
   <DUT Name="ST_VGC" Id="{2c4a7ba8-0fa6-4a25-9ffd-90841b7d250a}">
     <Declaration><![CDATA[TYPE ST_VGC :
 STRUCT
@@ -18,13 +18,13 @@ STRUCT
 	xEXT_OK	:	BOOL := FALSE;	(* External interlock for custom interlocking in addition to regular DP ilk, this must be set true, or the interlock condition before calling the FB_VGC *)
 	xOPN_OK	:	BOOL;	(* Final SUM of DP_OK and EXT_OK, needed because it allows the DP ilk to be switched off, see FB_VGC.Dis_DPIlk *)
 	
-rAT_VAC_SP	:	REAL;	// Interlock setpoint for gauges on both sides of valve
-	rAT_VAC_SP_LAST	:	REAL;	// Interlock setpoint for gauges on both sides of valve
-	rAT_VAC_HYS	:	REAL;	// Hysteresis of the vacuum sp
+	rAT_VAC_SP	:	REAL := 0.01;	// Interlock setpoint for gauges on both sides of valve
+	rAT_VAC_SP_LAST	:	REAL :=0.01 ;	// Interlock setpoint for gauges on both sides of valve
+	rAT_VAC_HYS	:	REAL :=0.01;	// Hysteresis of the vacuum sp
 	rHYST_PERC	:	REAL := 0.80;	// Hysteresis percentage
 	xAT_VAC	:	BOOL;	//At vacuum setpoint
 	
-eState	:	E_ValvePositionState;
+eState	:	E_ValvePositionState := INVALID;
 (* Controls *)
 	xOPN_DO	: BOOL;
 

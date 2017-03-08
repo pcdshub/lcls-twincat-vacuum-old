@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
   <DUT Name="ST_RoughPump" Id="{bc15277c-c15e-47b7-b868-53b37fb95229}">
     <Declaration><![CDATA[TYPE ST_RoughPump :
 STRUCT
@@ -12,6 +12,7 @@ NOTE: This is an archetype, use an extension of this structure for a specific pu
 
 //Controls
 i_xRunSW	:	BOOL; //epics/ software control switch
+q_xRunDo 	:   BOOL; 
 
 //Status and Readback
 xIlk	:	BOOL; //Interlock bit, true means OK to run

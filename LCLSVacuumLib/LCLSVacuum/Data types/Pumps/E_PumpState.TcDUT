@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
+  <DUT Name="E_PumpState" Id="{c72c15d9-5677-4f82-9e43-6a752f915888}">
+    <Declaration><![CDATA[TYPE E_PumpState :
+(
+pumpSTOPPED	:= 0,
+pumpSTARTING	:= 1,
+pumpRUNNING	:= 2,
+pumpFAULT := 3
+
+);
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
