@@ -283,6 +283,9 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
       <ExcludeFromBuild>True</ExcludeFromBuild>
     </Compile>
+    <Compile Include="POUs\Functions\Valve FB\FB_TurbVentvalve_NO.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Functions\Valve FB\FB_VCC_NO.TcPOU">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
