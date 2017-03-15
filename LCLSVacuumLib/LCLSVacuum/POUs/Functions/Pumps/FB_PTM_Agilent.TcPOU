@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <POU Name="FB_PTM_Agilent" Id="{7065fe21-c670-4546-aabc-a4f45055c1ab}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_PTM_Agilent
 VAR_IN_OUT
-	iq_stPtm	:	ST_PTM;
+	iq_stPtm	:	ST_AgilentPTM;
 END_VAR
 VAR_INPUT
 END_VAR
@@ -17,6 +17,23 @@ END_VAR
       <ST><![CDATA[(* Basic Agilent Turbo Controls *)
 (* A. Wallace, 2015-7-15 *)
 
+(* Pump state *)
+(* If frequency (R1) is not above setpoint and pump is not Starting, pump estate is STOPPED, 
+   else if frequency (R1) is not above setpoint and pump is Starting, pump estate is STARTING, 
+	else if frequency (R1) is above setpoint and pump is not Starting, pump estate is STOPPED, 
+*)
+IF iq_stPtm.xFault THEN 
+	iq_stPtm.eState := pumpFAULT;
+
+ELSIF NOT iq_stPtm.i_xR1 AND NOT iq_stPtm.i_xSTART  THEN
+	iq_stPtm.eState := pumpSTOPPED;
+ELSIF NOT iq_stPtm.i_xR1 AND iq_stPtm.i_xSTART  THEN
+	iq_stPtm.eState := pumpSTARTING;
+ELSIF iq_stPtm.i_xR1 AND NOT iq_stPtm.i_xSTART THEN
+	iq_stPtm.eState := pumpRUNNING;
+ELSE 
+	iq_stPtm.eState := pumpFAULT;
+END_IF
 
 (* Interlock Sum *)
 xRunOk := iq_stPtm.xExtRunOk AND NOT iq_stPtm.xFault;
@@ -36,5 +53,11 @@ ELSE
 	iq_stPtm.q_RunDO:=FALSE;
 END_IF]]></ST>
     </Implementation>
+    <LineIds Name="FB_PTM_Agilent">
+      <LineId Id="3" Count="2" />
+      <LineId Id="34" Count="16" />
+      <LineId Id="6" Count="16" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

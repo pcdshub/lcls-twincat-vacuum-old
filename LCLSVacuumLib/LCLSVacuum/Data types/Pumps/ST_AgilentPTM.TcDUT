@@ -38,7 +38,7 @@ STRUCT
 		
 	eState	:	E_PumpState;
 	
-	rForelinePressureSP : REAL := 0.01;
+	rBackingPressureSP : REAL := 0.01;
 	rInletPressureSP : REAL := 0.5;
 	
 

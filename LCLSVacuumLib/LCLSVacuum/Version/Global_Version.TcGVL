@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <GVL Name="Global_Version" Id="{d92ec28a-e0bd-46af-b967-3e6dee49e59a}">
     <Declaration><![CDATA[{attribute 'TcGenerated'}
 // This function has been automatically generated from the project information.
