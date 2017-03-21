@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+  <DUT Name="ST_AuxiliaryPump" Id="{031c39a2-87c9-4f07-a899-78ccdcf41fb3}">
+    <Declaration><![CDATA[TYPE ST_AuxiliaryPump EXTENDS ST_RoughPump :
+STRUCT
+	q_ContactClosed	:	BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

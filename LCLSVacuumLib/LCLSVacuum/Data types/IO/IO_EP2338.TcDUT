@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+  <DUT Name="IO_EP2338" Id="{2e21a6bc-b20f-4d6d-80b0-f9bd6e5868c8}">
+    <Declaration><![CDATA[TYPE IO_EP2338 :
+STRUCT
+	i_bInCh1	AT	%I*	:	BOOL;
+	i_bInCh2	AT	%I*	:	BOOL;
+	i_bInCh3	AT	%I*	:	BOOL;
+	i_bInCh4	AT	%I*	:	BOOL;
+	
+	i_bInCh5	AT	%I*	:	BOOL;
+	i_bInCh6	AT	%I*	:	BOOL;
+	i_bInCh7	AT	%I*	:	BOOL;
+	i_bInCh8	AT	%I*	:	BOOL;
+	
+	
+	q_bInCh1	AT	%Q*	:	BOOL;
+	q_bInCh2	AT	%Q*	:	BOOL;
+	q_bInCh3	AT	%Q*	:	BOOL;
+	q_bInCh4	AT	%Q*	:	BOOL;
+
+	q_bInCh5	AT	%Q*	:	BOOL;
+	q_bInCh6	AT	%Q*	:	BOOL;
+	q_bInCh7	AT	%Q*	:	BOOL;
+	q_bInCh8	AT	%Q*	:	BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

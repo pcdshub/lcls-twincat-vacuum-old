@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
   <POU Name="FB_GGO" Id="{10b35b2a-0339-4871-a987-1f7d7e8bc93e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_GGO
 VAR_IN_OUT
@@ -68,7 +68,7 @@ CASE iq_astGauges[i_iIndex].eTYPE OF
 	
 	//Baratron Gauge
 	PG722B:
-		fbGCM(stVG:=stVG);
+		fbGCM(VG:=stVG);
 		
 	//Cold Cathode
 	IG903:

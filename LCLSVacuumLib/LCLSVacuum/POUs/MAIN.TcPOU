@@ -3,26 +3,13 @@
   <POU Name="MAIN" Id="{d4dea680-4b5c-47cf-a536-e57c3bc8ef76}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	tpImAPLC : TP;
-	stDiag	:	ST_fbDiagnostics;
-	valu: INT;
+
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[////////////////////////////////////////////////////////////
-// Logger test code
-tpImAPLC();
-IF NOT tpImAPLC.Q THEN
-	fbLogMessage(i_sMsg:='Hello world, I am a PLC', i_eSevr:=Info, i_eSubsystem:=E_Subsystem.VACUUM);
-	tpImAPLC(IN:= FALSE ); tpImAPLC(IN:= TRUE);
-END_IF
-
-////////////////////////////////////////////////////////////
-// This gives you an increment at the same time as you get the current index value.
-valu := stDiag.resultIdx.ValInc();]]></ST>
+      <ST><![CDATA[]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="3" Count="9" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
