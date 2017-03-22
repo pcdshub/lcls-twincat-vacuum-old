@@ -27,7 +27,7 @@
 1.7.0 ST_PTM now uses inheritence model.  Started implementing Ebara support.
 1.8.0 Moved to seperate functions for 937A and 937B controllers.</Description>
     <CombineIds>false</CombineIds>
-    <ProjectVersion>1.10.9</ProjectVersion>
+    <ProjectVersion>1.10.10</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Data types" />
@@ -61,9 +61,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data types\ISG_Struct.TcDUT" />
+    <Compile Include="Data types\Pumps\E_PumpState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Data types\Pumps\ST_AgilentControlStatus.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
+    </Compile>
+    <Compile Include="Data types\Pumps\ST_AgilentPTM.TcDUT">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data types\Pumps\ST_AuxiliaryPump.TcDUT">
       <SubType>Code</SubType>
@@ -84,6 +90,9 @@
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
+    <Compile Include="Data types\Pumps\ST_PIP.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Data types\Pumps\ST_PTM.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
@@ -91,9 +100,6 @@
     <Compile Include="Data types\Pumps\ST_RoughPump.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
-    </Compile>
-    <Compile Include="Data types\ST_AgilentPTM.TcDUT">
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="Data types\ST_Encoder.TcDUT" />
     <Compile Include="Data types\ST_LaserGate.TcDUT" />
@@ -231,10 +237,16 @@
     <Compile Include="POUs\Functions\Pumps\FB_PTM_LeyboldTD20Classic.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\Functions\Pumps\FB_TurboExtLogic.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Functions\Pumps\FB_VARIAN301TURBO.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
       <ExcludeFromBuild>True</ExcludeFromBuild>
+    </Compile>
+    <Compile Include="POUs\Functions\Valve FB\FB_TurbVentvalve_NO.TcPOU">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\Valve FB\FB_VCC_NO.TcPOU">
       <SubType>Code</SubType>
