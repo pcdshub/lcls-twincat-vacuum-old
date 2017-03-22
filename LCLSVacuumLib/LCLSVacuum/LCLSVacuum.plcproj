@@ -92,6 +92,9 @@
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
+    <Compile Include="Data types\ST_AgilentPTM.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Data types\ST_Encoder.TcDUT" />
     <Compile Include="Data types\ST_LaserGate.TcDUT" />
     <Compile Include="Data types\UpStrInVac_Struct.TcDUT" />
