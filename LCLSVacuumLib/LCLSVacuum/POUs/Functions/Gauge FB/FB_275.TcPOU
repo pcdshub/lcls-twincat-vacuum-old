@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <POU Name="FB_275" Id="{c7ed38c5-1632-4c13-8a74-9f223c4eeee5}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_275
 VAR_IN_OUT
@@ -49,10 +49,12 @@ PG.eState := Valid;
 ELSIF V <= 0.36 THEN
 
 PG.eState := GaugeDisconnected; //Most likely not connected
+PG.rPRESS := 0;
 
 ELSE
 	
 PG.eState := OoR; //Larger voltage, probably out of range?
+PG.rPRESS := 9000;//It's over 9,000!!!!-Dragon BallZ
 
 END_IF
 
@@ -62,10 +64,18 @@ END_IF
 (* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
 
 (* Pressure OK check *)
-PG.xPRESS_OK := (PG.rPRESS >= MinPressure);
+PG.xPRESS_OK := (PG.rPRESS >= MinPressure) AND (PG.eState >= 0);
 
 (* Setpoint evaluation *)
 PG.xAT_VAC := PG.xPRESS_OK AND (PG.rPRESS<PG.rVAC_SP);]]></ST>
     </Implementation>
+    <LineIds Name="FB_275">
+      <LineId Id="3" Count="30" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="34" Count="5" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="40" Count="10" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>
