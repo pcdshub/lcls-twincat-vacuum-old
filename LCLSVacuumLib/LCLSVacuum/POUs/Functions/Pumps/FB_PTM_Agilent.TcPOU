@@ -10,7 +10,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	xRunOk	:	BOOL;
+	//xRunOk	:	BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -36,27 +36,42 @@ ELSE
 END_IF
 
 (* Interlock Sum *)
-xRunOk := iq_stPtm.xExtRunOk AND NOT iq_stPtm.xFault;
-
-(* Mask the at speed bit if fault is true 
-done for versions of the interface cable where
-at speed gets its power from from the beckhoff term*)
-IF iq_stPtm.xFault THEN
-	iq_stPtm.i_xAtSpd := FALSE;
-END_IF
+iq_stPtm.q_xIlk := iq_stPtm.xExtRunOk AND NOT iq_stPtm.xFault;
 
 (* Basic pump supervisory section *)
-IF xRunOk THEN
+IF iq_stPtm.q_xIlk THEN
 	iq_stPtm.q_RunDO := iq_stPTM.i_xRunSW;
 ELSE
 	iq_stPtm.i_xRunSW:=FALSE;
 	iq_stPtm.q_RunDO:=FALSE;
+END_IF
+
+(* Mask the at speed bit if fault is true 
+done for versions of the interface cable where
+at speed gets its power from from the beckhoff term*)
+
+(*Basically if Fault, then squash everything and turn everything off*)
+IF iq_stPtm.xFault THEN
+	iq_stPtm.i_xAtSpd := FALSE;
+	iq_stPtm.i_xRunSW:=FALSE;
+	iq_stPtm.q_RunDO:=FALSE;
+	iq_stPtm.q_xSS := FALSE;
+	iq_stPtm.q_xLSpd:= FALSE;
+	iq_stPtm.eState := pumpFAULT;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="FB_PTM_Agilent">
       <LineId Id="3" Count="2" />
       <LineId Id="34" Count="16" />
-      <LineId Id="6" Count="16" />
+      <LineId Id="6" Count="2" />
+      <LineId Id="16" Count="6" />
+      <LineId Id="62" Count="3" />
+      <LineId Id="69" Count="1" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="71" Count="1" />
+      <LineId Id="74" Count="1" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="68" Count="0" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
