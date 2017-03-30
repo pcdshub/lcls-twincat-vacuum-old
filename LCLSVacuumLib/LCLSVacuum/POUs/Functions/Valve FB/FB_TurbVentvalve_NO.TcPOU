@@ -10,7 +10,12 @@ VAR_INPUT
 END_VAR
 VAR
 	tofTmr 		: 	TOF;
-END_VAR]]></Declaration>
+END_VAR
+
+(*If the turbo is on, you cannot open the valve. In order to open the valve, you have to allow the turbopump
+ to have already been turned off for 2 minutes and you have to press the open button on the vent valve
+
+If the code looks confusing please use a truth table to verify*)]]></Declaration>
     <Implementation>
       <NWL>
         <XmlArchive>
