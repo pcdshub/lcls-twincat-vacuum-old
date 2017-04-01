@@ -299,6 +299,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <LibraryReference Include="LCLS General,newest,SLAC">
+      <Namespace>LCLS_General</Namespace>
+    </LibraryReference>
     <LibraryReference Include="Tc2_EtherCAT,newest,Beckhoff Automation GmbH">
       <Namespace>Tc2_EtherCAT</Namespace>
     </LibraryReference>
@@ -318,10 +321,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <PlaceholderReference Include="LCLS General">
-      <DefaultResolution>LCLS General, * (SLAC)</DefaultResolution>
-      <Namespace>LCLS_General</Namespace>
-    </PlaceholderReference>
     <PlaceholderReference Include="Tc2_TcpIp">
       <DefaultResolution>Tc2_TcpIp, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_TcpIp</Namespace>
@@ -342,11 +341,6 @@
     <SubObject Include="FB_VGC_NO.ACT_ResetAlarms">
       <LinkAlways>true</LinkAlways>
     </SubObject>
-  </ItemGroup>
-  <ItemGroup>
-    <PlaceholderResolution Include="LCLS General">
-      <Resolution>LCLS General, 0.1.0 (SLAC)</Resolution>
-    </PlaceholderResolution>
   </ItemGroup>
   <ProjectExtensions>
     <PlcProjectOptions>
