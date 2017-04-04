@@ -49,12 +49,12 @@ PG.eState := Valid;
 ELSIF V <= 0.36 THEN
 
 PG.eState := GaugeDisconnected; //Most likely not connected
-PG.rPRESS := 0;
+PG.rPRESS := -1;
 
 ELSE
 	
 PG.eState := OoR; //Larger voltage, probably out of range?
-PG.rPRESS := 9000;//It's over 9,000!!!!-Dragon BallZ
+PG.rPRESS := -1; //Sorry Allen...
 
 END_IF
 
