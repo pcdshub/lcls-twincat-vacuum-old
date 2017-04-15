@@ -15,6 +15,7 @@ VAR
 
 	V : REAL;
 
+	Vlowest: REAL := 10;
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* This function block is used to provide protection and automatic turn on of ion gauges,
@@ -26,6 +27,8 @@ END_VAR]]></Declaration>
 
 V := 10*INT_TO_REAL(PG.iPRESS_R)/32767;	
 
+Vlowest := MIN(V, Vlowest);
+
 IF V > 0.36 AND V <= 0.375 THEN
 
 PG.rPRESS := MinPressure;
@@ -33,7 +36,7 @@ PG.eState := ValidLo;
 
 ELSIF V > 0.375 AND V < 2.842 THEN
 
-PG.rPRESS := LREAL_TO_REAL( -0.02585 + 0.03767*V + 0.04563*EXPT(V,2)+ 0.1151*EXPT(V,3) - 0.04158*EXPT(V,4)+ 0.008737*EXPT(V,5));
+PG.rPRESS := MAX( MinPressure, LREAL_TO_REAL( -0.02585 + 0.03767*V + 0.04563*EXPT(V,2)+ 0.1151*EXPT(V,3) - 0.04158*EXPT(V,4)+ 0.008737*EXPT(V,5)) );
 PG.eState := Valid;
 
 ELSIF V >= 2.842 AND V < 4.945 THEN
@@ -58,10 +61,6 @@ PG.rPRESS := -1; //Sorry Allen...
 
 END_IF
 
-(* Protection Functions *)
-(* If the PG pressure is greater than the IG.PRO_SP then the gauge is disabled *)
-(* If the PG pressure is less than the IG.PRO_SP then the gauge is enabled *)
-(* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
 
 (* Pressure OK check *)
 PG.xPRESS_OK := (PG.rPRESS >= MinPressure) AND (PG.eState >= 0);//Make sure to evaluate eState Too!!!!
@@ -70,11 +69,14 @@ PG.xPRESS_OK := (PG.rPRESS >= MinPressure) AND (PG.eState >= 0);//Make sure to e
 PG.xAT_VAC := PG.xPRESS_OK AND (PG.rPRESS<PG.rVAC_SP);]]></ST>
     </Implementation>
     <LineIds Name="FB_275">
-      <LineId Id="3" Count="30" />
+      <LineId Id="3" Count="6" />
+      <LineId Id="81" Count="1" />
+      <LineId Id="10" Count="23" />
       <LineId Id="65" Count="0" />
       <LineId Id="34" Count="5" />
       <LineId Id="66" Count="0" />
-      <LineId Id="40" Count="10" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="45" Count="5" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
