@@ -211,6 +211,9 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
       <LinkAlways>true</LinkAlways>
     </Compile>
+    <Compile Include="POUs\Functions\Pumps\FB_AuxiliaryPump.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\Functions\Pumps\FB_EbaraDryPump.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
