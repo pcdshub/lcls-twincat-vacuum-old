@@ -27,7 +27,7 @@
 1.7.0 ST_PTM now uses inheritence model.  Started implementing Ebara support.
 1.8.0 Moved to seperate functions for 937A and 937B controllers.</Description>
     <CombineIds>false</CombineIds>
-    <ProjectVersion>0.0.0</ProjectVersion>
+    <ProjectVersion>1.0.0</ProjectVersion>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Data types" />
@@ -211,9 +211,6 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
       <LinkAlways>true</LinkAlways>
     </Compile>
-    <Compile Include="POUs\Functions\Pumps\FB_AuxiliaryPump.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\Functions\Pumps\FB_EbaraDryPump.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
@@ -238,6 +235,9 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="POUs\Functions\Pumps\FB_PTM_LeyboldTD20Classic.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Functions\Pumps\FB_ScrollPump.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\Pumps\FB_TurboExtLogic.TcPOU">
