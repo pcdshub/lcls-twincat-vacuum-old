@@ -20,7 +20,8 @@ END_VAR
 VAR
 
 	rDiffPress : REAL;
-
+   set : BOOL;
+   reset: Bool;
 	  
 
 	VGC_State : E_VGC;
@@ -98,9 +99,11 @@ IF iq_stValve.rAT_VAC_SP <> 0 THEN
 END_IF
 // Valve at vacuum check
 ///////////////////////////////////////////////////
-	iq_stValve.xAT_VAC S= i_stUSG.rPRESS < iq_stValve.rAT_VAC_HYS AND i_stDSG.rPRESS < iq_stValve.rAT_VAC_HYS AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK;
-	iq_stValve.xAT_VAC R= i_stUSG.rPRESS > iq_stValve.rAT_VAC_SP AND i_stDSG.rPRESS > iq_stValve.rAT_VAC_SP AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK;
-
+	set := i_stUSG.rPRESS < iq_stValve.rAT_VAC_HYS AND i_stDSG.rPRESS < iq_stValve.rAT_VAC_HYS AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK;
+ 	iq_stValve.xAT_VAC S= set;
+	reset := i_stUSG.rPRESS > iq_stValve.rAT_VAC_SP OR i_stDSG.rPRESS > iq_stValve.rAT_VAC_SP OR NOT i_stUSG.xPRESS_OK OR NOT i_stDSG.xPRESS_OK;
+	iq_stValve.xAT_VAC R= reset;
+	
 // Differential pressure check
 ///////////////////////////////////////////////////
 	(* Calc the differential pressure across the valve *)
@@ -212,7 +215,14 @@ iq_stValve.xERR_LstVac R= iq_stValve.xAlmRst;]]></ST>
       <LineId Id="3" Count="34" />
       <LineId Id="199" Count="0" />
       <LineId Id="198" Count="0" />
-      <LineId Id="38" Count="126" />
+      <LineId Id="38" Count="23" />
+      <LineId Id="248" Count="0" />
+      <LineId Id="246" Count="0" />
+      <LineId Id="249" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="241" Count="0" />
+      <LineId Id="244" Count="0" />
+      <LineId Id="66" Count="98" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_VGC.ACT_ResetAlarms">
