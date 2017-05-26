@@ -16,12 +16,13 @@ STRUCT
 	xHV_DIS: BOOL;// Enable High Voltage when True
 	xHV_SW: BOOL;// High Voltage Switch
 	wHV_RO: WORD;// Relay Output Location
-	
-	xBAKEOUT: BOOL; /// Bakeout bit 
-	
-	eTYPE: Gauge_Type := PG907; //enum for gauge type
-	iTYPE : INT := 0;
-	wPG: WORD;  /// Index location of the associated Pirani Gauge
+	 // Bakeout bit 
+	xBAKEOUT: BOOL;
+	//enum for gauge type - replaces iType
+	eTYPE: Gauge_Type := PG907; 
+
+	// Index location of the associated Pirani Gauge
+	wPG: WORD;  
 	
 	xTurnOnTime: BOOL;/// Turn on Timers for cold cathode warmup 
 	

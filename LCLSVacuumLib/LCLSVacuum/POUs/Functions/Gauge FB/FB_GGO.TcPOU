@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <POU Name="FB_GGO" Id="{10b35b2a-0339-4871-a987-1f7d7e8bc93e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_GGO
 VAR_IN_OUT
@@ -100,5 +100,9 @@ END_CASE
 iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)] := stVG;
 iq_axHV_RO[LIMIT(0,WORD_TO_INT(stVG.wHV_RO),gc_iSizeOfGGOArray)]:=stVG.xHV_DIS;]]></ST>
     </Implementation>
+    <LineIds Name="FB_GGO">
+      <LineId Id="3" Count="72" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>
