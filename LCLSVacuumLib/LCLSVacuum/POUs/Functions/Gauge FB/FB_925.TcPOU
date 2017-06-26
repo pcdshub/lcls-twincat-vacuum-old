@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <POU Name="FB_925" Id="{2b25be69-d890-49a3-9eed-41a1523a8d75}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_925
 VAR_INPUT
@@ -7,7 +7,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR_IN_OUT
-	VG	: ST_VG;
+	PG	: ST_VG;
 END_VAR
 VAR
 	rV : REAL;
@@ -20,27 +20,39 @@ END_VAR
       <ST><![CDATA[(* Standard MKS 9XX series conversion *)
 (* works for 972 and 925 *)
 
-rV := 10*INT_TO_REAL(VG.iPRESS_R)/32767;
+//Default setpoint 50 mT
+IF PG.rVAC_SP = 0 THEN
+	PG.rVAC_SP := 5E-2;
+END_IF
+
+rV := 10*INT_TO_REAL(PG.iPRESS_R)/32767;
 
 IF rV >= 0.99 THEN
 	IF rV >= 0.99 AND rV < 1 THEN
-		VG.rPRESS := 1E-5;
+		PG.rPRESS := 1E-5;
 	ELSE
-		VG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-6));
+		PG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-6));
 	END_IF
-	VG.xPRESS_OK := TRUE; //Backwards compatibility
+	PG.xPRESS_OK := TRUE; //Backwards compatibility
 ELSE
-	VG.xPRESS_OK := FALSE;
+	PG.xPRESS_OK := FALSE;
 END_IF
 
 (* Pressure OK check *)
 fbGaugeState.i_rV := rV;
 fbGaugeState.i_MaxPressure := rMaxPressure;
 fbGaugeState.i_MinPressure := rMinPressure;
-fbGaugeState(iq_stVG:=VG);
+fbGaugeState(iq_stVG:=PG);
 
 (* Setpoint evaluation *)
-VG.xAT_VAC := VG.xPRESS_OK AND (VG.rPRESS < VG.rVAC_SP);]]></ST>
+PG.xAT_VAC := PG.xPRESS_OK AND (PG.rPRESS < PG.rVAC_SP);]]></ST>
     </Implementation>
+    <LineIds Name="FB_925">
+      <LineId Id="3" Count="0" />
+      <LineId Id="43" Count="4" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="5" Count="20" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

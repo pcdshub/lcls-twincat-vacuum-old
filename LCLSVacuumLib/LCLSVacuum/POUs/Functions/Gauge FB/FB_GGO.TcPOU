@@ -12,7 +12,9 @@ END_VAR
 VAR
 
 	stPG: ST_VG;
-	stVG	:	ST_VG;
+	stVG: ST_VG;
+	//index for associated pirani
+	wPG : WORD;
 
 	
 	// FBs
@@ -48,13 +50,13 @@ stVG := iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)];
 
 (* Check that Associated Gauge is within index*)
 IF WORD_TO_INT(stVG.wPG) <= gc_iSizeOfGGOArray THEN
-	(* Check  pressure gauge type before assignment *)
+	(* Check pressure gauge type before assignment *)
 	(* Add high pressure gauge types here *)
 		IF iq_astGauges[stVG.wPG].eTYPE = PG722B OR //722B
 		iq_astGauges[stVG.wPG].eTYPE = PG907 OR //907
 		iq_astGauges[stVG.wPG].eTYPE = PG925 THEN //925
-			stPG := iq_astGauges[stVG.wPG];
-			
+			stPG := iq_astGauges[stVG.wPG];  (* Copy associated pirani gauge number to local variable *)
+
 		ELSE
 			//Default to allow the IG to turn on, this allows someone to set the PG to another IG and turn the gauge on whenever they want
 			stPG.rPRESS := 1E-3;
@@ -68,23 +70,23 @@ CASE iq_astGauges[i_iIndex].eTYPE OF
 	
 	//Baratron Gauge
 	PG722B:
-		fbGCM(VG:=stVG);
+		fbGCM(VG:=iq_astGauges[i_iIndex]);
 		
 	//Cold Cathode
 	IG903:
-		fb903(IG:=stVG, PG:=stPG);
+		fb903(IG:=iq_astGauges[i_iIndex], PG:=iq_astGauges[wPG]);
 		
 	//Pirani Gauge	
 	PG907:
-		fb907(PG:=stVG);
+		fb907(PG:=iq_astGauges[i_iIndex]);
 		
 	//Hot Cathode	
 	IG909:
-		fb909(IG:=stVG, PG:=stPG);
+		fb909(IG:=iq_astGauges[i_iIndex], PG:=iq_astGauges[wPG]);
 		
 	//MicroPirani Gauge	
 	PG925:
-		fb925(VG:=stVG);
+		fb925(PG:=iq_astGauges[i_iIndex]);
 	ELSE
 		(* Now, since we don't know what gauge type we're dealing with, we want 
 		to make sure to reset all the gauge parameters, otherwise we may be 
@@ -96,12 +98,16 @@ CASE iq_astGauges[i_iIndex].eTYPE OF
 		
 END_CASE
 
-(* reAssign Gauge back to Gauge Array and reAssign "HV On" back into High Voltage Array*)
-iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)] := stVG;
+(* reAssign "HV On" back into High Voltage Array*)
+//iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)] := stVG;
 iq_axHV_RO[LIMIT(0,WORD_TO_INT(stVG.wHV_RO),gc_iSizeOfGGOArray)]:=stVG.xHV_DIS;]]></ST>
     </Implementation>
     <LineIds Name="FB_GGO">
-      <LineId Id="3" Count="72" />
+      <LineId Id="3" Count="18" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="23" Count="7" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="32" Count="43" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
