@@ -38,14 +38,14 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[//Don't use this - use FB_GGO instead!
+      <ST><![CDATA[//FB_GGO may be bugged.  Use this for now
 
 (* This function block is used to calculate the pressure from the analog input voltage and to provide protection and automatic turn on of ion gauges.
  It also manages the turn on fo the AT_VAC boolean, and checks to make sure the pressure is good *)
 
 (* Full-scale pressure conversion factor *)
 
-(* Real-value voltage calculation *)
+(* Real-value voltage calculation - depends on gauge *)
 (* Generic expression for pressure in the MKS systems
 
 P = 10^(V/0.6-12)
@@ -61,7 +61,7 @@ P = 10^(V/0.6-12)
 
 
 (* Check that it is an ion gauge *)
-IF iq_astGauges[i_iIndex].eTYPE = 1 OR iq_astGauges[i_iIndex].eTYPE = 3 THEN
+IF iq_astGauges[i_iIndex].iTYPE = 1 OR iq_astGauges[i_iIndex].iTYPE = 3 THEN
 
 	stIG := iq_astGauges[i_iIndex];
 	rV := 10*INT_TO_REAL(stIG.iPRESS_R)/32767;
@@ -70,9 +70,9 @@ IF iq_astGauges[i_iIndex].eTYPE = 1 OR iq_astGauges[i_iIndex].eTYPE = 3 THEN
 	IF WORD_TO_INT(stIG.wPG) <= g_iSizeOfGGOArray THEN
 	(* Check pressure gauge type before assignment *)
 	(* Add high pressure gauge types here *)
-		IF iq_astGauges[stIG.wPG].eTYPE = 0 OR //722B
-		iq_astGauges[stIG.wPG].eTYPE = 2 OR //907
-		iq_astGauges[stIG.wPG].eTYPE = 4 THEN //925
+		IF iq_astGauges[stIG.wPG].iTYPE = 0 OR //722B
+		iq_astGauges[stIG.wPG].iTYPE = 2 OR //907
+		iq_astGauges[stIG.wPG].iTYPE = 4 THEN //925
 			stPG := iq_astGauges[stIG.wPG];
 		END_IF
 	
@@ -101,7 +101,7 @@ IF iq_astGauges[i_iIndex].eTYPE = 1 OR iq_astGauges[i_iIndex].eTYPE = 3 THEN
 	END_IF
 
 (* Pressure OK check *)
-	IF  stIG.eTYPE = 1 THEN
+	IF  stIG.iTYPE = 1 THEN
 		stIG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-11));
 		stIG.xPRESS_OK := ((stIG.rPRESS > rMinPressure_903) AND stIG.xHV_DIS AND stIG.xTurnOnTime) OR stIG.xBAKEOUT;
 		tonGaugeTurnOnTmr(IN := stIG.xHV_DIS, PT := T#10s, Q => stIG.xTurnOnTime);
@@ -110,7 +110,7 @@ IF iq_astGauges[i_iIndex].eTYPE = 1 OR iq_astGauges[i_iIndex].eTYPE = 3 THEN
 		stIG.xAT_VAC := (stIG.xPRESS_OK AND (stIG.rPRESS < stIG.rVAC_SP)) OR stIG.xBAKEOUT;
 
 (* Pressure OK check *)
-	ELSIF stIG.eTYPE = 3 THEN
+	ELSIF stIG.iTYPE = 3 THEN
 		stIG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-10));
 		stIG.xPRESS_OK := (stIG.rPRESS > rMinPressure_909) AND stIG.xHV_DIS OR stIG.xBAKEOUT;
 
@@ -124,7 +124,7 @@ IF iq_astGauges[i_iIndex].eTYPE = 1 OR iq_astGauges[i_iIndex].eTYPE = 3 THEN
 ELSE
 
  	stPG := iq_astGauges[i_iIndex];
-	IF stPG.eTYPE = 0 THEN
+	IF stPG.iTYPE = 0 THEN
 
 		(* Real-value voltage calculation *)
 		
@@ -140,7 +140,7 @@ ELSE
 		(* Setpoint evaluation *)
 		stPG.xAT_VAC := stPG.xPRESS_OK AND (stPG.rPRESS < stPG.rVAC_SP);
 
-	ELSIF stPG.eTYPE = 2 THEN
+	ELSIF stPG.iTYPE = 2 THEN
 
 		rV := 10*INT_TO_REAL(stPG.iPRESS_R)/32767;
 
@@ -163,7 +163,7 @@ ELSE
 		(* Setpoint evaluation *)
 		stPG.xAT_VAC := (stPG.xPRESS_OK AND (stPG.rPRESS < stPG.rVAC_SP)) OR stPG.xBAKEOUT;
 
-	ELSIF stPG.eTYPE = 4 THEN
+	ELSIF stPG.iTYPE = 4 THEN
 
 		rV := 10*INT_TO_REAL(stPG.iPRESS_R)/32767;
 

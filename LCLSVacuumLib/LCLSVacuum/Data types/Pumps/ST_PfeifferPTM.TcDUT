@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <DUT Name="ST_PfeifferPTM" Id="{5258f2ac-d965-4bdd-8c4b-be7691cce5d3}">
     <Declaration><![CDATA[TYPE ST_PfeifferPTM EXTENDS ST_PTM :
 STRUCT
@@ -17,6 +17,10 @@ More?
 	i_iErrorCode	:	INT; //might change these to enumeration someday
 	i_iWarningCode	:	INT;
 	i_xTempFault	:	BOOL;
+	i_uiPowerPctRbk :   UINT;
+	
+//Controls
+	q_uiPowerPct : UINT := 100; //Should normally be 100
 	
 END_STRUCT
 END_TYPE

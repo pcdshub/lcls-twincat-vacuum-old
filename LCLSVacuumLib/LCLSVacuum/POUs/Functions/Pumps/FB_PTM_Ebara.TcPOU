@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
   <POU Name="FB_PTM_Ebara" Id="{db9fdbdf-85bb-4e58-96cc-808f2a65a0e5}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_PTM_Ebara
 VAR_IN_OUT
@@ -67,11 +67,15 @@ END_IF
 
 (* Pump speed calculation *)
 IF iq_stPTM.i_iRawSpeed / (EXPT(2,i_iADCBits)-1) * 10 >= 0.2 THEN //Speed reading appears to zero at ~0.16V
-iq_stPTM.i_iCurSpd := LREAL_TO_DINT(iq_stPTM.i_iRawSpeed/(EXPT(2,i_iADCBits)-1)*67000);
+iq_stPTM.i_diCurSpd := LREAL_TO_DINT(iq_stPTM.i_iRawSpeed/(EXPT(2,i_iADCBits)-1)*67000);
 //V (AI/(2^{# ADC bits} -1 ) * 10[ADC 10V scaling]) * (33600 [Max RPM] - 100) / 5
 ELSE
-	iq_stPTM.i_iCurSpd := 0;
+	iq_stPTM.i_diCurSpd := 0;
 END_IF]]></ST>
     </Implementation>
+    <LineIds Name="FB_PTM_Ebara">
+      <LineId Id="3" Count="53" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

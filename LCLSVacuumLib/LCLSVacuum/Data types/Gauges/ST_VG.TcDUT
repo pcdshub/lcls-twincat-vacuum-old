@@ -18,8 +18,10 @@ STRUCT
 	wHV_RO: WORD;// Relay Output Location
 	 // Bakeout bit 
 	xBAKEOUT: BOOL;
-	//enum for gauge type - replaces iType
+	//enum for gauge type - will replace iType
 	eTYPE: Gauge_Type := PG907; 
+	//Gauge type, deprecated (default to pirani)
+	iTYPE: INT := 2;
 
 	// Index location of the associated Pirani Gauge
 	wPG: WORD;  
