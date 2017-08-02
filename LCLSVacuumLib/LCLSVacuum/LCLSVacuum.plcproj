@@ -97,6 +97,9 @@
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
+    <Compile Include="Data types\Pumps\ST_ReadbackOnlyPump.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Data types\Pumps\ST_RoughPump.TcDUT">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+  <DUT Name="ST_ReadbackOnlyPump" Id="{a03f3c3e-6fa4-456c-934f-6d1434bdef7b}">
+    <Declaration><![CDATA[//Simple type for a pump where we have readback only, no control.
+
+TYPE ST_ReadbackOnlyPump :
+STRUCT
+	i_xPumpOn : BOOL;
+	i_diPumpSpeed : DINT; //Arbitrary
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
