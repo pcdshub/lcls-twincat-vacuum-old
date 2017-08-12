@@ -49,7 +49,7 @@ END_IF
 (* If the PG pressure is less than the VG.PRO_SP then the gauge is enabled *)
 (* This FB also implements some hysteresis so the gauge doesn't have rapid power cycling while near the turn on boundary *)
 
-IF PG.rPRESS < IG.rPRO_SP AND PG.xPRESS_OK THEN
+IF PG.rPRESS <= IG.rPRO_SP AND PG.xPRESS_OK THEN
 
 	IG.xHV_DIS := IG.xHV_SW;
 
