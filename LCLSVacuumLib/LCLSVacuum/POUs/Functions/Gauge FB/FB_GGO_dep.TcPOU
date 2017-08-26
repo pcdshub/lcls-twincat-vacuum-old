@@ -74,12 +74,11 @@ IF iq_astGauges[i_iIndex].iTYPE = 1 OR iq_astGauges[i_iIndex].iTYPE = 3 THEN
 		iq_astGauges[stIG.wPG].iTYPE = 2 OR //907
 		iq_astGauges[stIG.wPG].iTYPE = 4 THEN //925
 			stPG := iq_astGauges[stIG.wPG];
+		
+		ELSE //Default to allow the IG to turn on, this allows someone to set the PG to another IG and turn the gauge on whenever they want
+			stPG.rPRESS := 1E-3;
+			stPG.xPRESS_OK := TRUE;
 		END_IF
-	
-	ELSE
-		//Default to allow the IG to turn on
-		stPG.rPRESS := 1E-3;
-		stPG.xPRESS_OK := TRUE;
 	END_IF
 
 	(* Protection Functions *)
@@ -205,7 +204,12 @@ iq_axHV_RO[iq_astGauges[i_iIndex].wHV_RO]:=iq_astGauges[i_iIndex].xHV_DIS;]]></S
     </Implementation>
     <LineIds Name="FB_GGO_dep">
       <LineId Id="199" Count="1" />
-      <LineId Id="3" Count="160" />
+      <LineId Id="3" Count="32" />
+      <LineId Id="238" Count="0" />
+      <LineId Id="242" Count="0" />
+      <LineId Id="239" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="42" Count="121" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>

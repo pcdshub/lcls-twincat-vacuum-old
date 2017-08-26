@@ -48,21 +48,23 @@ P = 10^(V/0.6-12)
 (* Make a copy of gauge at index*)
 stVG := iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)];
 
+(* Check that it is an ion gauge *)
+IF stVG.eTYPE = IG903 OR stVG.eTYPE = IG909 THEN
+
 (* Check that Associated Gauge is within index*)
-IF WORD_TO_INT(stVG.wPG) <= gc_iSizeOfGGOArray THEN
-	(* Check pressure gauge type before assignment *)
-	(* Add high pressure gauge types here *)
+	IF WORD_TO_INT(stVG.wPG) <= gc_iSizeOfGGOArray THEN
+		(* Check pressure gauge type before assignment *)
+		(* Add high pressure gauge types here *)
 		IF iq_astGauges[stVG.wPG].eTYPE = PG722B OR //722B
 		iq_astGauges[stVG.wPG].eTYPE = PG907 OR //907
 		iq_astGauges[stVG.wPG].eTYPE = PG925 THEN //925
 			stPG := iq_astGauges[stVG.wPG];  (* Copy associated pirani gauge number to local variable *)
-
-		ELSE
-			//Default to allow the IG to turn on, this allows someone to set the PG to another IG and turn the gauge on whenever they want
+		ELSE //Default to allow the IG to turn on, this allows someone to set the PG to another IG and turn the gauge on whenever they want
 			stPG.rPRESS := 1E-3;
 			stPG.xPRESS_OK := TRUE;
 		END_IF
 	
+	END_IF
 END_IF
 
 (* Evaluate each Gauge pressure based on eTYPE*)
@@ -105,9 +107,14 @@ iq_axHV_RO[LIMIT(0,WORD_TO_INT(stVG.wHV_RO),gc_iSizeOfGGOArray)]:=stVG.xHV_DIS;]
     <LineIds Name="FB_GGO">
       <LineId Id="3" Count="18" />
       <LineId Id="108" Count="0" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="143" Count="0" />
+      <LineId Id="142" Count="0" />
       <LineId Id="23" Count="7" />
-      <LineId Id="104" Count="0" />
-      <LineId Id="32" Count="43" />
+      <LineId Id="133" Count="3" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="144" Count="0" />
+      <LineId Id="39" Count="36" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
