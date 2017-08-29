@@ -12,7 +12,7 @@ VAR_INPUT
 	i_stUSG	:	ST_VG;
 	i_stDSG	:	ST_VG;
 
-	i_xDis_DPIlk : BOOL := FALSE;	// Obsolete
+	i_xDis_DPIlk : BOOL := FALSE;  (* Set to true when calling the function to disable the differential pressure interlock *)
 	rDiffPressAllowed	:	REAL := 22.5; // Torr, Default value comes from Vat Valve Manual
 END_VAR
 VAR_OUTPUT
@@ -167,9 +167,13 @@ CASE VGC_State OF
 
 
 
-// Interlock evaluation
+// Interlock evaluation - with bypass for DP ILK bypass
 ///////////////////////////////////////////////
-iq_stValve.xOPN_OK := iq_stValve.xEXT_OK AND iq_stValve.xAT_VAC;
+IF i_xDis_DPIlk THEN
+	iq_stValve.xOPN_OK := iq_stValve.xEXT_OK;
+ELSE
+	iq_stValve.xOPN_OK := iq_stValve.xEXT_OK AND iq_stValve.xAT_VAC;
+END_IF
 
 
 (* Valve operation *)
@@ -222,7 +226,11 @@ iq_stValve.xERR_LstVac R= iq_stValve.xAlmRst;]]></ST>
       <LineId Id="63" Count="0" />
       <LineId Id="241" Count="0" />
       <LineId Id="244" Count="0" />
-      <LineId Id="66" Count="98" />
+      <LineId Id="66" Count="64" />
+      <LineId Id="285" Count="0" />
+      <LineId Id="287" Count="1" />
+      <LineId Id="286" Count="0" />
+      <LineId Id="131" Count="33" />
       <LineId Id="2" Count="0" />
     </LineIds>
     <LineIds Name="FB_VGC.ACT_ResetAlarms">
