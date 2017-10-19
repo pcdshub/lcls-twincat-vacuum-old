@@ -164,10 +164,15 @@ ELSE
 
 	ELSIF stPG.iTYPE = 4 THEN
 
-		rV := 10*INT_TO_REAL(stPG.iPRESS_R)/32767;
+    rV := 10*INT_TO_REAL(stPG.iPRESS_R)/32767;
 
-		IF rV > 1 THEN
-			stPG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-6));
+		IF rV >= 0.99 THEN
+			IF rV >= 0.99 AND rV < 1 THEN
+				stPG.rPRESS := 1E-5;
+			ELSE
+				stPG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-6));
+			END_IF
+			stPG.xPRESS_OK := TRUE;
 		ELSE
 			stPG.xPRESS_OK := FALSE;
 		END_IF
@@ -209,7 +214,13 @@ iq_axHV_RO[iq_astGauges[i_iIndex].wHV_RO]:=iq_astGauges[i_iIndex].xHV_DIS;]]></S
       <LineId Id="242" Count="0" />
       <LineId Id="239" Count="1" />
       <LineId Id="36" Count="0" />
-      <LineId Id="42" Count="121" />
+      <LineId Id="42" Count="85" />
+      <LineId Id="278" Count="1" />
+      <LineId Id="289" Count="0" />
+      <LineId Id="281" Count="3" />
+      <LineId Id="290" Count="0" />
+      <LineId Id="286" Count="2" />
+      <LineId Id="134" Count="29" />
       <LineId Id="2" Count="0" />
     </LineIds>
   </POU>
