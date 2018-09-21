@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <DUT Name="ST_VGC" Id="{2c4a7ba8-0fa6-4a25-9ffd-90841b7d250a}">
     <Declaration><![CDATA[TYPE ST_VGC :
 STRUCT
@@ -24,7 +24,7 @@ STRUCT
 	rHYST_PERC	:	REAL := 0.80;	// Hysteresis percentage
 	xAT_VAC	:	BOOL;	//At vacuum setpoint
 	
-eState	:	E_ValvePositionState := INVALID;
+eState	:	E_ValvePositionState := E_ValvePositionState.INVALID;
 (* Controls *)
 	xOPN_DO	: BOOL;
 
