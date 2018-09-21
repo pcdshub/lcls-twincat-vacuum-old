@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="FB_PTM_LeyboldTD20Classic" Id="{6898752d-385c-4950-924e-2a428f36744e}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_PTM_LeyboldTD20Classic
 VAR_IN_OUT
@@ -20,7 +20,6 @@ persistent state for reseting faults.
 *)
 
 //Faults
-////////////////////////////
 	rtReset(CLK:=iq_stPTM.i_xReset);
 	iq_stPTM.xFault R= rtReset.Q;
 	iq_stPTM.xFault S= iq_stPTM.i_xTempFault OR NOT iq_stPTM.i_xNCError;
@@ -36,5 +35,10 @@ ELSE
 	iq_stPTM.q_RunDO:=FALSE;
 END_IF]]></ST>
     </Implementation>
+    <LineIds Name="FB_PTM_LeyboldTD20Classic">
+      <LineId Id="3" Count="6" />
+      <LineId Id="11" Count="12" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

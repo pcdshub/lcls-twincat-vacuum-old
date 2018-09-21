@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.26">
-  <POU Name="F_VRC_DIODE_ILK" Id="{798f6d64-142d-4689-ba31-4d47e7072741}">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
+  <POU Name="F_VRC_DIODE_ILK" Id="{798f6d64-142d-4689-ba31-4d47e7072741}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_VRC_DIODE_ILK : BOOL
 VAR_INPUT
 
@@ -25,14 +25,11 @@ F_VRC_DIODE_ILK := ((i_stPGA.rPRESS + rTolerance >= i_stPGB.rPRESS + rHysterisis
 Now, if the F_VIC_DIODE_ILK is FALSE then some hysterisis is added to the B side. But if it's OK then we just stick with making sure that the A side is greater than the B side
 
 *)
-(*
-IF NOT F_VIC_DIODE_ILK THEN
-Hysterisis := 40;
-ELSE
-Hysterisis := 0;
-END_IF
-*)]]></ST>
+]]></ST>
     </Implementation>
-    <ObjectProperties />
+    <LineIds Name="F_VRC_DIODE_ILK">
+      <LineId Id="3" Count="8" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>
