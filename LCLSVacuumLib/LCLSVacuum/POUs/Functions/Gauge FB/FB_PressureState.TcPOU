@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.6">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="FB_PressureState" Id="{4670721e-b41f-4e8d-804c-723289c03b35}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_PressureState
 VAR_INPUT
@@ -30,47 +30,47 @@ This FB serves to evaluate the state of the pressure based on the raw voltage, p
 *)
 // Is the gauge plugged in, and within a reasonable range?
 IF i_rV < i_rVMin THEN
-	q_eState := GaugeDisconnected;
+	q_eState := E_PressureState.GaugeDisconnected;
 ELSIF i_rV > i_rVMax THEN
-	q_eState := PressInvalid;
+	q_eState := E_PressureState.PressInvalid;
 ELSE
 	// Is the gauge reading back a pressure that makes sense?
 	CASE iq_stVG.eTYPE OF
-		IG903:
+		Gauge_Type.IG903:
 			tonGaugeTurnOnTmr(IN:=iq_stVG.xHV_DIS, PT:=i_IGTurnOnTime, Q=>iq_stVG.xTurnOnTime);
 			IF iq_stVG.xHV_DIS THEN
 				IF tonGaugeTurnOnTmr.Q THEN
 					IF iq_stVG.rPRESS >= i_MinPressure AND iq_stVG.rPRESS <= i_MaxPressure THEN
-						q_eState := Valid;
+						q_eState := E_PressureState.Valid;
 					ELSE
 						q_eState := OoR; 
 					END_IF
 				ELSE
-						q_eState := Starting;
+						q_eState := E_PressureState.Starting;
 				END_IF
 			ELSE
-				q_eState := Off;
+				q_eState := E_PressureState.Off;
 			END_IF
-		IG909:
+		Gauge_Type.IG909:
 			IF iq_stVG.xHV_DIS THEN
 				IF iq_stVG.rPRESS >= i_MinPressure AND iq_stVG.rPRESS <= i_MaxPressure THEN
-					q_eState := Valid;
+					q_eState := E_PressureState.Valid;
 				ELSE
-					q_eState := OoR;
+					q_eState := E_PressureState.OoR;
 				END_IF
 			ELSE
-				q_eState := Off;
+				q_eState := E_PressureState.Off;
 			END_IF
-		PG907, PG925, PG722B:
+		Gauge_Type.PG907, Gauge_Type.PG925, Gauge_Type.PG722B:
 			IF iq_stVG.rPRESS >= i_MinPressure AND iq_stVG.rPRESS <= i_MaxPressure THEN
-				q_eState := Valid;
+				q_eState := E_PressureState.Valid;
 			ELSIF iq_stVG.rPRESS < i_MinPressure THEN
-				q_eState := ValidLo;
+				q_eState := E_PressureState.ValidLo;
 			ELSE
-				q_eState := ValidHi;
+				q_eState := E_PressureState.ValidHi;
 			END_IF
 		ELSE
-			q_eState := PressInvalid;
+			q_eState := E_PressureState.PressInvalid;
 	END_CASE
 END_IF
 
@@ -80,5 +80,9 @@ iq_stVG.eState := q_eState;
 // Legacy Press OK boolean eval
 iq_stVG.xPRESS_OK := q_eState >= gc_GaugeValidState;]]></ST>
     </Implementation>
+    <LineIds Name="FB_PressureState">
+      <LineId Id="3" Count="55" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

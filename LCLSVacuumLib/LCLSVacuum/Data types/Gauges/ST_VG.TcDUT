@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <DUT Name="ST_VG" Id="{8ebcc563-a05a-4cb9-b161-a02f8eac0f57}">
     <Declaration><![CDATA[TYPE ST_VG :
 STRUCT
@@ -19,7 +19,7 @@ STRUCT
 	 // Bakeout bit 
 	xBAKEOUT: BOOL;
 	//enum for gauge type - will replace iType
-	eTYPE: Gauge_Type := PG907; 
+	eTYPE: Gauge_Type := Gauge_Type.PG907; 
 	//Gauge type, deprecated (default to pirani)
 	iTYPE: INT := 2;
 
