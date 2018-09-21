@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="F_VALVE_REL_ILK" Id="{76a07f65-882b-4a00-83f1-0c1df4ed592a}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION F_VALVE_REL_ILK : BOOL
 VAR_INPUT
@@ -10,8 +10,8 @@ VAR_INPUT
 END_VAR
 VAR
 	rPressRatio : REAL;
-	rMaxRatioAllowed	:	LREAL := EXPT(10,i_iOrdersMagnitude);
-	rMinRatioAllowed	:	LREAL := EXPT(10,(-i_iOrdersMagnitude));
+	rMaxRatioAllowed	:	LREAL := EXPT(10,INT_TO_LREAL(i_iOrdersMagnitude));
+	rMinRatioAllowed	:	LREAL := EXPT(10,INT_TO_LREAL(-i_iOrdersMagnitude));
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* S. Stubbs 11/2015 *)
