@@ -201,10 +201,6 @@
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
-    <Compile Include="POUs\Functions\Gauge FB\FB_GGO_dep.TcPOU">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
     <Compile Include="POUs\Functions\Gauge FB\FB_GGO.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
@@ -2104,9 +2100,9 @@
                   <d n="SubKeys" t="Hashtable" />
                   <d n="Values" t="Hashtable" ckt="String" cvt="Boolean">
                     <v>bWarning</v>
-                    <v>False</v>
-                    <v>bActive</v>
                     <v>True</v>
+                    <v>bActive</v>
+                    <v>False</v>
                   </d>
                 </o>
                 <v>115</v>
