@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="FB_VCN" Id="{b91718c1-ee94-477e-afdc-a1b96008e0fd}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VCN
 VAR_INPUT
@@ -53,8 +53,6 @@ IF iq_stVCN.xIlk THEN
 		iq_stVCN.rReqPosition := iq_stVCN.rUpperLimit;
 	ELSIF iq_stVCN.eValveControl = CloseValve THEN
 		iq_stVCN.rReqPosition := 0;
-	ELSE
-		 ;
 	END_IF
 
 	//Raw position calc
@@ -68,5 +66,10 @@ ELSE
 	iq_stVCN.eValveControl := CloseValve;
 END_IF]]></ST>
     </Implementation>
+    <LineIds Name="FB_VCN">
+      <LineId Id="3" Count="31" />
+      <LineId Id="37" Count="10" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>
