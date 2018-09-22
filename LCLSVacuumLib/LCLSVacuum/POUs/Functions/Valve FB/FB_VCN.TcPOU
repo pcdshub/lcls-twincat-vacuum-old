@@ -59,9 +59,9 @@ IF iq_stVCN.xIlk THEN
 	iq_stVCN.rReqPosition := LIMIT(0, iq_stVCN.rReqPosition, iq_stVCN.rUpperLimit);
 	rReqVoltage := iq_stVCN.rReqPosition * (rOpenVoltage-rCloseVoltage)/100 + rCloseVoltage;
 	rReqVoltage := LIMIT(rCloseVoltage, rReqVoltage, rOpenVoltage); //The requested voltage should remain within this range
-	iq_stvcn.q_iRawPosition := REAL_TO_INT( 32767/10 * rReqVoltage);	
+	iq_stVCN.q_iRawPosition := REAL_TO_INT( 32767/10 * rReqVoltage);	
 ELSE
-	iq_stvcn.q_iRawPosition := 0;
+	iq_stVCN.q_iRawPosition := 0;
 	iq_stVCN.rReqPosition := 0;
 	iq_stVCN.eValveControl := CloseValve;
 END_IF]]></ST>

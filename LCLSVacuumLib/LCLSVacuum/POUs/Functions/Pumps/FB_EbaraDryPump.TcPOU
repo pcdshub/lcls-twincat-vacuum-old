@@ -55,7 +55,7 @@ ELSE
 END_IF
 
 //Booster pump
-stPump.xBPIlk := i_xVlvOpn AND stPump.i_xMPStatus AND (i_stBPGauge.rPRESS < stPump.rBPIlkSP) AND i_stbpgauge.xPRESS_OK;
+stPump.xBPIlk := i_xVlvOpn AND stPump.i_xMPStatus AND (i_stBPGauge.rPRESS < stPump.rBPIlkSP) AND i_stBPGauge.xPRESS_OK;
 stPump.tonBP(IN:=stPump.xBPIlk);
 stPump.q_xBPStart := stPump.tonBP.Q;]]></ST>
     </Implementation>
