@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="FB_VGC_NO" Id="{834212c8-dcca-4e79-bd90-03fb1a3458f2}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VGC_NO
 VAR_IN_OUT
@@ -44,7 +44,7 @@ fbFSInit( CLK := TRUE,
 
 (* On first PLC pass, put valve into vented state, which implies an open valve *)
 IF xFirstPass THEN
-VGC_State := Vented;
+VGC_State := E_VGC.Vented;
 iq_stValve.xCLS_SW := FALSE;
 END_IF
 
@@ -73,7 +73,7 @@ ELSE
 
 CASE VGC_State OF
 
-Vented: (* The Vented state is used during pump down *)
+E_VGC.Vented: (* The Vented state is used during pump down *)
 
 (* As long as the differential pressure is less than 30mbar, the valve is allowed to close/ remain closed *)
 IF rDiffPress <= i_rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
@@ -91,7 +91,7 @@ so we move to the vacuum state, otherwise remain in the vented state *)
 IF i_stUSG.xAT_VAC AND i_stDSG.xAT_VAC AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
 VGC_State := AtVacuum;
 ELSE
-VGC_State := Vented;
+VGC_State := E_VGC.Vented;
 END_IF
 
 AtVacuum:
@@ -118,19 +118,19 @@ ELSE
 	disable the differential pressure interlock *)
 	ELSIF iq_stValve.i_xOpnLS AND(NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
 		iq_stValve.xDP_OK := FALSE;
-		VGC_State := Vented;
+		VGC_State := E_VGC.Vented;
 	END_IF
 
 END_IF
 
 ERR_DiffPress:
 iq_stValve.xDP_OK := FALSE;
-VGC_State := Vented;
+VGC_State := E_VGC.Vented;
 iq_stValve.xERR_DifPres := TRUE;
 
 ERR_LostVac:
 iq_stValve.xDP_OK := FALSE;
-VGC_State := Vented;
+VGC_State := E_VGC.Vented;
 iq_stValve.xERR_LstVac := TRUE;
 
 END_CASE
@@ -172,5 +172,13 @@ iq_stValve.xCLS_DO := (iq_stValve.xCLS_SW AND iq_stValve.xCLS_OK) OR (tonOvrd.Q 
 iq_stValve.xERR_LstVac R= iq_stValve.xAlmRst;]]></ST>
       </Implementation>
     </Action>
+    <LineIds Name="FB_VGC_NO">
+      <LineId Id="3" Count="129" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_VGC_NO.ACT_ResetAlarms">
+      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

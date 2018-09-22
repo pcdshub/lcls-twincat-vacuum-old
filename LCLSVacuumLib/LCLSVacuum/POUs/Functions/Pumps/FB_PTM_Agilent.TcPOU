@@ -23,16 +23,16 @@ END_VAR
 	else if frequency (R1) is above setpoint and pump is not Starting, pump estate is STOPPED, 
 *)
 IF iq_stPtm.xFault THEN 
-	iq_stPtm.eState := pumpFAULT;
+	iq_stPtm.eState := E_PumpState.pumpFAULT;
 
 ELSIF NOT iq_stPtm.i_xR1 AND NOT iq_stPtm.i_xSTART  THEN
-	iq_stPtm.eState := pumpSTOPPED;
+	iq_stPtm.eState := E_PumpState.pumpSTOPPED;
 ELSIF NOT iq_stPtm.i_xR1 AND iq_stPtm.i_xSTART  THEN
-	iq_stPtm.eState := pumpSTARTING;
+	iq_stPtm.eState := E_PumpState.pumpSTARTING;
 ELSIF iq_stPtm.i_xR1 AND NOT iq_stPtm.i_xSTART THEN
-	iq_stPtm.eState := pumpRUNNING;
+	iq_stPtm.eState := E_PumpState.pumpRUNNING;
 ELSE 
-	iq_stPtm.eState := pumpFAULT;
+	iq_stPtm.eState := E_PumpState.pumpFAULT;
 END_IF
 
 (* Interlock Sum *)
@@ -57,7 +57,7 @@ IF iq_stPtm.xFault THEN
 	iq_stPtm.q_RunDO:=FALSE;
 	iq_stPtm.q_xSS := FALSE;
 	iq_stPtm.q_xLSpd:= FALSE;
-	iq_stPtm.eState := pumpFAULT;
+	iq_stPtm.eState := E_PumpState.pumpFAULT;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="FB_PTM_Agilent">
