@@ -105,7 +105,6 @@
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
     </Compile>
     <Compile Include="Data types\ST_Encoder.TcDUT" />
-    <Compile Include="Data types\ST_LaserGate.TcDUT" />
     <Compile Include="Data types\UpStrInVac_Struct.TcDUT" />
     <Compile Include="Data types\UpStrOutVac_Struct.TcDUT" />
     <Compile Include="Data types\Valves\E_VCN.TcDUT">
@@ -209,9 +208,6 @@
     <Compile Include="POUs\Functions\Pumps\FB_EbaraDryPump.TcPOU">
       <SubType>Code</SubType>
       <ObjectProtection>00000000-0000-0000-0000-000000000000</ObjectProtection>
-    </Compile>
-    <Compile Include="POUs\Functions\Pumps\FB_PRP.TcPOU">
-      <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\Functions\Pumps\FB_PTM_Pfeiffer.TcPOU">
       <SubType>Code</SubType>
