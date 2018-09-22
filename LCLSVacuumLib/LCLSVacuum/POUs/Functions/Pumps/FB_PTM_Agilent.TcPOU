@@ -22,28 +22,28 @@ END_VAR
    else if frequency (R1) is not above setpoint and pump is Starting, pump estate is STARTING, 
 	else if frequency (R1) is above setpoint and pump is not Starting, pump estate is STOPPED, 
 *)
-IF iq_stPtm.xFault THEN 
-	iq_stPtm.eState := E_PumpState.pumpFAULT;
+IF iq_stPTM.xFault THEN 
+	iq_stPTM.eState := E_PumpState.pumpFAULT;
 
-ELSIF NOT iq_stPtm.i_xR1 AND NOT iq_stPtm.i_xSTART  THEN
-	iq_stPtm.eState := E_PumpState.pumpSTOPPED;
-ELSIF NOT iq_stPtm.i_xR1 AND iq_stPtm.i_xSTART  THEN
-	iq_stPtm.eState := E_PumpState.pumpSTARTING;
-ELSIF iq_stPtm.i_xR1 AND NOT iq_stPtm.i_xSTART THEN
-	iq_stPtm.eState := E_PumpState.pumpRUNNING;
+ELSIF NOT iq_stPTM.i_xR1 AND NOT iq_stPTM.i_xSTART  THEN
+	iq_stPTM.eState := E_PumpState.pumpSTOPPED;
+ELSIF NOT iq_stPTM.i_xR1 AND iq_stPTM.i_xSTART  THEN
+	iq_stPTM.eState := E_PumpState.pumpSTARTING;
+ELSIF iq_stPTM.i_xR1 AND NOT iq_stPTM.i_xSTART THEN
+	iq_stPTM.eState := E_PumpState.pumpRUNNING;
 ELSE 
-	iq_stPtm.eState := E_PumpState.pumpFAULT;
+	iq_stPTM.eState := E_PumpState.pumpFAULT;
 END_IF
 
 (* Interlock Sum *)
-iq_stPtm.q_xIlk := iq_stPtm.xExtRunOk AND NOT iq_stPtm.xFault;
+iq_stPTM.q_xIlk := iq_stPTM.xExtRunOk AND NOT iq_stPTM.xFault;
 
 (* Basic pump supervisory section *)
-IF iq_stPtm.q_xIlk THEN
-	iq_stPtm.q_RunDO := iq_stPTM.i_xRunSW;
+IF iq_stPTM.q_xIlk THEN
+	iq_stPTM.q_RunDO := iq_stPTM.i_xRunSW;
 ELSE
-	iq_stPtm.i_xRunSW:=FALSE;
-	iq_stPtm.q_RunDO:=FALSE;
+	iq_stPTM.i_xRunSW:=FALSE;
+	iq_stPTM.q_RunDO:=FALSE;
 END_IF
 
 (* Mask the at speed bit if fault is true 
@@ -51,13 +51,13 @@ done for versions of the interface cable where
 at speed gets its power from from the beckhoff term*)
 
 (*Basically if Fault, then squash everything and turn everything off*)
-IF iq_stPtm.xFault THEN
-	iq_stPtm.i_xAtSpd := FALSE;
-	iq_stPtm.i_xRunSW:=FALSE;
-	iq_stPtm.q_RunDO:=FALSE;
-	iq_stPtm.q_xSS := FALSE;
-	iq_stPtm.q_xLSpd:= FALSE;
-	iq_stPtm.eState := E_PumpState.pumpFAULT;
+IF iq_stPTM.xFault THEN
+	iq_stPTM.i_xAtSpd := FALSE;
+	iq_stPTM.i_xRunSW:=FALSE;
+	iq_stPTM.q_RunDO:=FALSE;
+	iq_stPTM.q_xSS := FALSE;
+	iq_stPTM.q_xLSpd:= FALSE;
+	iq_stPTM.eState := E_PumpState.pumpFAULT;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="FB_PTM_Agilent">
