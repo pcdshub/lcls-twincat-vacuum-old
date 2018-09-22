@@ -67,7 +67,7 @@ fbFSInit( CLK := TRUE,
 
 (* On first PLC pass, put valve into vented state, which implies a closed valve *)
 IF xFirstPass THEN
-VGC_State := Vented;
+VGC_State := E_VGC.Vented;
 iq_stValve.xOPN_SW := FALSE;
 END_IF
 
@@ -119,13 +119,13 @@ END_IF
 
 // Valve state
 CASE VGC_State OF
-	Vented: (* The Vented state is used during pump down *)
+	E_VGC.Vented: (* The Vented state is used during pump down *)
 		(* Assuming the pump down went well, we are now at vacuum on both sides,
 		so we move to the vacuum state, otherwise remain in the vented state *)
 		IF iq_stValve.xAT_VAC THEN
 		VGC_State := AtVacuum;
 		ELSE
-		VGC_State := Vented;
+		VGC_State := E_VGC.Vented;
 		END_IF
 	
 	AtVacuum:
@@ -145,17 +145,17 @@ CASE VGC_State OF
 			it was probably intentional venting, so we calmly move back to venting mode, and
 			disable the differential pressure interlock *)
 			ELSIF iq_stValve.i_xClsLS THEN
-			VGC_State := Vented;
+			VGC_State := E_VGC.Vented;
 			END_IF
 		
 		END_IF
 	
 	ERR_DiffPress:
-		VGC_State := Vented;
+		VGC_State := E_VGC.Vented;
 		iq_stValve.xERR_DifPres := TRUE;
 	
 	ERR_LostVac:
-		VGC_State := Vented;
+		VGC_State := E_VGC.Vented;
 		iq_stValve.xERR_LstVac := TRUE;
 	
 	END_CASE
