@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="FB_937B_VG" Id="{8a56f7a2-f285-4648-be2d-40acd79b269f}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_937B_VG
 VAR_IN_OUT
@@ -51,7 +51,7 @@ ELSIF rV >= 0.18 AND rV <= 0.22 THEN
 ELSIF rV > 9.7 AND rV<= 9.9 THEN
 	VG.eState := ValidHi; //HIGH
 ELSIF rV < 0.18 THEN
-	VG.eState := GaugeDisconnected; //not on
+	VG.eState := E_PressureState.GaugeDisconnected; //not on
 ELSE
 	VG.eState := PressInvalid; //other fault - could be no gauge, controller powering up etc
 END_IF

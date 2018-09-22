@@ -51,7 +51,7 @@ IF iq_stVCN.xIlk THEN
 	
 	IF iq_stVCN.eValveControl = OpenValve THEN
 		iq_stVCN.rReqPosition := iq_stVCN.rUpperLimit;
-	ELSIF iq_stVCN.eValveControl = CloseValve THEN
+	ELSIF iq_stVCN.eValveControl = E_VCN.CloseValve THEN
 		iq_stVCN.rReqPosition := 0;
 	END_IF
 
@@ -63,7 +63,7 @@ IF iq_stVCN.xIlk THEN
 ELSE
 	iq_stVCN.q_iRawPosition := 0;
 	iq_stVCN.rReqPosition := 0;
-	iq_stVCN.eValveControl := CloseValve;
+	iq_stVCN.eValveControl := E_VCN.CloseValve;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="FB_VCN">

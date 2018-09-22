@@ -49,7 +49,7 @@ P = 10^(V/0.6-12)
 stVG := iq_astGauges[LIMIT(0 ,i_iIndex, gc_iSizeOfGGOArray)];
 
 (* Check that it is an ion gauge *)
-IF stVG.eTYPE = IG903 OR stVG.eTYPE = IG909 THEN
+IF stVG.eTYPE = Gauge_Type.IG903 OR stVG.eTYPE = Gauge_Type.IG909 THEN
 
 (* Check that Associated Gauge is within index*)
 	IF WORD_TO_INT(stVG.wPG) <= gc_iSizeOfGGOArray THEN
@@ -75,7 +75,7 @@ CASE iq_astGauges[i_iIndex].eTYPE OF
 		fbGCM(VG:=iq_astGauges[i_iIndex]);
 		
 	//Cold Cathode
-	IG903:
+	Gauge_Type.IG903:
 		fb903(IG:=iq_astGauges[i_iIndex], PG:=iq_astGauges[wPG]);
 		
 	//Pirani Gauge	
@@ -83,7 +83,7 @@ CASE iq_astGauges[i_iIndex].eTYPE OF
 		fb907(PG:=iq_astGauges[i_iIndex]);
 		
 	//Hot Cathode	
-	IG909:
+	Gauge_Type.IG909:
 		fb909(IG:=iq_astGauges[i_iIndex], PG:=iq_astGauges[wPG]);
 		
 	//MicroPirani Gauge	
