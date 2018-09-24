@@ -31,6 +31,7 @@ eState	:	E_ValvePositionState := E_ValvePositionState.INVALID;
 (* Alarm Outpus *)
 	xERR_DifPres		: 	BOOL;
 	xERR_LstVac		: 	BOOL;
+	xERR_SM		:	BOOL; //Issue with the valve state-machine. This state should be excluded, if this boolean is true, something dramatic in the PLC software has happened.
 	xAlmSum			: 	BOOL;
 
 END_STRUCT

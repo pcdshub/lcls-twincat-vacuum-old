@@ -158,7 +158,11 @@ CASE VGC_State OF
 		VGC_State := E_VGC.Vented;
 		iq_stValve.xERR_LstVac := TRUE;
 	
-	END_CASE
+ELSE
+	VGC_State := E_VGC.Vented;
+	iq_stValve.xERR_SM := TRUE;
+	
+END_CASE
 
 
 
@@ -222,7 +226,11 @@ iq_stValve.xERR_LstVac R= iq_stValve.xAlmRst;]]></ST>
       <LineId Id="244" Count="0" />
       <LineId Id="66" Count="0" />
       <LineId Id="68" Count="14" />
-      <LineId Id="84" Count="45" />
+      <LineId Id="84" Count="38" />
+      <LineId Id="323" Count="1" />
+      <LineId Id="326" Count="0" />
+      <LineId Id="325" Count="0" />
+      <LineId Id="123" Count="6" />
       <LineId Id="285" Count="0" />
       <LineId Id="287" Count="1" />
       <LineId Id="286" Count="0" />
