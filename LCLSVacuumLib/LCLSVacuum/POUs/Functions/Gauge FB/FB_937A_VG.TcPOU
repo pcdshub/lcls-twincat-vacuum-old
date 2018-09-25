@@ -11,7 +11,7 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	rV	:	REAL;
+	rV	:	LREAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -19,8 +19,8 @@ END_VAR
 (* 7-15-2015 *)
 (* This function will read the pressure from any gauge on a 937A. *)
 
-rV := 10*INT_TO_REAL(VG.iPRESS_R)/32767;
-VG.rPRESS := LREAL_TO_REAL(EXPT(10,rV/0.6-12));
+rV := LREAL#10*INT_TO_LREAL(VG.iPRESS_R)/LREAL#32767;
+VG.rPRESS := LREAL_TO_REAL(EXPT(10,rV/LREAL#0.6-LREAL#12));
 
 
 (* Ion Gauge Protection Functions *)

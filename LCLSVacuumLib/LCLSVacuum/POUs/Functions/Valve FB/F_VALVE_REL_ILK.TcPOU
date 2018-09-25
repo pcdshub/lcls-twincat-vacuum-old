@@ -11,7 +11,7 @@ END_VAR
 VAR
 	rPressRatio : REAL;
 	rMaxRatioAllowed	:	LREAL := EXPT(10,INT_TO_LREAL(i_iOrdersMagnitude));
-	rMinRatioAllowed	:	LREAL := EXPT(10,INT_TO_LREAL(-i_iOrdersMagnitude));
+	rMinRatioAllowed	:	LREAL := EXPT(10,INT_TO_LREAL(-1 * i_iOrdersMagnitude));
 END_VAR]]></Declaration>
     <Implementation>
       <ST><![CDATA[(* S. Stubbs 11/2015 *)
