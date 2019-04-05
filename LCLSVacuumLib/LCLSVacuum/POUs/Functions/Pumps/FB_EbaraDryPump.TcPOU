@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="FB_EbaraDryPump" Id="{fa5a85fd-eab5-4a2b-a440-c1a901955592}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_EbaraDryPump
 VAR_INPUT
@@ -45,19 +45,23 @@ stPump.xWrn := NOT stPump.i_xWarning;
 
 
 //Interlock and error/warning
-stPump.xIlk :=  stPump.xExtIlk AND NOT (stpump.xErr OR stpump.xWrn);
+stPump.xIlk :=  stPump.xExtIlk AND NOT (stPump.xErr OR stPump.xWrn);
 
 //Start/ Stop the pump
-IF stpump.xIlk THEN
-	stpump.q_xMPStart := stpump.i_xRunSW;
+IF stPump.xIlk THEN
+	stPump.q_xMPStart := stPump.i_xRunSW;
 ELSE
-	stpump.q_xMPStart := stpump.i_xRunSW := FALSE;
+	stPump.q_xMPStart := stPump.i_xRunSW := FALSE;
 END_IF
 
 //Booster pump
-stpump.xBPIlk := i_xVlvOpn AND stpump.i_xMPStatus AND (i_stBPGauge.rPRESS < stpump.rBPIlkSP) AND i_stbpgauge.xPRESS_OK;
-stpump.tonBP(IN:=stpump.xBPIlk);
-stpump.q_xBPStart := stpump.tonBP.Q;]]></ST>
+stPump.xBPIlk := i_xVlvOpn AND stPump.i_xMPStatus AND (i_stBPGauge.rPRESS < stPump.rBPIlkSP) AND i_stBPGauge.xPRESS_OK;
+stPump.tonBP(IN:=stPump.xBPIlk);
+stPump.q_xBPStart := stPump.tonBP.Q;]]></ST>
     </Implementation>
+    <LineIds Name="FB_EbaraDryPump">
+      <LineId Id="3" Count="41" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

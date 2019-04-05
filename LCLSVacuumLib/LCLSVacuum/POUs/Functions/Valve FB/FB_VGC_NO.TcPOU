@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.2">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="FB_VGC_NO" Id="{834212c8-dcca-4e79-bd90-03fb1a3458f2}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VGC_NO
 VAR_IN_OUT
@@ -44,19 +44,19 @@ fbFSInit( CLK := TRUE,
 
 (* On first PLC pass, put valve into vented state, which implies an open valve *)
 IF xFirstPass THEN
-VGC_State := Vented;
+VGC_State := E_VGC.Vented;
 iq_stValve.xCLS_SW := FALSE;
 END_IF
 
 ///Check valve postion
 IF NOT iq_stValve.i_xClsLS AND iq_stValve.i_xOpnLS THEN 
-	iq_stValve.eState:=0;
+	iq_stValve.eState:=E_ValvePositionState.OPEN;
 ELSIF iq_stValve.i_xClsLS AND NOT iq_stValve.i_xOpnLS THEN 
-	iq_stValve.eState:=1;
+	iq_stValve.eState:=E_ValvePositionState.CLOSED;
 ELSIF NOT iq_stValve.i_xClsLS AND NOT iq_stValve.i_xOpnLS THEN 
-	iq_stValve.eState:=2;
+	iq_stValve.eState:=E_ValvePositionState.MOVING;
 ELSE
-	iq_stValve.eState:=3;
+	iq_stValve.eState:=E_ValvePositionState.INVALID;
 END_IF
 
 (* Calc the differential pressure across the valve *)
@@ -73,65 +73,69 @@ ELSE
 
 CASE VGC_State OF
 
-Vented: (* The Vented state is used during pump down *)
-
-(* As long as the differential pressure is less than 30mbar, the valve is allowed to close/ remain closed *)
-IF rDiffPress <= i_rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
-iq_stValve.xDP_OK := TRUE;
-ELSE
-iq_stValve.xDP_OK	:= FALSE;
-(* If the differential pressure is exceeded, even when the valve is open,
-the state is unexpected and triggers a fault, because it suggests that something
-is wrong with the valve, or gauges or mapping or there is a major leak on one side.*)
-VGC_State := ERR_DiffPress;
-END_IF
-
-(* Assuming the pump down went well, we are now at vacuum on both sides,
-so we move to the vacuum state, otherwise remain in the vented state *)
-IF i_stUSG.xAT_VAC AND i_stDSG.xAT_VAC AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
-VGC_State := AtVacuum;
-ELSE
-VGC_State := Vented;
-END_IF
-
-AtVacuum:
-(* Note for normally open valves, the condition for remaining closed is that the differential pressure
-does not exceed some certain value, which comes from the pressure that the window can hold.
-*)
-IF rDiffPress <= i_rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
-(* If both pressure setpoints are made,
-then enable the differential pressure interlock, regardless of the valve state
-assuming we're using some kind of ion gauge where a pressure setpoint cannot be higher than 1E-4 T *)
-iq_stValve.xDP_OK := TRUE;
-VGC_State := AtVacuum;
-ELSE
-
-	(* If the valve is closed (or in an unknown state) and either gauge is not at it's vacuum setpoint,
-	we have a loss of vacuum error *)
-	IF (iq_stValve.i_xClsLS OR (NOT iq_stValve.i_xOpnLS AND NOT iq_stValve.i_xClsLS)) AND 
-	(NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
-		VGC_State := ERR_LostVac;
-		iq_stValve.xDP_OK := FALSE;
-
-	(* Alternatively, if the valve is already open and we lose vacuum or differential pressure,
-	it was probably intentional venting, so we calmly move back to venting mode, and
-	disable the differential pressure interlock *)
-	ELSIF iq_stValve.i_xOpnLS AND(NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
-		iq_stValve.xDP_OK := FALSE;
-		VGC_State := Vented;
+E_VGC.Vented: (* The Vented state is used during pump down *)
+	
+	(* As long as the differential pressure is less than 30mbar, the valve is allowed to close/ remain closed *)
+	IF rDiffPress <= i_rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
+	iq_stValve.xDP_OK := TRUE;
+	ELSE
+	iq_stValve.xDP_OK	:= FALSE;
+	(* If the differential pressure is exceeded, even when the valve is open,
+	the state is unexpected and triggers a fault, because it suggests that something
+	is wrong with the valve, or gauges or mapping or there is a major leak on one side.*)
+	VGC_State := E_VGC.ERR_DiffPress;
+	END_IF
+	
+	(* Assuming the pump down went well, we are now at vacuum on both sides,
+	so we move to the vacuum state, otherwise remain in the vented state *)
+	IF i_stUSG.xAT_VAC AND i_stDSG.xAT_VAC AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
+	VGC_State := E_VGC.AtVacuum;
+	ELSE
+	VGC_State := E_VGC.Vented;
 	END_IF
 
-END_IF
+E_VGC.AtVacuum:
+	(* Note for normally open valves, the condition for remaining closed is that the differential pressure
+	does not exceed some certain value, which comes from the pressure that the window can hold.
+	*)
+	IF rDiffPress <= i_rDiffPressAllowed AND i_stUSG.xPRESS_OK AND i_stDSG.xPRESS_OK THEN
+	(* If both pressure setpoints are made,
+	then enable the differential pressure interlock, regardless of the valve state
+	assuming we're using some kind of ion gauge where a pressure setpoint cannot be higher than 1E-4 T *)
+	iq_stValve.xDP_OK := TRUE;
+	VGC_State := E_VGC.AtVacuum;
+	ELSE
+	
+		(* If the valve is closed (or in an unknown state) and either gauge is not at it's vacuum setpoint,
+		we have a loss of vacuum error *)
+		IF (iq_stValve.i_xClsLS OR (NOT iq_stValve.i_xOpnLS AND NOT iq_stValve.i_xClsLS)) AND 
+		(NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
+			VGC_State := E_VGC.ERR_LostVac;
+			iq_stValve.xDP_OK := FALSE;
+	
+		(* Alternatively, if the valve is already open and we lose vacuum or differential pressure,
+		it was probably intentional venting, so we calmly move back to venting mode, and
+		disable the differential pressure interlock *)
+		ELSIF iq_stValve.i_xOpnLS AND(NOT i_stUSG.xAT_VAC OR NOT i_stDSG.xAT_VAC) THEN
+			iq_stValve.xDP_OK := FALSE;
+			VGC_State := E_VGC.Vented;
+		END_IF
+	
+	END_IF
 
-ERR_DiffPress:
-iq_stValve.xDP_OK := FALSE;
-VGC_State := Vented;
-iq_stValve.xERR_DifPres := TRUE;
+E_VGC.ERR_DiffPress:
+	iq_stValve.xDP_OK := FALSE;
+	VGC_State := E_VGC.Vented;
+	iq_stValve.xERR_DifPres := TRUE;
 
-ERR_LostVac:
-iq_stValve.xDP_OK := FALSE;
-VGC_State := Vented;
-iq_stValve.xERR_LstVac := TRUE;
+E_VGC.ERR_LostVac:
+	iq_stValve.xDP_OK := FALSE;
+	VGC_State := E_VGC.Vented;
+	iq_stValve.xERR_LstVac := TRUE;
+	
+ELSE
+	VGC_State := E_VGC.Vented;
+	iq_stValve.xERR_SM := TRUE;
 
 END_CASE
 
@@ -172,5 +176,17 @@ iq_stValve.xCLS_DO := (iq_stValve.xCLS_SW AND iq_stValve.xCLS_OK) OR (tonOvrd.Q 
 iq_stValve.xERR_LstVac R= iq_stValve.xAlmRst;]]></ST>
       </Implementation>
     </Action>
+    <LineIds Name="FB_VGC_NO">
+      <LineId Id="3" Count="97" />
+      <LineId Id="164" Count="0" />
+      <LineId Id="166" Count="1" />
+      <LineId Id="165" Count="0" />
+      <LineId Id="101" Count="31" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="FB_VGC_NO.ACT_ResetAlarms">
+      <LineId Id="2" Count="0" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

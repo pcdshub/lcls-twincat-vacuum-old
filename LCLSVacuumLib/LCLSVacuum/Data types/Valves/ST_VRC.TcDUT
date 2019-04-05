@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <DUT Name="ST_VRC" Id="{cb0eb88e-32ce-4b88-92df-8442dedadfcd}">
     <Declaration><![CDATA[TYPE ST_VRC :
 STRUCT
@@ -9,7 +9,7 @@ STRUCT
 	//If True, Valve is Closed
 	i_xClsLS	:	BOOL;
 	
-	eState	:	E_ValvePositionState := INVALID;
+	eState	:	E_ValvePositionState := E_ValvePositionState.INVALID;
 
 (* Inputs *)
 	//Manually Pressing valve "Open/Close" on EDM

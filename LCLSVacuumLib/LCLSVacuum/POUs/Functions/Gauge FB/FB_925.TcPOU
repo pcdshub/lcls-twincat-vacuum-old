@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="FB_925" Id="{2b25be69-d890-49a3-9eed-41a1523a8d75}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_925
 VAR_INPUT
@@ -31,7 +31,7 @@ IF rV >= 0.99 THEN
 	IF rV >= 0.99 AND rV < 1 THEN
 		PG.rPRESS := 1E-5;
 	ELSE
-		PG.rPRESS := LREAL_TO_REAL(EXPT(10, rV-6));
+		PG.rPRESS := LREAL_TO_REAL(EXPT(10, REAL_TO_LREAL(rV-6)));
 	END_IF
 	PG.xPRESS_OK := TRUE; //Backwards compatibility
 ELSE

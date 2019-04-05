@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <DUT Name="ST_VCN" Id="{09a4fd4d-af49-4c30-8fb9-576bd4a65636}">
     <Declaration><![CDATA[TYPE ST_VCN :
 STRUCT
@@ -16,7 +16,7 @@ STRUCT
 	xIlk	:	BOOL := FALSE; // Interlock Bit
 	rUpperLimit	:	REAL;	//Upper limit on valve open
 	rReqPosition	:	REAL; //Requested position (0.0-100.0%)
-	eValveControl	:	E_VCN := CloseValve; // Valve control state
+	eValveControl	:	E_VCN := E_VCN.CloseValve; // Valve control state
 
 	ftIlk	:	F_TRIG;	
 

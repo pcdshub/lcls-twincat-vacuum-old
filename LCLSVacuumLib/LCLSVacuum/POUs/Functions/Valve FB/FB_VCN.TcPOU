@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4018.5">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="FB_VCN" Id="{b91718c1-ee94-477e-afdc-a1b96008e0fd}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_VCN
 VAR_INPUT
@@ -51,22 +51,25 @@ IF iq_stVCN.xIlk THEN
 	
 	IF iq_stVCN.eValveControl = OpenValve THEN
 		iq_stVCN.rReqPosition := iq_stVCN.rUpperLimit;
-	ELSIF iq_stVCN.eValveControl = CloseValve THEN
+	ELSIF iq_stVCN.eValveControl = E_VCN.CloseValve THEN
 		iq_stVCN.rReqPosition := 0;
-	ELSE
-		 ;
 	END_IF
 
 	//Raw position calc
 	iq_stVCN.rReqPosition := LIMIT(0, iq_stVCN.rReqPosition, iq_stVCN.rUpperLimit);
 	rReqVoltage := iq_stVCN.rReqPosition * (rOpenVoltage-rCloseVoltage)/100 + rCloseVoltage;
 	rReqVoltage := LIMIT(rCloseVoltage, rReqVoltage, rOpenVoltage); //The requested voltage should remain within this range
-	iq_stvcn.q_iRawPosition := REAL_TO_INT( 32767/10 * rReqVoltage);	
+	iq_stVCN.q_iRawPosition := REAL_TO_INT( 32767/10 * rReqVoltage);	
 ELSE
-	iq_stvcn.q_iRawPosition := 0;
+	iq_stVCN.q_iRawPosition := 0;
 	iq_stVCN.rReqPosition := 0;
-	iq_stVCN.eValveControl := CloseValve;
+	iq_stVCN.eValveControl := E_VCN.CloseValve;
 END_IF]]></ST>
     </Implementation>
+    <LineIds Name="FB_VCN">
+      <LineId Id="3" Count="31" />
+      <LineId Id="37" Count="10" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
   </POU>
 </TcPlcObject>

@@ -1,24 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4020.39">
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4022.16">
 	<DataTypes>
-		<DataType>
-			<Name GUID="{18071995-0000-0000-0000-000000000041}" TcBaseType="true" HideSubItems="true" CName="AmsNetId">AMSNETID</Name>
-			<BitSize>48</BitSize>
-			<BaseType GUID="{18071995-0000-0000-0000-000000000001}">BYTE</BaseType>
-			<ArrayInfo>
-				<LBound>0</LBound>
-				<Elements>6</Elements>
-			</ArrayInfo>
-			<Format>
-				<Printf>%d.%d.%d.%d.%d.%d</Printf>
-				<Parameter>[0]</Parameter>
-				<Parameter>[1]</Parameter>
-				<Parameter>[2]</Parameter>
-				<Parameter>[3]</Parameter>
-				<Parameter>[4]</Parameter>
-				<Parameter>[5]</Parameter>
-			</Format>
-		</DataType>
 		<DataType>
 			<Name GUID="{85DC3E7A-8ADA-435B-9479-25573909A7DB}" Namespace="AX5000" TcBaseType="true">E_AX5000_P_0275_ActiveFeedbackAndMemory</Name>
 			<BitSize>8</BitSize>
@@ -80,7 +62,7 @@
 			</Hides>
 		</DataType>
 	</DataTypes>
-	<Project ProjectGUID="{02B9B8E7-2F9A-4E5A-B5EF-9C7A5533B04B}" Target64Bit="true" ShowHideConfigurations="#x6">
+	<Project ProjectGUID="{51D1D069-9536-43B4-9D3C-BD5FF1D6F03E}" Target64Bit="true" ShowHideConfigurations="#x6">
 		<System>
 			<Licenses>
 				<Target>
@@ -98,22 +80,9 @@
 		</System>
 		<Plc>
 			<Project GUID="{B805B15D-E5A7-4D84-A8B9-CE65EEC82B67}" Name="LCLSVacuum" PrjFilePath="LCLSVacuum\LCLSVacuum.plcproj" TmcFilePath="LCLSVacuum\LCLSVacuum.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e">
-				<Instance Id="#x01010010" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="LCLSVacuum\LCLSVacuum.tmc">
 					<Name>LCLSVacuum Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
-					<Vars VarGrpType="1">
-						<Name>PlcTask Inputs</Name>
-						<Var>
-							<Name>Global_Variables.g_stSystem.g_aEcatMaster1</Name>
-							<Comment>
-								<![CDATA[ AMS Net ID used for FB_EcatDiag, among others ]]>
-							</Comment>
-							<Type GUID="{18071995-0000-0000-0000-000000000041}">AMSNETID</Type>
-						</Var>
-					</Vars>
-					<TaskPouOids>
-						<TaskPouOid Prio="20" OTCID="#x01010011"/>
-					</TaskPouOids>
 				</Instance>
 			</Project>
 		</Plc>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4020.12">
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.10">
   <POU Name="FB_907" Id="{d3610ce0-a283-49d0-a9de-88b9371d46db}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK FB_907
 VAR_IN_OUT
@@ -12,18 +12,20 @@ END_VAR
 VAR_OUTPUT
 END_VAR
 VAR
-	V : REAL;
-	A : REAL := 3.29;
-	B : REAL := 24.98;
-	C : REAL  := 0.98;
-	V_0 : REAL := 0.3752;
-	D: REAL := 4.929;
-	F: REAL := 1.6E-6;
-	G: REAL := -225;
-	H: REAL := 2.0253;
-	K: REAL := 0.52703;
-	
+	V : LREAL;
 	fbGaugeState : FB_PressureState;
+END_VAR
+VAR CONSTANT
+	A : LREAL := 3.29;
+	B : LREAL := 24.98;
+	C : LREAL  := 0.98;
+	V_0 : LREAL := 0.3752;
+	D: LREAL := 4.929;
+	F: LREAL := 1.6E-6;
+	G: LREAL := -225;
+	H: LREAL := 2.0253;
+	K: LREAL := 0.52703;
+	
 	// Torr
 	rMaxPressure: REAL := 1000;
 	// Torr
@@ -40,7 +42,7 @@ END_IF
  
 (* Real-value calculation *)
 
-V := 10*INT_TO_REAL(PG.iPRESS_R)/32767;
+V := 10*INT_TO_LREAL(PG.iPRESS_R)/32767;
 
 IF V > 0.38 AND V < 4.85 THEN
 
@@ -52,12 +54,12 @@ PG.rPRESS := LREAL_TO_REAL(SQRT( ( (V-D)+SQRT(EXPT((V-D),2)-4*F*G ))/(2*F) ));
 
 ELSIF V> 5.18 THEN
 
-PG.rPRESS := EXP((V-H)/K);
+PG.rPRESS := LREAL_TO_REAL(EXP((V-H)/K));
 
 END_IF
 
 (* Pressure OK check *)
-fbGaugeState.i_rV := V;
+fbGaugeState.i_rV := LREAL_TO_REAL(V);
 fbGaugeState.i_MaxPressure := rMaxPressure;
 fbGaugeState.i_MinPressure := rMinPressure;
 fbGaugeState(iq_stVG:=PG);
